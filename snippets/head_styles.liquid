@@ -1,0 +1,17 @@
+{% if template contains 'product' %}
+  {{ 'product.min.css' | asset_url | stylesheet_tag }}
+{% elsif template contains 'cart' %}
+  {{ 'cart.min.css' | asset_url | stylesheet_tag }}
+{% elsif template contains 'blog' %}
+  {{ 'blog.min.css' | asset_url | stylesheet_tag }}
+{% elsif template contains 'collection' or template contains 'search' %}
+    {{ 'collection.min.css' | asset_url | stylesheet_tag }}
+{% elsif template contains 'article' %}
+  {{ 'article.min.css' | asset_url | stylesheet_tag }}
+{% elsif template contains 'account' %}
+    {{ 'account.min.css' | asset_url | stylesheet_tag }}
+{% elsif template contains 'founder' %}
+  {{ 'page_founder.min.css' | asset_url | stylesheet_tag }}
+{% elsif template contains 'story' %}
+  {{ 'page_story.min.css' | asset_url | stylesheet_tag }}
+{% endif %}

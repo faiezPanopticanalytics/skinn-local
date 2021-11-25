@@ -1,0 +1,17 @@
+{% if page.metafields.custom_fields["header_background"] != blank %}
+  {% capture header_img %}
+    {% include 'cf-image' with image: page.metafields.custom_fields["header_background"], size: '100x100', print: 'url' %}
+  {% endcapture %}
+  
+  {% assign header_lazy =  header_img | replace: '_100x100', '_{width}x' %}
+  
+  <img
+      src="{{ header_img }}"
+      data-src="{{header_lazy}}"
+      data-sizes="auto"
+      class="lazyload side-img" 
+      alt="Dimitri James"
+      data-widths="[720, 900, 1080, 1296, 1512, 1728, 2048]"
+      data-aspectratio=""
+  />
+{% endif %}

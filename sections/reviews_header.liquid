@@ -1,0 +1,32 @@
+{% assign img = section.settings.background_image | img_url: '100x100' %}
+{% assign img_lazy = img | replace: '_100x100', '_{width}x' %}
+
+<div id="reviews_header" class="lazyload" style="background-image: url('{{ img }}');" data-src="{{ img_lazy }}">
+  <div class="container text-right h-100">
+    <div class="row align-items-center">
+      <div class="col-md-2 text-left">
+        <h1>{{ page.title }}</h1>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('lazybeforeunveil', function(e){
+    var bg = e.target.getAttribute('data-src');
+    if(bg){
+      let bg_width = bg.replace("{width}", $(e.target).width());
+      $(e.target).attr('data-bgset', bg_width);
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [ {
+    "id": "background_image",
+    "label": "Background Image",
+    "type": "image_picker"
+  }]
+}
+{% endschema %}

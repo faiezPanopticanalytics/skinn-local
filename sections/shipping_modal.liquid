@@ -1,0 +1,41 @@
+<div id="shipping_modal">
+  <a href="#" @click="shipping_modal = true" class="modal_trigger">{{ section.settings.link_title }}</a>
+  
+  <transition name="modal">
+    <div class="modal-mask" v-if="shipping_modal" @click="shipping_modal = false" v-cloak>
+    
+      <div class="modal-box" @click.stop.prevent>
+        <div class="modal_title">
+          <h2>{{ section.settings.modal_title }}</h2>
+          <a @click="shipping_modal = false" class="close_modal" href="#" ></a>
+        </div>
+        
+        <div class="modal_body">
+          {{ section.settings.modal_content }}
+        </div>
+      </div>
+      
+    </div>
+  </transition>
+</div>
+
+{% schema %}
+{
+  "name": "Shipping Modal",
+  "settings": [{
+    "id": "link_title",
+    "label": "Link Title",
+    "type": "text",
+    "default": "Shipping & Returns"
+  }, {
+    "id": "modal_title",
+    "label": "Modal Title",
+    "type": "text",
+    "default": "Shipping & Returns"
+  }, {
+    "type": "html",
+    "id": "modal_content",
+    "label": "Modal Content"
+  }]
+}
+{% endschema %}

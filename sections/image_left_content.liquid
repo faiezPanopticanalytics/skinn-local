@@ -1,0 +1,94 @@
+
+<div class="before_and_after left_image_static px-0 pt-4 pb-4 mx-0" id="{{ section.id }}">
+    <div class="container">
+      <div class="fancy text-center">
+                    <div class="fc-inner">
+                        <div class="rr-bg"></div>
+                        <h3 class="title">{{section.settings.title}}</h3>
+                    </div>
+                </div>
+                
+        <div class="row mx-0">
+          <div class="col-12 col-lg-6 right_side">
+                <img src="{{ section.settings.image|img_url:"500x500" }}" />
+            </div>
+            <div class="col-12 col-lg-6 left_side">
+                
+                <a href="{{section.settings.product_family_url}}" class="product_family">{{section.settings.product_family}}</a>
+                <a href="{{section.settings.product_title_url}}" class="product_title">{{section.settings.product_title}}</a>
+                
+                <p class="description">{{section.settings.section_description}}</p>
+                
+                <div class="cta_list">
+                    <div class="product_list">
+                        {{section.settings.product_info}}
+                    </div>
+                    <a href="{{section.settings.button_url}}" class="action-btn">{{section.settings.button_text}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Left Image with Content",
+    "presets": [{
+        "name": "Left Image with Content",
+        "category": "Dynamic Content"
+      }],
+    "settings": [{
+        "type": "text",
+        "label": "Title",
+        "id": "title"
+    }, 
+    {
+        "type": "text",
+        "id": "product_title",
+        "label": "Product Name"
+      },
+{
+        "type": "url",
+        "id": "product_title_url",
+        "label": "Product Name URL"
+      },
+{
+        "type": "text",
+        "id": "product_family",
+        "label": "Product Family"
+      },
+{
+        "type": "url",
+        "id": "product_family_url",
+        "label": "Product Family URL"
+      },
+{
+        "type": "textarea",
+        "id": "section_description",
+        "label": "Description"
+},
+    {
+        "type": "html",
+        "label": "Product Information List",
+        "id": "product_info"
+    },{
+        "type": "text",
+        "id": "button_text",
+        "label": "Action Button Text"
+      },
+    {
+        "type": "url",
+        "id": "button_url",
+        "label": "Action Button URL"
+      }, {
+          "type": "text",
+          "id": "disclaimer_text",
+          "label": "Disclaimer Text"
+      }, {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+        }]
+  }
+{% endschema %}

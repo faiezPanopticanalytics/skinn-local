@@ -1,0 +1,18 @@
+{% layout none %}
+
+{% paginate collection.products by 12 %}
+{
+    "pagination": {
+        "total_products": {{paginate.items}},
+        "total_pages": {{paginate.pages}},
+        "current_page": {{paginate.current_page}}
+        {% if paginate.next.url != blank %}
+            ,"next_url": "{{paginate.next.url}}"
+        {% endif %}
+        {% if paginate.previous.url != blank %}
+            ,"previous_url": "{{paginate.previous.url}}"
+        {% endif %}
+    },
+    "products": {{ collection.products | map: "handle" | json }}
+}
+{% endpaginate %}

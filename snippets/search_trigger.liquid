@@ -1,0 +1,15 @@
+<a href="#" @click="openSearch" id="search_trigger" class="search_button"></a>
+
+<script>
+    function initVue() {
+        const el3 = window.SearchModal = new Vue({
+            el: "#search_trigger",
+            methods: {
+                openSearch() {
+                    window.store.commit("openSearchModal");
+                }
+            }
+        });
+    }
+    window.addEventListener('DOMContentLoaded', initVue);
+</script>

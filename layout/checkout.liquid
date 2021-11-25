@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
+    <meta name="referrer" content="origin">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+    <title>{{ page_title }}</title>
+  {% include 'hic-tag' %}
+  {% include 'hic-personalize' %}
+
+    {{ content_for_header }}
+
+    {{ checkout_stylesheets }}
+    {{ checkout_scripts }}
+  
+    {% if settings.facebook_pixel_id != blank %}
+      {% include 'analytics_facebook' %}
+    {% endif %}
+        
+    {% if settings.google_tag_manager != blank %}
+      {% include 'google_tag_manager_header' %}
+    {% endif %}
+  </head>
+  <body>
+    {% if settings.google_tag_manager != blank %}
+      {% include 'google_tag_manager_body' %}
+    {% endif %}
+
+    {{ skip_to_content_link }}
+
+    <div class="banner" data-header>
+      <div class="wrap">
+        {{ content_for_logo }}
+      </div>
+    </div>
+
+    {{ order_summary_toggle }}
+
+    <div class="content" data-content>
+      <div class="wrap">
+        <div class="main" role="main">
+          <div class="main__header">
+            {{ content_for_logo }}
+            {{ breadcrumb }}
+            {{ alternative_payment_methods }}
+          </div>
+          <div class="main__content">
+            {{ content_for_layout }}
+          </div>
+          <div class="main__footer">
+            {{ content_for_footer }}
+          </div>
+        </div>
+        <div class="sidebar" role="complementary">
+          <div class="sidebar__header">
+            {{ content_for_logo }}
+          </div>
+          <div class="sidebar__content">
+            {{ content_for_order_summary }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{ tracking_code }}
+    
+    {% section 'gift_with_purchase' %}
+    
+    <script>
+      $(document).ready(function() {
+        $("#checkout_reduction_code").closest(".fieldset").append('<p id="promos_disclaimer">*Discount codes cannot be applied to Gift Sets, eGift Cards, Sale and Just Launched items.<p>');
+          
+          $(document).on("page:load page:change", function() {
+            if (Shopify.Checkout.step == "shipping_method") {
+              $("span[data-shipping-method-label-title='Parcel Select Ground' ] .small-text").html("5-10 Business Days <br>(Due to COVID-19, expect delays on all shipping.)");
+              $("span[data-shipping-method-label-title='Priority Mail' ] .small-text").html("3-4 Business Days <br>(Due to COVID-19, expect delays on all shipping.)");
+              $("span[data-shipping-method-label-title='Priority Mail Express' ] .small-text").html("2-3 Business Days <br>(Due to COVID-19, expect delays on all shipping.)");  
+            }
+          });
+      })
+    </script>
+    
+    <style>
+      #promos_disclaimer {
+        font-size: 0.75rem; 
+        color: #000; 
+        font-family: 'Open Sans', sans-serif;
+        padding-left: 0.4285714289em;
+        font-style: italic;
+      }
+    </style>
+  </body>
+</html>

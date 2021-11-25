@@ -1,0 +1,42 @@
+<div class="collection_sidebar" id="{{ section.id }}">
+    {% for block in section.blocks %}
+        {% if block.type == 'list' %}
+            <div class="sidebar_item">
+                <p class="sidebar-trigger">{{ block.settings.header }}</p>
+                {% assign menu = menus[block.settings.menu] %}
+                <ul>
+                    {% for link in menu.links %}
+                        {%- comment %}<locksmith:984d>{% endcomment -%}
+                          {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: link, subject_parent: menu, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                        {%- comment %}</locksmith:984d>{% endcomment -%}
+                        <li>
+                            <a href="{{link.url}}" {% if link.active %} class="active" {% endif %}>{{link.title}}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% schema %}
+  {
+    "name": "Collection Sidebar",
+    "settings": [],
+    "blocks": [{
+        "name": "Menu ",
+        "type": "list",
+        "settings": [
+        {
+            "label": "Heading",
+            "type": "text",
+            "id": "header"
+        }, {
+            "label": "Menu",
+            "type": "link_list",
+            "id": "menu"
+        }]
+    }
+    ]
+  }
+{% endschema %}

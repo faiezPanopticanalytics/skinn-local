@@ -1,0 +1,89 @@
+{% assign number_of_comments = article.comments_count %}
+{% if comment and comment.created_at %}
+  {% assign number_of_comments = article.comments_count %}
+{% endif %}
+<div class="article" id="{{article.id}}">
+  <div class="container">
+    <h1 class="title">{{ article.title }}</h1>
+
+    {%- assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+    <img id="{{ img_id }}"
+      class="featured_image lazyload"
+      src="{{ article.image | img_url: '300x300' }}"
+      data-src="{{ img_url }}"
+      data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+      data-aspectratio="{{ article.image.aspect_ratio }}"
+      data-sizes="auto"
+      alt="{{ article.image.alt }}"
+    />
+  </div>
+  
+  <div class="subscribe-bar"><div class="klaviyo-form-TqviLD"></div></div>
+  
+  <div class="container content_container">
+    <div class="content">{{ article.content }}</div>
+
+    {% if article.metafields.custom_fields["article_has_featured_products"] != blank and article.metafields.custom_fields["article_has_featured_products"] == 1 %}
+      <div class="featured_products">
+        <h3>{{ article.metafields.custom_fields["featured_products_section_titl"] | default: "Shop The Lab Report&trade;" }}</h3>
+        
+        <div class="product-loop row">
+          {% if article.metafields.custom_fields["article_featured_products"] != blank %}
+              {% assign product_refs = article.metafields.custom_fields["article_featured_products"] | split: "|" %}
+              {% for product_handle in product_refs %}
+                {%- comment %}<locksmith:f30c>{% endcomment -%}
+                  {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product_handle, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                {%- comment %}</locksmith:f30c>{% endcomment -%}
+                <div class="col-12 col-md-4">
+                  <product-list product-handle="{{product_handle}}" :settings="settings" />
+                </div>
+              {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if blog.comments_enabled? %}
+      <h2>{{ number_of_comments }} comments</h2>
+      {% paginate article.comments by 5 %}
+        {% for comment in article.comments %}
+          <div>
+            <div>{{ comment.content }}</div>
+            {{ comment.author }} @ {{ comment.created_at }}
+          </div>
+        {% endfor %}
+        {% if paginate.pages > 1 %}
+          {{ paginate | default_pagination }}
+        {% endif %}
+      {% endpaginate %}
+
+      <div>
+        {% form 'new_comment', article %}
+          {{ form.errors | default_errors }}
+          <label for="CommentAuthor">name</label>
+          <input type="text" name="comment[author]" id="CommentAuthor" placeholder="name" value="{{ form.author }}" autocapitalize="words">
+
+          <label for="CommentEmail">email</label>
+          <input type="email" name="comment[email]" id="CommentEmail" placeholder="email" value="{{ form.email }}" autocorrect="off" autocapitalize="off">
+
+          <label for="CommentBody">message</label>
+          <textarea name="comment[body]" id="CommentBody" placeholder="message">{{ form.body }}</textarea>
+
+          <input type="submit" value="post">
+        {% endform %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  let theme_settings = {{ settings | json }};
+
+  new Vue({
+    el: ".product-loop",
+    delimiters: ["@{", "}"],
+    data: {
+      settings: theme_settings
+    }
+  })
+</script>

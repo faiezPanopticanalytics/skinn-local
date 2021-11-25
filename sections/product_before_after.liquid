@@ -1,0 +1,99 @@
+{% if product.metafields.custom_fields["before_and_after"] != blank %}
+  {% assign separator = "|###|" %}
+  {% assign before_image_array = product.metafields.custom_fields["before_image"] | split: separator %}
+  {% assign after_image_array = product.metafields.custom_fields["after_image"] | split: separator %}
+  {% assign fc_keys = product.metafields.custom_fields["before_and_after"] | split: "," %}
+
+  <div id="before_and_after_product" style="background-color: {{section.settings.section_bg}}">
+    <div class="container">
+      <h3 class="title">{{ section.settings.title }}</h3>
+    </div>
+      <hooper class="default_slider" :keys-control="false" :wheel-control="false" ref="baSlider" @slide="onSlide">
+        {% for i in fc_keys %}
+          <slide>
+            <div class="ba-slide">
+              {% assign index = i | plus: 0 %}
+              <div class="before_img">
+                <p class="img_overlay">Before</p>
+                <img class="slider-img" src="{{ before_image_array[index] }}" />
+              </div>
+              <div class="after_img">
+                <p class="img_overlay">After</p>
+                <img class="slider-img" src="{{ after_image_array[index] }}" />
+              </div>   
+            </div>
+          </slide>
+        {% endfor %}
+        
+        <hooper-navigation slot="hooper-addons"></hooper-navigation>
+      </hooper>
+      
+      <div class="slider-pagination">
+        <ul>
+          {% for i in fc_keys %}
+            <li :class="{active: currentSlide === {{ forloop.index | minus: 1 }}}" @click="goTo({{ forloop.index | minus: 1 }})"></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="container">
+      <div class="disclaimers">
+        <p>{{ product.metafields.custom_fields["disclaimer_text"] }}</p>
+        <p class="smaller">{{ product.metafields.custom_fields["smaller_disclaimer_text"] }}</p>
+      </div>
+      
+    </div>
+  </div>
+
+  <script>
+    function initVue() {
+      new Vue({
+        el: "#before_and_after_product",
+        delimiters: ["@{", "}"],
+        data: {
+          currentSlide: 1,
+        },
+        methods: {
+          slidePrev() {
+              this.$refs.baSlider.slidePrev();
+          },
+          slideNext() {
+              this.$refs.baSlider.slideNext();
+          },
+          onSlide(currentSlide) {
+              this.currentSlide = (currentSlide.currentSlide != 6 ? currentSlide.currentSlide : 0)
+          },
+          goTo(slide) {
+              this.$refs.baSlider.slideTo(slide);
+              this.currentSlide = slide
+          }
+        }
+      })
+    }
+    
+    window.addEventListener('DOMContentLoaded', initVue);
+  </script>
+{% endif %}
+
+
+{% schema %}
+  {
+    "name": "Product Before/After",
+    "settings": [{
+      "id": "title",
+      "label": "Title",
+      "type": "text",
+      "default": "<span class=\"fancy-text\">Real</span> Results"
+    }, {
+      "id": "title_color",
+      "type": "color",
+      "label": "Title Text Color",
+      "default": "#40B6E4"
+    }, {
+      "id": "section_bg",
+      "type": "color",
+      "label": "Background Color",
+      "default": "#d9effa"
+    }]
+  }
+{% endschema %}
+

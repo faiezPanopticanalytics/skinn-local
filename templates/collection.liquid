@@ -1,0 +1,161 @@
+{%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+
+<div class="collection_page container-fluid" id="{{collection.handle}}">
+  <div id="top"></div>
+  <div class="header">
+    <h2>{{collection.title}}</h2>
+    {% if collection.title contains 'Just Launched' or collection.title contains 'Special Offers' or collection.title contains 'Best Sellers' %}
+      <p style="font-family: 'Open Sans', sans-serif; font-weight: 300; font-style: italic; font-size: 0.95rem;">Discount codes and sitewide sales cannot be applied to Special Offers, Gift Sets, eGift Cards or New Items.</p>
+    {% endif %}
+    </div>
+  
+  <div class="filters container">
+    <div class="head pb-1">
+      <custom-select :options="sortOptions" @input="sort_by = $event" :value="sort_by" />
+    </div>
+  </div>
+  
+  <div class="container custom-topbar">
+    <div class="row">
+      <div class="filters d-none d-md-block col-md-4">
+        {% section 'sidebar' %}
+      </div>
+      <div class="products col-12 col-md-8">
+        <transition name="slide">
+            <div class="row product_loop" v-if="!loading">
+              <div class="col-6 col-md-4" v-for="product in products">
+                <product-list :product-handle="product" :settings="settings" full-url="{{shop.url}}" permanent-domain="{{ shop.permanent_domain | escape }}" />
+              </div>
+              
+              <div class="col-12 pagination">
+                <paginator 
+                  :total-pages="pagination.total_pages"
+                  :total="pagination.total_products"
+                  :per-page="20"
+                  :current-page="pagination.current_page"
+                  @pagechanged="changePage"
+                />
+              </div>
+            </div>
+            <div class="loader text-center" v-else>
+              <div class="lds-ring mx-auto"><div></div><div></div><div></div><div></div></div>
+            </div>
+        </transition>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function initVue() {
+    let collection = "{{collection.url}}";
+  let theme_settings = {{ settings | json }};
+  let sort_options = [];
+  {% for option in collection.sort_options  %}
+    {% unless option.value == 'title-descending' or option.value == 'title-ascending' %}
+      sort_options.push({
+        title: "{{option.name}}",
+        value: "{{option.value}}"
+      });
+    {% endunless %}
+  {% endfor %}
+  
+  let api;
+  
+  new Vue({
+    el: ".collection_page",
+    delimiters: ["@{", "}"],
+    data: {
+        products: [],
+        collection_url: collection,
+        loading: true,
+        sort_by: {
+          title: "Featured",
+          value: "manual"
+        },
+        pagination: {},
+        settings: theme_settings,
+        sortOptions: sort_options,
+        Yotpo: []
+    },
+    mounted() {
+      this.getFirstPage();
+    },
+    watch: {
+      sort_by(newVal, oldVal) {
+        if(newVal != oldVal) {
+          this.getFirstPage();
+        }
+      }
+    },
+    methods: {
+      getFirstPage() {
+        const vm = this;
+        vm.loading = true;
+        window.axios.get(this.collection_url + '?view=json&sort_by=' + this.sort_by.value).then(d => {
+          let {
+            pagination,
+            products
+          } = d.data;
+          
+          vm.products = products;
+          vm.pagination = pagination
+          
+          this.$nextTick(function () {
+            vm.loading = false;
+          })
+        })
+      },
+      changePage(page) {
+        this.loading = true;
+        const vm = this;
+        
+        window.axios.get(this.collection_url + '?view=json&page=' + page + '&sort_by=' + this.sort_by.value).then(d => {
+          let {
+            pagination,
+            products
+          } = d.data;
+          
+          vm.products = products;
+          vm.pagination.current_page = page;
+          
+          this.$nextTick(function () {
+            vm.loading = false;
+            
+            window.VueScrollTo.scrollTo('#top');
+
+            if(yotpo.getState() == 'ready') {
+              let api = new Yotpo.API(yotpo);
+              api.refreshWidgets();
+            }
+          })
+        })
+      }
+    }
+  });
+  
+  var loaded = false;
+    
+    window.onload = function() {
+        if (typeof yotpo !== 'undefined') {
+            var callback = function() {
+                if (!loaded) {
+                    console.log("Refreshing widgets!");
+                    let api = new Yotpo.API(yotpo);
+                    api.refreshWidgets();
+                    loaded = true;
+                }
+            }
+            
+            if (yotpo.getState() == 'ready') {
+                callback();
+            } else {
+                yotpo.on('ready', callback);
+            }
+        }
+    }; 
+  }
+  window.addEventListener('DOMContentLoaded', initVue);
+
+</script>

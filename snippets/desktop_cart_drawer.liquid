@@ -1,0 +1,128 @@
+<div id="desktop-cart-drawer">
+    <cart-drawer :settings="settings" />
+</div>
+<script>
+const desktop_cartData = {{ cart | json }};
+const desktop_settings = {{ settings | json }};
+
+function initVue() {
+    const store = window.store;
+    const Vue = window.Vue;
+    const Vuex = window.Vuex;
+
+    Vue.use(Vuex);
+    Vue.use(window.VScrollLock)
+
+
+    const el = new Vue({
+        el: "#desktop-cart-drawer",
+        delimiters: ['@{', '}'],
+       data(){
+            return {
+                settings: settings,
+                promo: null,
+                screenWidth: window.innerWidth
+            }
+        },
+        mounted() {
+            this.screenwidth = window.innerWidth;
+
+            document.addEventListener('resize', this.resized)
+
+
+            store.dispatch("getCart");
+            this.getPromo();
+
+        },
+        computed: {
+            cartEmpty() {
+                return this.cart.item_count === 0
+            },
+            freeProgress() {
+            return (parseFloat(this.cart.total_price / 100).toFixed(2) / parseFloat(this.settings.free_shipping_threshold).toFixed(2)) * 100;
+            },
+            amountLeft() {
+                return (parseFloat(this.settings.free_shipping_threshold).toFixed(2) - parseFloat(this.cart.total_price / 100).toFixed(2)).toFixed(2);
+            },
+            gwpItem() {
+                return this.cart.items.filter((v) => {
+                    return (v.properties && v.properties._gwp);
+                });
+            },
+            nonGwpItems() {
+                return this.cart.items.filter((v) => {
+                    return (!v.properties || !v.properties._gwp);
+                });
+            },
+            ...window.Vuex.mapState(['cart', 'cartOpen']),
+            isMobile() {
+                return (this.screenWidth <= 800)
+            }
+        },
+        filters: {
+            format_price: function (value) {
+                if (!value) return parseFloat("0.00").toFixed(2)
+                value = parseFloat(value / 100).toFixed(2);
+                return value;
+            },
+            get_currency: function(value) {
+                if(!value) return ""
+                
+                switch(value) {
+                    case "USD":
+                        return '$';
+                        break;
+                    case "EUR":
+                        return '€';
+                        break;
+                    case "GBP":
+                        return '£';
+                        break;
+                    default:
+                        return '$'
+                }
+            },
+        },
+        methods: {
+            getPromo() {
+                const vm = this;
+                window.axios.get('/products/sleeping-veil.js').then(d => {
+                    vm.promo = d.data;
+                });
+            },
+            resized() {
+                this.screenWidth = window.innerWidth;
+            },
+            increase(key, qty) {
+                store.dispatch("increaseProductQty", {
+                    currQty: qty,
+                    key: key
+                });
+            },
+            decrease(key, qty) {
+                store.dispatch("decreaseProductQty", {
+                    currQty: qty,
+                    key: key
+                });
+            },
+            change(key, $event) {
+
+                store.dispatch("updateProductQty", {key: key, qty: $event.target.value});
+            },
+            remove(i) {
+                store.dispatch('removeProductByKey', { key: i})
+            },
+            showCart(val) {
+                if(window.innerWidth > 768) {
+                    store.commit('changeCart', val)
+                } else {
+                    window.location.href = '/cart';
+                }
+            }
+        },
+        store: store
+    }); 
+}
+window.addEventListener('DOMContentLoaded', initVue);
+
+</script>

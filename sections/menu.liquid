@@ -1,0 +1,116 @@
+<nav id="primary_nav" style="z-index: 10000005; position: relative">
+  <div class="nav-trigger nav-toggle">
+    <span class="burger-icon"></span>
+    <span class="burger-icon mid"></span>
+    <span class="burger-icon"></span>
+  </div>
+  
+  <div class="left-side">
+    {% if section.blocks %}
+      {% include 'mega_menu' %}
+    {% endif %}
+  </div>
+  
+  <div id="primary_brand">
+    <a href="/">
+      {{section.settings.logo | img_tag: 'Store logo', 'brand_logo', 'large' }}
+    </a>
+  </div>
+  
+  <div class="right-side">
+    <a href="{{ section.settings.right_link }}" class="nav-link right_link">
+      {{ section.settings.right_text}}
+    </a>
+    {% include 'search_trigger' %}
+    {% include 'search_modal' %}
+
+    {% if shop.customer_accounts_enabled %}
+      {% if customer %}
+        <div class="dropdown account_drop">
+          <a href="#" class="nav-link account_button" id="account_btn" role="button">
+              <i class="custom-user-ico"></i>
+          </a>
+          
+          <div class="dropdown-menu">
+            <div class="nav_col">
+              <a href="/account" class="account_dropdown_link">My Account</a>
+              <a href="/account/logout" class="account_dropdown_link">Logout</a>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <a href="#" class="account_button" id="login_btn">
+            <div class="custom-user-ico"></div>
+      {% endif %}
+    {% endif %}
+    
+    <a href="/a/wishlist" class="nav-link wishlist_link">
+      <div class="wrapper">
+      </div>
+    </a>
+    
+    {% include "cart-drawer" %}
+  </div>
+</nav>
+{% schema %}
+  {
+    "name": "Main Menu",
+    "settings": [{
+      "id": "logo",
+      "type": "image_picker",
+      "label": "Logo"
+    }, {
+      "id": "right_link",
+      "type": "url",
+      "label": "Right Link"
+    }, {
+      "id": "right_text",
+      "type": "text",
+      "label": "Right Text"
+    }],
+    "blocks": [
+      {
+        "type": "mega_menu",
+        "name": "Mega Menu",
+        "settings": [
+          {
+            "type": "text",
+            "id": "menu_item_name",
+            "label": "Menu Item Name"
+          },
+          {
+            "type": "text",
+            "id": "menu_item_icon",
+            "label": "Menu Item Icon",
+            "info": "See [Font Awesome](https://fontawesome.com). Place name of icon only."
+          },
+          {
+            "type": "link_list",
+            "id": "menu_item_content",
+            "label": "Menu"
+          }
+        ]
+      },
+      {
+        "type": "single_item",
+        "name": "Single Item",
+        "settings": [
+          {
+            "type": "text",
+            "id": "menu_item_name",
+            "label": "Menu Item Name"
+          },
+          {
+            "type": "url",
+            "id": "menu_item_content",
+            "label": "Link"
+          }, {
+            "type": "checkbox",
+            "id": "use_fancy",
+            "label": "Fancy Title"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,124 @@
+<style>
+
+  .grid--blog img{
+    height:224px !important;
+    margin-bottom:15px;
+    object-fit:cover;
+  	width:100% !important;
+  }
+  
+  .section-header h2 {
+
+    color: #41b6e6;
+    font-family: Open Sans,sans-serif;
+    font-weight: 300;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .grid--blog .article__title {
+    color:#41b6e6;
+    font-size: 1rem;
+    font-weight: 700;
+    height:48px;
+    line-height: 1.5rem;
+    margin-bottom: .5rem;
+    
+  }
+  .wrap-blog{ margin-bottom:3rem; margin-top:3rem; }
+  .btn-readmore{
+  	color: white;
+    background: #d2afa8;
+    padding: 15px 30px;
+  }
+  .readmore{margin-top:10px;}
+  .readmore a{text-decoration:underline;}
+  .wrap-btn-readmore{margin-top:2rem}
+  
+  @media(max-width:991px){
+  	.grid--blog .article__title {
+      height: auto;
+    }
+    .grid--blog article{margin-bottom:2rem;}
+  }
+</style>
+
+
+<div class="page-width wrap-blog">
+
+  <header class="section-header text-center">
+    <h2>Discover The Lab Report™</h2>
+  </header>
+  
+  {%- assign blog = blogs['the-lab-report'] -%}
+
+
+  <div class="container">
+    <div class="row">
+      
+      {% for article in blog.articles limit: 3 %}
+        <div class="col-12 col-sm-3 col-md-4 grid--blog">
+          <article aria-labelledby="FeaturedBlogTitle-{{ forloop.index0 }}-{{ section.id }}">
+            <header>
+              <a href="{{ article.url }}" class="article__link">
+                {% if article.image %}
+                  {% capture img_id %}ArticleImage-{{ article.image.id }}{% endcapture %}
+                  {% capture img_wrapper_id %}ArticleImageWrapper-{{ article.image.id }}{% endcapture %}
+                  {%- assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+
+                  {% include 'image-style', image: article.image, height: 345, wrapper_id: img_wrapper_id, img_id: img_id %}
+                  <div id="{{ img_wrapper_id }}" class="article__grid-image-wrapper js">
+                    <div class="article__grid-image-container" data-image-loading-animation>
+                      <img id="{{ img_id }}"
+                          class="article__grid-image lazyload"
+                          data-src="{{ img_url }}"
+                          data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                          data-aspectratio="{{ article.image.aspect_ratio }}"
+                          data-sizes="auto"
+                          alt="">
+                    </div>
+                  </div>
+                  <noscript>
+                    <div class="article__grid-image-wrapper">
+                      {{ article | img_url: '345x345', scale: 2 | img_tag: article.title, 'article__grid-image' }}
+                    </div>
+                  </noscript>
+                {% endif %}
+
+                <h3 class="article__title" id="FeaturedBlogTitle-{{ forloop.index0 }}-{{ section.id }}">
+                  {{ article.title }}
+                </h3>
+              </a>
+
+                <span class="article__date">
+                  {{ article.published_at | time_tag: format: 'date' }}
+                </span>
+            </header>
+
+            <div class="article__grid-meta">
+              <div class="rte article__grid-excerpt">
+                {% if article.excerpt.size > 0 %}
+                  {{ article.excerpt }}
+                {% else %}
+                  {{ article.content | strip_html | truncate: 150 }}
+                {% endif %}
+              </div>
+            </div>
+            <div class="readmore"><a href="{{ article.url }}">Read more</a></div>
+          </article>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+
+
+    
+    <div class="wrap-btn-readmore text-center">
+      <a href="{{ blog.url }}" class="btn btn-readmore" aria-label="{{ 'blogs.article.view_all_blogs' | t }}">
+      	READ MORE
+      </a>
+    </div>
+
+</div>
+

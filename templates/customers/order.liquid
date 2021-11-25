@@ -1,0 +1,88 @@
+<div id="order" class="container account-page">
+  <div class="title">
+    <h1>My Account</h1>
+  </div>
+  
+  <div class="row">
+    <div class="col-12 col-md-4 col-lg-3">
+      {% include 'account_tabs' %}
+    </div>
+    <div class="col-12 col-md-8 col-lg-9">
+      <div class="custom-card">
+          <h2 class="card-title">Order <span class="highlighted">#{{ order.order_number }}</span> was placed on <span class="highlighted">{{ order.created_at | time_tag: format: 'date_at_time' }}</span> and is currently <span class="highlighted">{{ order.fulfillment_status_label }}</span>.</h2>
+          
+          <div class="card-content">
+            <div class="row">
+              <div class="col-12">
+                <h3>Order Details</h3>
+              </div>
+              
+              <div class="col-12">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Product</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {% for line_item in order.line_items %}
+                      <tr>
+                        <td class="product">{{line_item.title}} x {{line_item.quantity}}</td>
+                        <td class="price">{{line_item.final_line_price | money}}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+
+                  <tfoot>
+                    <tr>
+                      <th>Subtotal:</th>
+                      <td>{{ order.line_items_subtotal_price | money }}</td>
+                    </tr>
+                    <tr>
+                      <th>Total:</th>
+                      <th>{{ order.total_price | money }}</th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              
+              <div class="col-12 header">
+                <h3>CUSTOMER DETAILS</h3>
+              </div>
+              
+              <div class="col-12 email_row">
+                <h4>Email: </h4>
+                
+                <p class="text-right">{{ order.email }}</p>
+              </div>
+              
+              <div class="col-12 col-md-6 add_row">
+                <p class="title-address">Billing Address</p>
+                <p class="status"><span class="text-bold">Payment Status: </span>{{order.financial_status_label}}</p>
+                
+                <div class="address_box">
+                  <p>{{order.billing_address.first_name}} {{order.billing_address.last_name}}</p>
+                  <p>{{order.billing_address.address1}}</p>
+                  <p>{{order.billing_address.city}} {{order.billing_address.province}} {{ order.billing_address.zip }}</p>
+                  <p>{{ order.billing_address.country }}</p>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 add_row">
+                <p class="title-address">Shipping Address</p>
+                <p class="status"><span class="text-bold">Fulfillment Status: </span>{{order.fulfillment_status_label}}</p>
+                
+                <div class="address_box">
+                  <p>{{order.shipping_address.first_name}} {{order.shipping_address.last_name}}</p>
+                  <p>{{order.shipping_address.address1}}</p>
+                  <p>{{order.shipping_address.city}} {{order.shipping_address.province}} {{ order.shipping_address.zip }}</p>
+                  <p>{{ order.shipping_address.country }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,144 @@
+<script>
+  /* Tier 1 Gift With Purchase */
+  window.gwp = {
+    active: {% if section.settings.gwp_active %}true{%else %}false{%endif %},
+    threshold: {{ section.settings.gwp_min }},
+    handle: "{{ section.settings.gwp_product.handle }}",
+    featured_img: "{{ section.settings.gwp_image | img_url: '200x' }}",
+    giftID: {{ section.settings.gwp_product.first_available_variant.id }},
+    collection: "{{ section.settings.gwp_header }}",
+    name: "{{ section.settings.gwp_subheader }}"
+  }
+  /* Tier 2 Gift With Purchase */
+  window.gwp2 = {
+    active: {% if section.settings.gwp2_active %}true{%else %}false{%endif %},
+    threshold: {{ section.settings.gwp2_min }},
+    handle: "{{ section.settings.gwp2_product.handle }}",
+    featured_img: "{{ section.settings.gwp2_image | img_url: '200x' }}",
+    giftID: {{ section.settings.gwp2_product.first_available_variant.id }},
+    collection: "{{ section.settings.gwp2_header }}",
+    name: "{{ section.settings.gwp2_subheader }}"
+  }
+  /* Tier 3 Gift With Purchase */
+  window.gwp3 = {
+    active: {% if section.settings.gwp3_active %}true{%else %}false{%endif %},
+    threshold: {{ section.settings.gwp3_min }},
+    handle: "{{ section.settings.gwp3_product.handle }}",
+    featured_img: "{{ section.settings.gwp3_image | img_url: '200x' }}",
+    giftID: {{ section.settings.gwp3_product.first_available_variant.id }},
+    collection: "{{ section.settings.gwp3_header }}",
+    name: "{{ section.settings.gwp3_subheader }}"
+  }
+  </script>
+  
+  <script></script>
+  
+  {% schema %}
+  {
+    "name": "Gift With Purchase",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "gwp_active",
+        "label": "Tier 1 Active",
+        "default": false
+      },
+      {
+        "id": "gwp_product",
+        "type": "product",
+        "label": "Tier 1 Product"
+      },
+      {
+        "id": "gwp_image",
+        "type": "image_picker",
+        "label": "Tier 1 Mini-Cart Image"
+      },
+      {
+        "id": "gwp_header",
+        "type": "text",
+        "label": "Tier 1 Header",
+        "default": "FREE GIFT WITH PURCHASE"
+      },
+      {
+        "id": "gwp_subheader",
+        "type": "text",
+        "label": "Tier 1 Sub-Header",
+        "default": "While supplies last."
+      },
+      {
+        "id": "gwp_min",
+        "label": "Tier 1 Threshold",
+        "type": "text",
+        "info": "Remove Decimals ($50 = 5000)"
+      },
+      {
+        "type": "checkbox",
+        "id": "gwp2_active",
+        "label": "Tier 2 Active",
+        "default": false
+      },
+      {
+        "id": "gwp2_product",
+        "type": "product",
+        "label": "Tier 2 Product"
+      },
+      {
+        "id": "gwp2_image",
+        "type": "image_picker",
+        "label": "Tier 2 Mini-Cart Image"
+      },
+      {
+        "id": "gwp2_header",
+        "type": "text",
+        "label": "Tier 2 Header",
+        "default": "FREE GIFT WITH PURCHASE"
+      },
+      {
+        "id": "gwp2_subheader",
+        "type": "text",
+        "label": "Tier 2 Sub-Header",
+        "default": "While supplies last."
+      },
+      {
+        "id": "gwp2_min",
+        "label": "Tier 2 Threshold",
+        "type": "text",
+        "info": "Remove Decimals ($50 = 5000)"
+      },
+      {
+        "type": "checkbox",
+        "id": "gwp3_active",
+        "label": "Tier 3 Active",
+        "default": false
+      },
+      {
+        "id": "gwp3_product",
+        "type": "product",
+        "label": "Tier 3 Product"
+      },
+      {
+        "id": "gwp3_image",
+        "type": "image_picker",
+        "label": "Tier 3 Mini-Cart Image"
+      },
+      {
+        "id": "gwp3_header",
+        "type": "text",
+        "label": "Tier 3 Header",
+        "default": "FREE GIFT WITH PURCHASE"
+      },
+      {
+        "id": "gwp3_subheader",
+        "type": "text",
+        "label": "Tier 3 Sub-Header",
+        "default": "While supplies last."
+      },
+      {
+        "id": "gwp3_min",
+        "label": "Tier 3 Threshold",
+        "type": "text",
+        "info": "Remove Decimals ($50 = 5000)"
+      }
+    ]
+  }
+  {% endschema %}

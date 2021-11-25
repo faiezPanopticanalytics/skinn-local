@@ -1,0 +1,150 @@
+
+<div class="before_and_after px-0 mx-0" id="{{ section.id }}">
+    <div class="container">
+        <div class="row mx-0">
+            <div class="col-12 col-lg-6 left_side">
+                <div class="fancy">
+                    <div class="fc-inner">
+                        <div class="rr-bg"></div>
+                        <h2 class="rr-title">{{section.settings.title}}</h2>
+                    </div>
+                </div>
+                
+                <a href="{{section.settings.product_family_url}}" class="product_family">{{section.settings.product_family}}</a>
+                <a href="{{section.settings.product_title_url}}" class="product_title">{{section.settings.product_title}}</a>
+                
+                <p class="description">{{section.settings.section_description}}</p>
+                
+                <div class="d-none d-lg-block cta_list">
+                    <div class="product_list">
+                        {{section.settings.product_info}}
+                    </div>
+                    <a href="{{section.settings.button_url}}" class="action-btn">{{section.settings.button_text}}</a>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 right_side">
+                <hooper ref="baSlider" @slide="onSlide" class="default_slider" :infinite="true" :itemsToShow="1" :mouse-drag="false" :touch-drag="false">
+                    {% for block in section.blocks %}
+                        <slide>
+                            <compare-image left-image="{{block.settings.before_image | img_url: "500x500" }}" left-label="Before" right-image="{{block.settings.after_image | img_url: "500x500" }}" right-label="After"/>
+                        </slide>
+                    {% endfor %}
+                    <hooper-navigation slot="hooper-addons"></hooper-navigation>
+                </hooper>
+                <div class="slider-pagination">
+                    <ul>
+                        {% for block in section.blocks %}
+                            <li :class="{active: currentSlide === {{ forloop.index | minus: 1 }}}" @click="goTo({{ forloop.index | minus: 1 }})"></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <div class="disclaimer">
+                    <p>{{ section.settings.disclaimer_text}}</p>
+                </div>
+            </div>
+            <div class="col-12 d-lg-none left_side">
+                <div class="product_list">
+                    {{section.settings.product_info}}
+                </div>
+            </div>
+            <div class="col-12 d-lg-none text-center px-0">
+                <a href="{{section.settings.button_url}}" class="action-btn ab-mobile">{{section.settings.button_text}}</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    function initVue() {
+        new Vue({
+            el: ".before_and_after",
+            delimiters: ["@{", "}"],
+            data: {
+                currentSlide: 1,
+            },
+            methods: {
+                onSlide(currentSlide) {
+                    this.currentSlide = currentSlide.currentSlide;
+                },
+                goTo(slide) {
+                    this.$refs.baSlider.slideTo(slide);
+                    this.currentSlide = slide
+                }
+            }
+        })
+    }
+    window.addEventListener('DOMContentLoaded', initVue);
+</script>
+
+{% schema %}
+  {
+    "name": "Before and After Slider",
+    "presets": [{
+        "name": "Before and After Slider",
+        "category": "Dynamic Content"
+      }],
+    "settings": [{
+        "type": "text",
+        "label": "Title",
+        "id": "title"
+    }, 
+    {
+        "type": "text",
+        "id": "product_title",
+        "label": "Product Name"
+      },
+{
+        "type": "url",
+        "id": "product_title_url",
+        "label": "Product Name URL"
+      },
+{
+        "type": "text",
+        "id": "product_family",
+        "label": "Product Family"
+      },
+{
+        "type": "url",
+        "id": "product_family_url",
+        "label": "Product Family URL"
+      },
+{
+        "type": "textarea",
+        "id": "section_description",
+        "label": "Description"
+},
+    {
+        "type": "html",
+        "label": "Product Information List",
+        "id": "product_info"
+    },{
+        "type": "text",
+        "id": "button_text",
+        "label": "Action Button Text"
+      },
+    {
+        "type": "url",
+        "id": "button_url",
+        "label": "Action Button URL"
+      }, {
+          "type": "text",
+          "id": "disclaimer_text",
+          "label": "Disclaimer Text"
+      }],
+    "blocks": [{
+        "name": "Slide",
+        "type": "slide",
+        "settings": [{
+            "type": "image_picker",
+            "id": "before_image",
+            "label": "Before Image"
+        }, {
+            "type": "image_picker",
+            "id": "after_image",
+            "label": "After Image"
+        }]
+    }]
+  }
+{% endschema %}

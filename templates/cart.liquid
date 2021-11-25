@@ -1,0 +1,222 @@
+<div class="cart">
+  <div class="cart-contents container" v-if="cart.items.length > 0" v-cloak>
+    <div class="header">
+      <h1 class="title">Your Cart</h1>
+      <h2 class="cart_count">{!! cart.item_count !!} items</h2>
+    </div>
+
+    <form action="/cart" method="post" novalidate>
+      <div class="cart_row">
+        <div class="cart_list">
+
+          <a class="gwp_offered" :href="promo.url" v-if="gwpOffered && gwp.active">
+            <div class="gwp_img">
+              <img class="" :src="promo.images[0]" />
+            </div>
+            <div class="gwp_info">
+              <p class="headline">
+                Add {!! gwpAmountLeft | money !!} to qualify for the Gift with
+                Purchase
+              </p>
+              <p class="product">{!! gwp.collection !!} {!! gwp.name !!}</p>
+            </div>
+          </a>
+
+          <div>
+            <cart-item v-for="product in gwpItem" :key="product.key" :product="product" :gwp-item="true" />
+          </div>
+
+          <div>
+            <cart-item v-for="product in nonGwpItems" :key="product.key" :product="product" />
+          </div>
+        </div>
+        <div class="cart_summary">
+          <div class="cart_inner">
+          <div class="overview">
+            <p class="header_overview">Cart Overview</p>
+            <div class="subtotal">
+              <p>Subtotal:</p>
+              <p>{!! cart.total_price | money !!}</p>
+            </div>
+            <afterpay-placement
+              data-locale="en_US"
+              data-currency="USD"
+              :data-amount="parseFloat(cart.total_price / 100).toFixed(2)"
+              data-badge-theme="black-on-white"
+              data-show-upper-limit="false"
+              marginwidth="0"
+              marginheight="0"
+              data-size="xs"
+              style="font-family: 'Open Sans', sans-serif;"
+              class="afterpay-element"
+            ></afterpay-placement>
+            <div class="shipping">
+              <p>Shipping & taxes are calculated at checkout</p>
+            </div>
+          </div>
+
+          <div class="buttons">
+            <input
+              type="submit"
+              name="checkout"
+              value="Proceed to Checkout"
+              class="btn btn-primary btn-block"
+            />
+
+            {% if additional_checkout_buttons %}
+            <div class="divider">or</div>
+            <div class="additional-checkout-buttons">
+              {{ content_for_additional_checkout_buttons }}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="recommended_section">
+      <div class="rs_header">You May Also Like</div>
+      <div class="recommended_list">
+        <div class="recommended" v-for="recommendation in recommendations" :key="recommendation">
+          <product-list :product-handle="recommendation" :settings="settings" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart_empty container" v-else v-cloak>
+    <p class="heading">You don't have any items in your cart.</p>
+  </div>
+</div>
+
+<script>
+  const cart_settings = {{ settings | json }};
+  function initVue() {
+    new Vue({
+      el: ".cart",
+      delimiters: ["{!!", "!!}"],
+      data() {
+        return {
+          coupon_code: "",
+          discount_code: "",
+          promo: null,
+          recommendations: null,
+          settings: cart_settings,
+          gwp: window.gwp
+
+        } 
+      },
+      mounted() {
+        this.getRecommended();
+        this.getPromo();
+      },
+      filters: {
+        money(val) {
+          let money = parseFloat(val / 100).toFixed(2);
+
+          let currency = "{{ cart.currency.symbol }}";
+          return currency + money;
+        },
+        get_currency: function(value) {
+          if (!value) return "";
+
+          switch (value) {
+            case "USD":
+              return "$";
+              break;
+            case "EUR":
+              return "€";
+              break;
+            case "GBP":
+              return "£";
+              break;
+            default:
+              return "$";
+          }
+        },
+      },
+      methods: {
+        getRecommended() {
+          console.log('rr');
+          const vm = this;
+                window.axios.get('/collections/best-sellers?view=json').then((d) => {
+                  console.log(d.data.products);
+                  d.data.products.splice(3, d.data.products.length - 4);
+                    vm.recommendations = d.data.products
+                }).catch(e => {
+                    console.log(e);
+                })
+        },
+        changeVal(e, key) {
+          const qty = e.data;
+          window.store.dispatch("updateProductQtyByKey", {
+            qty: qty,
+            key: key,
+          });
+          console.log(key, qty)
+        },
+        decrease(key, qty) {
+          window.store.dispatch("decreaseProductQty", {
+            key: key,
+            currQty: qty,
+          });
+        },
+        increase(key, qty) {
+          window.store.dispatch("increaseProductQty", {
+            key: key,
+            currQty: qty,
+          });
+        },
+        remove(key) {
+          window.store.dispatch("removeProductByKey", { key: key });
+        },
+        setCode() {
+          this.discount_code = this.coupon_code;
+          this.coupon_code = "";
+        },
+        getPromo() {
+          const vm = this;
+          window.axios.get(`/products/${this.gwp.handle}.js`).then((d) => {
+            vm.promo = d.data;
+          });
+        },
+      },
+      computed: {
+        gwpItem() {
+          return this.cart.items.filter((v) => {
+            return v.properties && v.properties._gwp;
+          });
+        },
+        nonGwpItems() {
+          return this.cart.items.filter((v) => {
+            return !v.properties || !v.properties._gwp;
+          });
+        },
+        gwpOffered() {
+      return this.cart.total_price < this.gwp.threshold;
+    },
+    gwpAmountLeft() {
+      return this.gwp.threshold - this.cart.total_price;
+    },
+        cartActionUrl() {
+          return "/cart?discounts=" + this.discount_code;
+        },
+        ...window.Vuex.mapState(["cart"]),
+      },
+      store: window.store,
+    });
+  }
+  window.addEventListener("DOMContentLoaded", initVue);
+</script>
+
+<!-- Google Ads Dynamic Remarketing by M6 -->
+<script>
+  gtag('event', 'page_view', {
+    'send_to': 'AW-695528542',
+	'ecomm_pagetype': 'cart',
+	'ecomm_prodid': [{% for item in cart.items %}'shopify_US_{{ item.product_id }}_{{ item.variant_id }}',{% endfor %}],
+	'ecomm_totalvalue': {{ cart.total_price | money_without_currency | remove:',' }}
+  });
+</script>
+<!-- End Google Ads Dynamic Remarketing by M6 -->

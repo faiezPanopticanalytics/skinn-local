@@ -1,0 +1,100 @@
+<div id="dashboard" class="container account-page">
+  <div class="title">
+    <h1>My Account</h1>
+  </div>
+  
+  <div class="row">
+    <div class="col-12 col-md-4 col-lg-3">
+      {% include 'account_tabs' %}
+    </div>
+    <div class="col-12 col-md-8 col-lg-9">
+      <div class="custom-card">
+        <h2 class="card-title">Hello, <span class="customer-name">{{customer.name}}</span>
+<!-- Begin ReCharge code -->
+<p id="rc_link_container">
+    <a href="/tools/recurring/login">Manage Subscriptions</a>
+</p>
+<!-- End ReCharge code -->
+ (Not <span class="customer-name">{{customer.name}}</span>? <a href="/account/logout">Sign Out</a>) </h2>
+      </div>
+      
+      <!--Customer's Order History-->
+      <div class="custom-card">
+        <h2 class="card-title bold thin">Order History:</h2>
+        <div class="card-content">
+          {% if customer.orders_count > 0 %}
+            <table class="orders_table">
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Date</th>
+                  <th>Payment Status</th>
+                  <th>Fulfillment Status</th>
+                  <th>Total</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>  
+              
+              <tbody>
+                {% for order in customer.orders %}
+                  <tr>
+                    <td><div class="text-bold d-md-none">Order: </div>#{{ order.order_number }}</td>
+                    <td><div class="text-bold d-md-none">Date: </div>{{ order.created_at | time_tag: format: 'date' }}</td>
+                    <td><div class="text-bold d-md-none">Payment Status: </div>{{ order.financial_status_label }}</td>
+                    <td><div class="text-bold d-md-none">Fulfillment Status: </div>{{ order.fulfillment_status_label }}</td>
+                    <td><div class="text-bold d-md-none">Total: </div>{{ order.total_price | money }}</td>
+                    <td>
+                      <div class="text-bold d-md-none">Actions: </div>
+                      <a href="{{order.customer_url}}" class="btn btn-dark">View</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <div class="alert alert-primary" role="alert">
+              No order has been made yet.
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      
+      <!--Basic Account Information-->
+      <div class="custom-card">
+        <h2 class="card-title thin bold">Account details:</h2>
+        <div class="card-content">
+          <table id="account_details">
+            <tr>
+              <th>Name:</th>
+              <td>{{ customer.name }}</td>
+            </tr>
+            <tr>
+              <th>E-mail:</th>
+              <td>{{ customer.email }}</td>
+            </tr>
+            <tr>
+              <th>Address:</th>
+              <td>{{ customer.default_address.street }}</td>
+            </tr>
+            <tr>
+              <th>City:</th>
+              <td>{{ customer.default_address.city }}</td>
+            </tr>
+            <tr>
+              <th>State:</th>
+              <td>{{ customer.default_address.province_code }}</td>
+            </tr>
+            <tr>
+              <th>Zip Code:</th>
+              <td>{{ customer.default_address.zip }}</td>
+            </tr>
+            <tr>
+              <th>Country:</th>
+              <td>{{ customer.default_address.country }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

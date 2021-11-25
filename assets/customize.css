@@ -1,0 +1,98 @@
+.swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
+  bottom: unset !important;
+  margin-top: 15px !important;
+}
+.swiper-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet, .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
+  margin-right: 5px !important;
+}
+
+@media (max-width: 736px) {
+  
+  #qab_message {font-size: 12px !important;}
+
+  #primary_nav, #primary_nav .account_button, .custom-user-ico, .cart_trigger_container  {
+      height: 60px!important;
+  }
+  
+  #primary_nav .search_button::before, .custom-user-ico {
+	line-height: 60px !important;
+  }
+  
+ #primary_nav .cart-count {
+       top: 25% !important;
+    right: -4.5px !important;
+ }
+  
+  #cart_trigger_container {
+    max-height: 60px !important;
+    height: 60px !important;
+  }
+
+}
+
+#primary_nav_area {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2849019485889;
+}
+
+.rc_widget__option__plans select {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    color: #8b8b8b;
+    padding: 0 1em 0 0;
+    margin: 0;
+    width: 100%;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: inherit;
+    line-height: inherit;
+    z-index: 1;
+    outline: none;
+}
+            
+.rc_widget__option__plans {
+    display: grid;
+    grid-template-areas: "select";
+    align-items: center;
+    position: relative;
+    min-width: 15ch;
+    max-width: 30ch;
+    border: 1px solid #ddd;
+    border-radius: 0em;
+    padding: 5px 7px 9px;
+    font-size: 1.25rem;
+    cursor: pointer;
+    line-height: 1.1;
+    background-color: #fff;
+    z-index: 10;
+}
+
+.rc_widget__option__plans::after {
+    content: "\F107";
+    position: absolute;
+    font-family: FontAwesome;
+    font-weight: 900;
+    right: 5px;
+    transition: all .2s ease;
+    top: 8px;
+}
+
+.rc-selling-plans__label {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    color: #8b8b8b !important;
+    padding: 0 1em 0 0;
+    margin: 0;
+    width: 100%;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: inherit;
+    line-height: inherit;
+    z-index: 1;
+    outline: 0;
+}

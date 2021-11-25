@@ -1,0 +1,77 @@
+<!-- /templates/customers/register.liquid -->
+<div id="login_page" class="container h-100">
+    <div class="header">
+        <h1>Customer Registration</h1>
+        <p><a href="/account/login">Login</a> or Create an Account to continue</p>
+    </div>
+  {% form 'create_customer' %} 
+    {% if form.errors %}
+        {% for field in form.errors %}
+            <div class="alert alert-primary" role="alert">
+                {{ form.errors.messages[field] }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="row h-100 align-items-center justify-content-center">
+      <div class="col-12 col-md-7">
+            <div class="row">
+                <div class="form-row col-12">
+                    <label for="first_name">First Name <span class="required">*</span></label>
+                    
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="customer-icon"><i class="icon-doc icons"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" id="first_name" name="customer[first_name]" aria-describedby="customer-icon" autocomplete="given-name" />
+                    </div>
+                </div>
+                
+                <div class="form-row col-12">
+                    <label for="last_name">Last Name <span class="required">*</span></label>
+                    
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="last-icon"><i class="icon-docs icons"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" id="last_name" name="customer[last_name]" aria-describedby="last-icon" autocomplete="family-name" />
+                    </div>
+                </div>
+                
+                <div class="form-row col-12">
+                  <label for="customer_email">Email <span class="required">*</span></label>
+                  
+                  <div class="input-group">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text" id="customer-icon"><i class="icon-user-follow icons"></i>
+                          </span>
+                      </div>
+                      <input type="text" class="form-control" id="customer_email" name="customer[email]" aria-describedby="customer-icon" autocomplete="email" />
+                  </div>
+              </div>
+              
+              <div class="form-row col-12">
+                  <label for="customer_password">Password <span class="required">*</span></label>
+                  
+                  <div class="input-group">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text" id="password-icon"><i class="icon-lock icons"></i>
+                          </span>
+                      </div>
+                      <input type="password" class="form-control" id="customer_password" name="customer[password]" aria-describedby="password-icon" autocomplete="current-password" />
+                  </div>
+              </div>
+              
+              <div class="form-row col-12">
+                <p>Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy.                </p>
+              </div>
+                <div class="form-row col-12">
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </div>
+            </div>
+      </div>
+    </div>
+  {% endform %}
+  </div>
+</div>

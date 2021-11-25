@@ -1,0 +1,52 @@
+<div class="tabs">
+    <div class="tab">
+        <p class="header" :class="{open: selected_tab == 'description'}" @click="openTab('description')">Description</p>
+        <transition name="slide">
+            <div class="tab_content" v-if="selected_tab == 'description'">
+                {{product.description}}
+            </div>
+        </transition>
+    </div>
+    
+    {% if product.metafields.customAttributes['how-to-use'] != blank or product.metafields.customattributes['how-to-use'] %}
+    <div class="tab">
+        <p class="header" :class="{open: selected_tab == 'how-to-use'}" @click="openTab('how-to-use')">How To Use</p>
+        <transition name="slide">
+            <div class="tab_content" v-if="selected_tab == 'how-to-use'">
+                <p>{{ product.metafields.customAttributes['how-to-use'] }}</p>
+            </div>
+        </transition>
+    </div>
+    {% endif %}
+    
+    {% if product.metafields.customAttributes['ingredients'] != blank or product.metafields.customattributes['ingredients'] %}
+    <div class="tab">
+        <p class="header" :class="{open: selected_tab == 'ingredients'}" @click="openTab('ingredients')">Ingredients</p>
+        <transition name="slide">
+            <div class="tab_content" v-if="selected_tab == 'ingredients'">
+                <p>{{ product.metafields.customAttributes['ingredients'] }}</p>
+            </div>
+        </transition>
+    </div>
+    {% endif %}
+    
+    {% if product.metafields.custom_fields["tabs"] != blank %}
+        {% assign separator = "|###|" %}
+        {% assign fc_keys = product.metafields.custom_fields["tabs"] | split: "," %}
+        {% assign name_array = product.metafields.custom_fields["name"] | split: separator %}
+        {% assign content_array = product.metafields.custom_fields["content"] | split: separator %}  
+        {% for i in fc_keys %}
+            {% assign index = i | plus: 0 %}
+            
+            <div class="tab">
+                <p @click="openTab('{{ name_array[index] | handelize }}')">{{ name_array[index] }}</p>
+                <transition name="slide">
+                    <div class="tab_content" v-if="selected_tab == '{{ name_array[index] | handelize }}'">
+                        {{ content_array[index] }}
+                    </div>
+                </transition>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+

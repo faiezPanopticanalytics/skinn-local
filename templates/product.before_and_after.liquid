@@ -1,0 +1,250 @@
+{% include 'breadcrumbs' %}
+
+<div class="container" id="product_div">
+  <div class="row product_page" id="{{ product.id }}">
+    <div class="col-12 col-md-6">
+      {% include 'product_images' %}
+    </div>
+    <div class="col-12 col-md-6">
+      {% include 'product_information' %}
+
+      <div class="product_share" v-cloak>
+        {% include 'social_sharing' %}
+      </div>
+
+      <div class="product_description" v-cloak>
+        {% include 'product-description' %}
+      </div>
+    </div>
+    <div class="col-12" id="{{ product.id }}-description"></div>
+  </div>
+</div>
+
+<div id="before_and_after">
+  {% section 'product_before_after' %}
+</div>
+
+<!-- <div id="related_products">
+  {% include 'product_recomendations' %}
+</div>
+ -->
+{% if settings.enable_yotpo_reviews %} {% include 'yotpo-product-reviews' %} {%
+endif %}
+
+<script>
+  function initVue() {
+    let product = {{ product | json }}
+    let swatchesToShowArr = {{ settings.swatch_to_show | split: "," | json }}
+    new Vue({
+      el: ".product_page",
+      delimiters: ['@{', '}'],
+      data: {
+        product: product,
+        hooperBigSettings: {
+          itemsToShow: 1,
+          centerMode: true,
+          infiniteScroll: true,
+          wheelControl: false,
+          mouseDrag: false,
+        },
+        hooperVerticalSettings: {
+          itemsToShow: 5,
+          centerMode: false,
+          itemsToSlide: 1,
+          vertical: false,
+          infiniteScroll: true,
+          wheelControl: false,
+          mouseDrag: false,
+          trimWhiteSpace: false,
+          breakpoints: {
+            900: {
+              vertical: true
+            }
+          }
+        },
+        selected_options: JSON.parse('{{ product.selected_or_first_available_variant.options | json }}'),
+        cart_add: {
+          variant_id: JSON.parse('{{ product.selected_or_first_available_variant.id | json }}'),
+          quantity: 1,
+          available: JSON.parse('{{ product.selected_or_first_available_variant.available | json }}'),
+          v_name: JSON.parse('{{ product.selected_or_first_available_variant.title | json }}'),
+          price: JSON.parse('{{ product.selected_or_first_available_variant.price | json }}'),
+          subscription_plan: null
+        },
+        selected_tab: '',
+        shipping_modal: false,
+        swatchesToShow: swatchesToShowArr,
+        disabledImageZoom: false,
+        fullUrl: '{{shop.url}}',
+        windowWidth: window.innerWidth,
+        rechargeWidget: null
+      },
+      filters: {
+    money(v) {
+      return "$" + parseFloat(v / 100).toFixed(2);
+    },
+  },
+      computed: {
+        variant_price() {
+      console.log(this.product);
+              if(this.product.options.length === 0) return parseFloat(this.product.price / 100).toFixed(2);
+
+              if(this.selected_options.length !== this.product.options.length) return ""
+              const nn = this.selected_options.filter((v) => (v != null || v != undefined));
+              if(nn.length === this.selected_options.length ) {
+                const vs = this.product.variants.filter((v) => {
+                    return JSON.stringify(this.selected_options) == JSON.stringify(v.options);
+                });
+                
+                if(this.product && window.ReChargeWidget) {
+                	console.log(window.ReChargeWidget.getWidgetsByProductId(this.product.id));
+                };
+                
+                this.cart_add.variant_id = vs.length ? vs[0].id : -1;
+                this.cart_add.available = vs.length ? vs[0].available : false;
+                this.cart_add.v_name =  vs.length ? vs[0].title : "";
+                this.cart_add.price = vs.length ? vs[0].price : 0;
+                this.cart_add.compare_at_price = vs.length ? vs[0].compare_at_price : 0;
+                
+                
+
+                return vs.length === 1 && vs[0].price && vs[0].available ? vs[0].price : "Unavailable";
+              } else {
+                return "";
+              }
+        },
+        flash_sold_items() {
+          let maxProduct = {{settings.product_sold_max}};
+          let minProduct = {{settings.product_sold_min}};
+
+          let qty = Math.floor(Math.random() * (maxProduct - minProduct + 1)) + minProduct;
+          qty = parseInt(qty);
+          if(qty <= minProduct){
+            qty = minProduct;
+          }
+          if(qty > maxProduct){
+            qty = maxProduct;
+          }
+
+          return qty;
+        },
+        flash_sold_time() {
+          let maxTime = {{settings.product_sold_time_max}};
+          let minTime = {{settings.product_sold_time_min}};
+
+          let time = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
+          time = parseInt(time);
+          if(time <= minTime){
+            time = minTime;
+          }
+          if(time > maxTime){
+            time = maxTime;
+          }
+
+          return time;
+
+        },
+        discount_percent() {
+            if(this.product.compare_at_price && this.product.compare_at_price > this.product.price ) {
+              return '-' + parseFloat((1 - parseFloat(this.product.price) / parseFloat(this.product.compare_at_price) ) * 100).toFixed(0) + '%';
+            }
+        },
+
+      },
+      mounted() {
+        this.disabledImageZoom = (window.screen.width <= 768);
+
+        if(window.innerWidth > 768) {
+          this.selected_tab = 'description'
+        }
+        
+      },
+      methods: {
+        resizeImg() {
+          this.disabledImageZoom = (window.screen.width <= 768)
+        },
+        goTo(i) {
+          this.$refs.slider.slideTo(i);
+        },
+        setOption(val, opt_pos) {
+          let isSwatch = this.swatchesToShow.indexOf(this.product.options[opt_pos - 1].toLowerCase()) >= 0;
+
+          if(val.title) {
+            Vue.set(this.selected_options, opt_pos - 1, val.title);
+
+            if(isSwatch) this.changeImg(val.title, opt_pos);
+          } else {
+            Vue.set(this.selected_options, opt_pos - 1, val);
+
+            if(isSwatch) this.changeImg(val, opt_pos);
+          }
+
+          this.$forceUpdate();
+        },
+        options(values) {
+          return values.map(v => {
+            return { title: v, disabled: false }
+          });
+        },
+        checkAvailability(val, pos) {
+          let v_m = this.product.variants.filter((v) => {
+            return (v.options[pos - 1] === val && v.available )
+          });
+
+          return v_m.length > 0
+        },
+        openTab(tab) {
+          if(this.selected_tab === tab) {
+            this.selected_tab = '';
+          } else {
+            this.selected_tab = tab;
+          }
+
+        },
+        addToCart() {
+          
+          if(window.ReChargeWidget) {
+            const recharge = window.ReChargeWidget.getWidgetsByProductId(this.product.id);
+            
+            if(recharge.length && recharge[0].subscriptionActive) {
+              this.cart_add.subscription_plan = recharge[0].sellingPlanId 
+            }
+          }
+
+          window.store.dispatch('addToCart', this.cart_add);
+
+          if(typeof BOLD === 'object' && BOLD.common && BOLD.common.eventEmitter && typeof BOLD.common.eventEmitter.emit === 'function') {
+              BOLD.common.eventEmitter.emit("BOLD_COMMON_cart_loaded");
+              BOLD.common.eventEmitter.emit('BOLD_COMMON_redirect_upsell_product');
+          }
+        },
+        changeImg(val, opt_pos) {
+          let variants = this.product.variants.filter(v => {
+            return (v.options[opt_pos - 1].toLowerCase() === val.toLowerCase());
+          });
+
+          this.goTo(variants[0].featured_image.position - 1);
+        },
+        addToWishlist() {
+              window._swat.addToWishList(
+                  {
+                      epi: this.cart_add.variant_id,
+                      du: this.fullUrl + this.product.url,
+                      empi: this.product.id,
+                      iu : this.product.featured_image,
+                      pr: parseFloat(this.product.price / 100).toFixed(2),
+                      dt: product.title,
+                      et: 4
+                  },
+                  function(r) {
+                      console.log('Added to wishlist');
+                  }
+              );
+          },
+      }
+    });
+
+  }
+  window.addEventListener('DOMContentLoaded', initVue);
+</script>
+

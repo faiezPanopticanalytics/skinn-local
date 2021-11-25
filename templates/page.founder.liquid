@@ -1,0 +1,35 @@
+<div id="our_founder">
+  <div class="container-fluid" id="founder_header">
+    <div class="row justify-content-center align-items-center d-none d-md-flex" id="desktop_header">
+      <div class="col-6 text-right">
+        {% include 'founder_header_img.liquid' %}
+      </div>
+      <div class="col-6">
+        <h1>{{ page.title }}</h1>
+        <h2>{{ page.metafields.custom_fields['subtitle'] }}</h2>
+      </div>
+    </div>
+    
+    {% include 'founder_mobile_header' %}
+  </div>
+  
+  <div class="container">
+    <div id="primary_content">{{ page.content }}</div>
+  </div>
+  
+  <div id="signature_section">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-md-3">
+        {% include 'founder_signature' %}
+      </div>
+    </div>
+  </div>
+  
+  <div id="image_section">
+    {% include 'founder_image_section' %}
+  </div>
+  
+  <div id="about_section">
+    {% section 'founder_about' %}
+  </div>
+</div>

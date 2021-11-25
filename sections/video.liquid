@@ -1,0 +1,106 @@
+<div id="video_section">
+  <div class="player-container">
+    <div class="player-container-desktop" v-if="!isMobile">
+      <video-player
+        class="vjs-custom-skin"
+        ref="desktopPlayer"
+        :options="desktop"
+        :playsinline="true"
+      >
+      </video-player>
+
+      <div class="content-overlay">
+          <p class="title">{{ section.settings.header}}</p>
+          <a href="{{ section.settings.link}}" class="btn btn-primary">{{section.settings.link_text}}</a>
+      </div>
+    </div>
+
+    <div class="player-container-mobile" v-else>
+      <video-player
+        class="vjs-custom-skin"
+        ref="mobilePlayer"
+        :options="mobile"
+        :playsinline="true"
+      >
+      </video-player>
+      <div class="content-overlay">
+          <p class="title">{{ section.settings.header}}</p>
+          <a href="{{ section.settings.link}}" class="btn btn-primary">{{section.settings.link_text}}</a>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function initVue() {
+      new Vue({
+        el: "#video_section",
+        data() {
+          return {
+            windowHeight: window.innerWidth,
+            mobile: {
+              autoplay: "muted",
+              loop: true,
+              controls: false,
+              sources: [
+                {
+                  src: "https:{{ section.settings.mobile_video | asset_url }}",
+                },
+              ],
+            },
+            desktop: {
+              autoplay: "muted",
+              loop: true,
+              controls: false,
+              sources: [
+                {
+                  src: "https:{{ section.settings.desktop_video | asset_url }}",
+                },
+              ],
+            },
+          };
+        },
+        computed: {
+          isMobile() {
+            return this.windowHeight <= 880;
+          },
+        },
+        mounted() {
+          this.$nextTick(() => {
+            window.addEventListener("resize", this.onResize);
+          });
+        },
+        methods: {
+          onResize() {
+            this.windowHeight = window.innerWidth;
+            if (this.windowHeight > 880) {
+              this.$nextTick(() => {
+                this.$refs.desktopPlayer.play();
+              });
+            } else {
+              this.$nextTick(() => {
+                this.$refs.mobilePlayer.play();
+              });
+            }
+          },
+        },
+      });
+    }
+    window.addEventListener("DOMContentLoaded", initVue);
+  </script>
+  {% schema %} { "name": "Videos", "presets": [{ "name": "Video", "category":
+  "Imagery" }], "settings": [{ "id": "desktop_video", "type": "text", "label":
+  "Desktop Video", "info": "Upload to assets" }, { "id": "mobile_video", "type":
+  "text", "label": "Mobile Video", "info": "Upload to assets" }, {
+      "id": "header",
+      "type": "text",
+      "label": "Header"
+  }, {
+      "id": "link",
+      "type": "url",
+      "label": "Button URL"
+  }, {
+      "id": "link_text",
+      "type": "text",
+      "label": "Button Text"
+  }] } {% endschema %}

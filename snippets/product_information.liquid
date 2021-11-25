@@ -1,0 +1,193 @@
+<div class="product_info" v-cloak>
+    {% if product.metafields.custom_fields["product_family"] != blank %}
+        <div class="product_family">
+            {% capture pf %}{{product.metafields.custom_fields["product_family"]}}{% endcapture %}
+            
+            {% if pf contains 'Enlightened Radiance' %}
+            {% assign pf = pf | append: '1' %}
+            {% endif %}
+            
+            {% if pf contains '®' %}
+            {% assign pf =  pf | remove: '®' %}
+            {% endif %}
+            
+            {% if pf contains '™' %}
+            {% assign pf = pf | remove: '™'  %}
+            {% endif %}
+            
+            {% if pf contains '!' %}
+            {% assign pf = pf | remove: '!'  %}
+            {% endif %}
+			
+            <a data-pf="{{ pf }}" class="product_family_link" href="{{shop.url}}/collections/{{ pf | strip | replace: ' ', '-'}}">{{ product.metafields.custom_fields["product_family"] }}</a>
+        </div>
+    {% endif %}
+    
+    <h1 class="product_title" itemprop="name" content="{{ product.title }}">{{ product.title }}</h1>
+
+    {% if settings.product_sold_enabled %}
+        <p class="flash_sold"><span class="text-primary">@{flash_sold_items}</span> sold in last <span class="text-primary">@{flash_sold_time}</span> hours</p>
+    {% endif %}
+    
+    {% if settings.enable_yotpo_reviews %}
+        {% include 'yotpo-bottomline' %}
+    {% endif %}
+    
+    {% if product.price_varies %}
+        <div class="pricing">
+            <p>
+                <span class="from">{{product.price_min | money}}</span>
+                <span class="del">{{settings.product_price_delimiter}}</span>
+                <span class="to">{{product.price_max | money}}</span>
+            </p>
+        </div>
+    {% else %}
+        <p class="sub_total">
+            <del>{{product.compare_at_price | money}}</del>
+            <span>{{product.price | money}}</span>
+            <span class="product-volume">{{product.metafields.customAttributes["volume"]}}</span>
+        </p>
+        <afterpay-placement 
+            data-locale="en_US"
+            data-currency="USD" 
+            :data-amount="parseFloat(variant_price / 100).toFixed(2)"
+            data-badge-theme="black-on-white"
+            data-show-upper-limit="false"
+            marginwidth="0"
+            marginheight="0"
+            style="margin-top: -1rem; font-family: 'Open Sans', sans-serif;"
+        ></afterpay-placement>
+    {% endif %}
+
+    {% if template contains 'new_skincare' %}
+        <div class="product_right_wrap">
+            {% include 'product_right_cta' %}
+        </div>
+    {% endif %}
+    {% assign swatches = settings.swatch_to_show | split: "," %}
+    {% if product.has_only_default_variant == false %}
+        <div class="product_options">
+                {% for option in product.options_with_values %}
+                    {% assign option_d = option.name | downcase %}
+                    <div class="product_option option_{{option_d}}">
+                        {% if settings.show_swatches and swatches contains option_d %}
+                            <p class="option_name">{{option.name}}: <span class="option_val text-primary">@{selected_options[{{ option.position | minus: 1 }}]}</span></p>
+                            <div class="swatches">
+                                {% assign option_key = 'option' | append: option.position %}
+                                
+                                {% for v in option.values %}
+                                    {% assign variants_option = product.variants | where: option_key, v %}
+                                    {% if variants_option[0].metafields.custom_fields["variant_swatch_image"] != blank %}
+                                        {% assign swatch_image = variants_option[0].metafields.custom_fields["variant_swatch_image"] %}
+                                    {% else %}
+                                        {% assign swatch_image = variants_option[0].image.src | img_url %}
+                                    {% endif %}
+
+                            <div class="swatch" :class="{'selected': selected_options[{{ option.position | minus: 1 }}] === '{{v}}'}" style="background-image: url('{{ swatch_image }}')" @click="setOption('{{v}}', {{option.position}})" data-toggle="tooltip" title="{{v}}"></div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                                <p class="option_name">{{option.name}}:</p>
+                                <custom-select :value="selected_options[{{option.position | minus: 1}}]" @input="setOption($event, {{option.position}})" :options='options({{option.values | json}}, {{option.position}})'/>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+        </div>
+    {% endif %}
+    
+    {% if product.price_varies %}
+  <div>
+        <p class="sub_total rc-widget-product-price" v-if="cart_add.available && !product.compare_at_price">
+           <span data-price data-product-price id="productPrice">@{variant_price|money}</span> <span class="product-volume">{{product.metafields.customAttributes["volume"]}}</span>
+        </p>
+    
+        <p class="sub_total rc-widget-product-price" v-else-if="cart_add.available && product.compare_at_price">
+            <span class="productComparePrice"><del>@{cart_add.compare_at_price | money}</del></span><span id="productPrice" v-if="cart_add.variant_id > 0 && cart_add.available">@{variant_price|money}</span> <span class="product-volume">{{product.metafields.customAttributes["volume"]}}</span>
+        </p>
+  </div>
+    
+    {% endif %}
+
+    {% if product.metafields.custom_attributes["set_includes"] %}
+        <div class="set_includes">
+            <h4 class="title" id="valueAttributePP" style="text-transform: capitalize">Set Includes: </h4>
+            <p class="body">{{ product.metafields.custom_attributes["set_includes"] }}</p> 
+        </div>
+    {% endif %}
+    
+    {% if product.price_varies %}
+        <afterpay-placement 
+            data-locale="en_US"
+            data-currency="USD" 
+            :data-amount="parseFloat(variant_price / 100).toFixed(2)"
+            data-badge-theme="black-on-white"
+            data-show-upper-limit="false"
+            marginwidth="0"
+            marginheight="0"
+            style="margin-top: -1rem; font-family: 'Open Sans', sans-serif;"
+        ></afterpay-placement>
+    {% endif %}
+    
+    {% unless product.title contains 'Free Gift' %}
+    <form method="POST" class="shopify-product-form" method="/cart/add" style="position:relative" id="product_form_4420325867594" @submit.prevent.stop>
+<!--    <input type="hidden" name="id" class="single-option-selector" data-productid="{{ product.id }}" :value="cart_add.variant_id" /> -->
+<!--    <input type="hidden" name="variant" class="rc-widget-variant" data-productid="{{ product.id }}" :value="cart_add.variant_id" /> -->
+<!--    {% if product.has_only_default_variant == false %}
+            {% for option in product.options_with_values %}
+                <select v-model="selected_options[{{option.position | minus: 1}}]" class="rc-widget-variant"  name="{{option.name }}" id="{{ option.id }}" style="height:0; width:0;z-index: -1;position: absolute;">
+                {% for value in option.values %}
+                    <option name="{{ value }}" :data-value="'{{ value }}'" :selected="selected_options[{{option.position | minus: 1}}] === '{{ value }}'" value="{{ value }}">{{ value }}</option>
+                {% endfor %}
+                </select>
+            {% endfor %}
+        {% endif %} -->
+
+        <div class="d-none" style="height:0; width:0;z-index: -1;position: absolute">
+            <select v-model="cart_add.variant_id" name="id" id="product-select" class="rc-widget-variant">
+            {% for variant in product.variants %}
+                <option data-variant-id="{{ variant.id }}" style="height:0; width:0;" class="rc-widget-variant" data-productid="{{ product.id }}" :selected="cart_add.variant_id == {{ variant.id }}" value="{{ variant.id }}">{{ variant.id }}</option>
+            {% endfor %}
+            </select>
+        </div> 
+      
+        <div class="row qty_container" :class="{afterpay_active: cart_add.variant_id > 0 && cart_add.available}">
+            <div class="col-12 col-md-3 col-lg-2" v-if="cart_add.available">
+                <div class="quantity_l">
+                    <input class="qty_btn minus" type="button" value="-" :disabled="cart_add.quantity <= 1" @click="cart_add.quantity -= 1" />
+                    <input class="qty_num" type="number" min="0" step="1" v-model="cart_add.quantity" />
+                    <input class="qty_btn plus" type="button" value="+" @click="cart_add.quantity += 1" />
+                </div>
+            </div>
+
+            <div class="col-12 col-md-5 col-lg-5" :class="{ 'col-lg-12 col-md-12': !cart_add.available && cart_add.variant_id }">
+                <div v-if="!cart_add.available && cart_add.variant_id" v-cloak>
+                    <a id="klaviyo_back_in_stock" class="klaviyo-bis-trigger btn btn-outline-dark h-100" href="#">Notify Me When Available</a>
+                </div>
+                <button type="submit" {% if product.title contains "eGift Card" %}style="display:none"{% endif %} class="Rise-add-to-cart-button addtocart btn btn-primary btn-block h-100 mt-0" :disabled="!cart_add.available && cart_add.variant_id" v-else @click="addToCart()">
+                    Add to Cart
+                </button>
+                 {% if product.title contains "eGift Card" %}
+                <div style="display:none;" class="gwbutton btn btn-primary gwbutton d-flex justify-content-center align-items-center h-100 ">Send as a Gift</div>
+     
+                <style> .addtocart {display: none !important} </style>     
+
+            {%endif%}
+            </div>
+
+
+       
+            <div class="col-12">
+            	<div class="d-md-none">
+    				{% if template contains 'new_skincare' %}
+        				{% include 'product_left_cta' %}
+    				{% endif %}
+    			</div>
+            		{% if product.tags contains 'Collection: Sale' %}
+              			<p class="final_sale">Final Sale – No returns or exchanges.</p>
+              		{% endif %}
+            </div>
+        </div>
+    </form>
+  
+    {% endunless %}
+</div>

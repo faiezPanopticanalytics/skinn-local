@@ -1,0 +1,59 @@
+<div class="product_imgs">
+  <div class="col-md-3">
+    <hooper
+      class="thumb-slider default_slider"
+      ref="slider"
+      :settings="hooperVerticalSettings"
+      group="group_{{ product.id }}"
+    >
+      <slide v-for="(media, i) in product.media">
+        <div class="product_thumb_slider">
+          <img
+            :src="media.preview_image.src"
+            class="lazyload product_img_thumb"
+            :alt="media.alt"
+            :data-src="media.src"
+            :data-aspectratio="media.aspect_ratio"
+            @click.stop="goTo(i)"
+          />
+        </div>
+      </slide>
+    </hooper>
+  </div>
+
+  <div class="col-12 col-md-9 h-100 big_slider_container">
+    <hooper
+      class="big_slider default_slider"
+      :settings="hooperBigSettings"
+      group="group_{{ product.id }}"
+    >
+      <slide v-for="media in product.media">
+        <div class="product_img_container">
+          <div
+            class="add_to_wishlist swym-add-to-wishlist"
+            data-swaction="addToWishlist"
+            :data-product-id="product.id"
+            :class="'product_' + product.id"
+            @click.stop.prevent="addToWishlist()"
+          ></div>
+
+          <zoom-on-hover
+            :img="media.src"
+            :img-alt="media.alt"
+            :scale="1.2"
+            :aspect-ratio="media.aspect_ratio"
+            :disabled="disabledImageZoom"
+            @resize="resizeImg"
+          ></zoom-on-hover>
+        </div>
+      </slide>
+      <hooper-navigation slot="hooper-addons"></hooper-navigation>
+    </hooper>
+
+    {% if template contains 'new_skincare' %}
+    <div class="d-none d-md-block">
+      {% include 'product_left_cta' %}
+    </div>
+    {% endif %}
+  </div>
+</div>

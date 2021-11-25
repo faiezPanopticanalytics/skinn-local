@@ -1,0 +1,415 @@
+<div class="footer" id="{{ section.id }}">
+  <div class="desktop container d-none d-md-block">
+    <div class="row justify-content-center align-content-center">
+      {% assign max_cols = 12 %}
+      {% for block in section.blocks  %}
+      <div class="col-{{block.settings.mobile_cols}} col-md-{{block.settings.tablet_cols}} col-lg-{{block.settings.desktop_cols}} custom-cols-{{block.settings.desktop_cols}}">
+        {% if block.type == 'menu' %}
+            <p class="footer_section_title">{{block.settings.heading}}</p>
+            <ul class="links">
+              {% for link in menus[block.settings.menu].links %}
+              {%- comment %}<locksmith:c94b>{% endcomment -%}
+                {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: link, subject_parent: menus[block.settings.menu], variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+              {%- comment %}</locksmith:c94b>{% endcomment -%}
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+            </ul>
+          {% elsif block.type == 'image' %}
+            {%- assign img_url = block.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+            <img
+                src="{{block.settings.image | img_url: "30x30" }}"
+                data-sizes="auto"
+                data-src="{{img_url}}"
+                data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                data-aspectratio="{{block.settings.image.aspect_ratio}}"
+                class="lazyload footer_img" 
+                alt="{{block.settings.image.alt}}"
+            />
+          {% elsif block.type == 'html' %}
+            <div class="custom_html">{{block.settings.html}}</div>
+            {% elsif block.type == 'double' %}
+            <a href="{{block.settings.link}}" class="footer_section_title single">{{block.settings.heading}}</a>
+                        <a href="{{block.settings.link_2}}" class="footer_section_title single_2">{{block.settings.heading_2}}</a>
+
+          {% elsif block.type == 'single' %}
+            <a href="{{block.settings.link}}" class="footer_section_title single">{{block.settings.heading}}</a>
+          {% endif %}
+          
+          {% if block.settings.include_social %}
+            <ul class="social_links">
+              {% if settings.has_facebook %}
+                <li class="facebook_link social_link">
+                  <a href="{{ settings.facebook_page_url }}" data-toggle="tooltip" title="Facebook">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+                </li>
+              {% endif %}
+              
+              {% if settings.has_twitter %}
+                <li class="twitter_link social_link">
+                  <a href="{{ settings.twitter_url }}" data-toggle="tooltip" title="Twitter">
+                    <i class="fa fa-twitter"></i>
+                  </a>
+                </li>
+              {% endif %}
+              
+              {% if settings.has_instagram %}
+                <li class="instagram_link social_link">
+                  <a href="{{ settings.instagram_url }}" data-toggle="tooltip" title="Instagram">
+                    <i class="fa fa-instagram"></i>
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+  <div class="mobile container footer_mobile d-md-none">
+    <div class="row">
+    {% for block in section.blocks %}
+      {% if block.type == 'menu' %}
+        {% assign menu = menus[block.settings.menu] %}
+        <div class="tab col-12" :class="{open: menuOpen === '{{menu.handle}}'}">
+          <p class="tab_header" @click="menuOpen == '{{menu.handle}}' ? menuOpen = '' : menuOpen = '{{ menu.handle}}'">{{block.settings.heading}} <i class="collapse-plus"></i></p>
+          
+          <transition name="slide">
+            <ul v-if="menuOpen == '{{menu.handle}}'">
+              {% for link in menu.links %}
+                {%- comment %}<locksmith:7271>{% endcomment -%}
+                  {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: link, subject_parent: menu, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                {%- comment %}</locksmith:7271>{% endcomment -%}
+                <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+            </ul>
+          </transition>
+        </div>
+        {% elsif block.type == 'image' %}
+        <div class="col-12">
+          <img
+            src="{{block.settings.image | img_url: "300x300" }}"
+            data-sizes="auto"
+            data-src="{{img_url}}"
+            data-widths="[90, 180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+            data-aspectratio="{{block.settings.image.aspect_ratio}}"
+            class="lazyload footer_img" 
+            alt="{{block.settings.image.alt}}"
+        />
+        {% if block.settings.include_social %}
+            <ul class="social_links">
+              {% if settings.has_facebook %}
+                <li class="facebook_link social_link">
+                  <a href="{{ settings.facebook_page_url }}">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+                </li>
+              {% endif %}
+              
+              {% if settings.has_twitter %}
+                <li class="twitter_link social_link">
+                  <a href="{{ settings.twitter_url }}">
+                    <i class="fa fa-twitter"></i>
+                  </a>
+                </li>
+              {% endif %}
+              
+              {% if settings.has_instagram %}
+                <li class="instagram_link social_link">
+                  <a href="{{ settings.instagram_url }}">
+                    <i class="fa fa-instagram"></i>
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+        {% elsif block.type == 'html' %}
+        <div class="col-12 custom_html">
+          {{block.settings.html}}
+          
+          {% if block.settings.include_social %}
+            <ul class="social_links">
+              {% if settings.has_facebook %}
+                <li class="facebook_link social_link">
+                  <a href="{{ settings.facebook_page_url }}">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+                </li>
+              {% endif %}
+              
+              {% if settings.has_twitter %}
+                <li class="twitter_link social_link">
+                  <a href="{{ settings.twitter_url }}">
+                    <i class="fa fa-twitter"></i>
+                  </a>
+                </li>
+              {% endif %}
+              
+              {% if settings.has_instagram %}
+                <li class="instagram_link social_link">
+                  <a href="{{ settings.instagram_url }}">
+                    <i class="fa fa-instagram"></i>
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+        {% elsif block.type == 'single' %}
+          <div class="col-12">
+            <a href="{{block.settings.link}}" class="tab_header single">{{block.settings.heading}}</a>
+            
+            {% if block.settings.include_social %}
+            <ul class="social_links">
+              {% if settings.has_facebook %}
+                <li class="facebook_link social_link">
+                  <a href="{{ settings.facebook_page_url }}">
+                    <i class="fa fa-facebook"></i>
+                  </a>
+                </li>
+              {% endif %}
+              
+              {% if settings.has_twitter %}
+                <li class="twitter_link social_link">
+                  <a href="{{ settings.twitter_url }}">
+                    <i class="fa fa-twitter"></i>
+                  </a>
+                </li>
+              {% endif %}
+              
+              {% if settings.has_instagram %}
+                <li class="instagram_link social_link">
+                  <a href="{{ settings.instagram_url }}">
+                    <i class="fa fa-instagram"></i>
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+            {% endif %}
+          </div>
+          {% endif %}
+    {% endfor %}
+  </div>
+</div>
+</div>
+
+<script>
+    function initVue() {
+    new Vue({
+      el: ".footer_mobile",
+      data: {
+        menuOpen: "",
+      }
+    })
+  }
+  
+  window.addEventListener('DOMContentLoaded', initVue);
+</script>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "blocks": [{
+      "type": "menu",
+      "name": "Menu",
+      "settings": [{
+        "type": "text",
+        "id": "heading",
+        "label": "Title"
+      }, {
+        "type": "link_list",
+        "id": "menu",
+        "label": "Menu"
+      }, {
+        "id": "mobile_cols",
+        "type": "range",
+        "label": "Mobile Columns",
+        "min": 1,
+        "max": 12,
+        "default": 1
+    }, 
+    {
+        "id": "tablet_cols",
+        "type": "range",
+        "label": "Tablet Columns",
+        "min": 1,
+        "max": 12,
+        "default": 2
+    },
+    {
+        "id": "desktop_cols",
+        "type": "range",
+        "label": "Desktop Columns",
+        "min": 1,
+        "max": 12,
+        "default": 6
+    }, {
+      "id": "include_social",
+      "label": "Place Social Media at the bottom of this column",
+      "type": "checkbox"
+    }]
+    }, {
+      "type": "image",
+      "name": "Image",
+      "settings": [ {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      }, {
+        "id": "mobile_cols",
+        "type": "range",
+        "label": "Mobile Columns",
+        "min": 1,
+        "max": 12,
+        "default": 1
+    }, 
+    {
+        "id": "tablet_cols",
+        "type": "range",
+        "label": "Tablet Columns",
+        "min": 1,
+        "max": 12,
+        "default": 2
+    },
+    {
+        "id": "desktop_cols",
+        "type": "range",
+        "label": "Desktop Columns",
+        "min": 1,
+        "max": 12,
+        "default": 6
+    },  {
+      "id": "include_social",
+      "label": "Place Social Media at the bottom of this column",
+      "type": "checkbox"
+    }]
+    }, {
+      "type": "single",
+      "name": "Single Link",
+      "settings": [{
+        "type": "text",
+        "id": "heading",
+        "label": "Title"
+      }, {
+        "type": "color",
+        "id": "text_color",
+        "label": "Color"
+      }, {
+        "type": "url",
+        "id": "link",
+        "label": "Label"
+      }, {
+        "id": "mobile_cols",
+        "type": "range",
+        "label": "Mobile Columns",
+        "min": 1,
+        "max": 12,
+        "default": 1
+    }, 
+    {
+        "id": "tablet_cols",
+        "type": "range",
+        "label": "Tablet Columns",
+        "min": 1,
+        "max": 12,
+        "default": 2
+    },
+    {
+        "id": "desktop_cols",
+        "type": "range",
+        "label": "Desktop Columns",
+        "min": 1,
+        "max": 12,
+        "default": 6
+    },  {
+      "id": "include_social",
+      "label": "Place Social Media at the bottom of this column",
+      "type": "checkbox"
+    }]
+    },{
+      "type": "double",
+      "name": "Double Link",
+      "settings": [{
+        "type": "text",
+        "id": "heading",
+        "label": "Title"
+      },{
+        "type": "url",
+        "id": "link",
+        "label": "Label"
+      }, {
+        "type": "text",
+        "id": "heading_2",
+        "label": "Title"
+      },{
+        "type": "url",
+        "id": "link_2",
+        "label": "Label"
+      }, {
+        "id": "mobile_cols",
+        "type": "range",
+        "label": "Mobile Columns",
+        "min": 1,
+        "max": 12,
+        "default": 1
+    }, 
+    {
+        "id": "tablet_cols",
+        "type": "range",
+        "label": "Tablet Columns",
+        "min": 1,
+        "max": 12,
+        "default": 2
+    },
+    {
+        "id": "desktop_cols",
+        "type": "range",
+        "label": "Desktop Columns",
+        "min": 1,
+        "max": 12,
+        "default": 6
+    },  {
+      "id": "include_social",
+      "label": "Place Social Media at the bottom of this column",
+      "type": "checkbox"
+    }]
+    }, {
+      "type": "html",
+      "name": "Custom HTML",
+      "settings": [{
+        "type": "html",
+        "id": "custom_html",
+        "label": "Custom HTML"
+      }, {
+        "id": "mobile_cols",
+        "type": "range",
+        "label": "Mobile Columns",
+        "min": 1,
+        "max": 12,
+        "default": 1
+    }, 
+    {
+        "id": "tablet_cols",
+        "type": "range",
+        "label": "Tablet Columns",
+        "min": 1,
+        "max": 12,
+        "default": 2
+    },
+    {
+        "id": "desktop_cols",
+        "type": "range",
+        "label": "Desktop Columns",
+        "min": 1,
+        "max": 12,
+        "default": 6
+    },   {
+      "id": "include_social",
+      "label": "Place Social Media at the bottom of this column",
+      "type": "checkbox"
+    }]
+    }]
+  }
+{% endschema %}

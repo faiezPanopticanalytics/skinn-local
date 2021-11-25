@@ -1,0 +1,186 @@
+  <div class="shade_section">
+  <div class="container py-5" id="app" template-inline>
+    <div class="row">
+      <div class="c-window w-100">
+        <h1 class="text-center mb-5">Find Your Shade</h1>
+        <div class="c-window-wrapper w-100 justify-content-center d-flex">
+        <div class="c-window-inner d-flex justify-self-center">
+          <div class="c-window-item inactive" @click="upldateSliderFromClick(nodes.length - 2)">
+              <div class="c-window-item-inner">
+                <div class="overlay"></div>
+                <img :src="nodes[nodes.length - 2].resource" />
+              </div>
+              <div class="item-details">
+                <span class="swatch" :style="{background: nodes[nodes.length - 2].hex}"></span>
+                <p>{!! nodes[nodes.length - 2].name !!}</p>
+              </div>
+            </div>
+
+            <div class="c-window-item inactive" @click="upldateSliderFromClick(nodes.length - 1)">
+              <div class="c-window-item-inner">
+                <div class="overlay"></div>
+                <img :src="nodes[nodes.length - 1].resource" />
+              </div>
+              <div class="item-details">
+                <span class="swatch" :style="{background: nodes[nodes.length - 1].hex}"></span>
+                <p>{!! nodes[nodes.length - 1].name !!}</p>
+              </div>
+            </div>
+
+          <div class="c-window-item" v-for="(node, index) in nodes" :class="sliderIndex == index ? 'justify-self-center active' : 'inactive'" @click="upldateSliderFromClick(index)">
+            <div class="c-window-item-inner" >
+              <div class="overlay"></div>
+              <img :src="node.resource" />
+            </div>
+            <div class="item-details">
+              <span class="swatch" :style="{background: node.hex}"></span>
+              <p>{!! node.name !!}</p>
+            </div>
+          </div>
+         <div class="c-window-item" v-for="(node, index) in nodes" :class="sliderIndex == index ? 'active' : 'inactive'" @click="upldateSliderFromClick(index)">
+            <div class="c-window-item-inner" >
+              <div class="overlay"></div>
+              <img :src="node.resource" />
+            </div>
+            <div class="item-details">
+              <span class="swatch" :style="{background: node.hex}"></span>
+              <p>{!! node.name !!}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- <div class="active-node-details d-flex justify-content-start">
+          <div class="text-left mt-4">
+            <div class="active-node-title"><h3>
+              {!!nodes[sliderIndex].name!!}
+              <span class="swatch" :style="{background: nodes[sliderIndex].hex}"></span>
+            </h3></div>
+            <div class="active-node-content">{!!nodes[sliderIndex].description!!}</div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <div class="c-window-slider-super row">
+      <div class="c-window-slider-inner">
+        <div class="c-window-slider-rail" ></div>
+        <div class="c-window-slider-handle"><div class="c-window-slider-handle-fixed" :style="{background: nodes[sliderIndex].hex}"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  
+    .c-window-slider-handle {
+     width: 0; 
+      overflow: visible;
+      z-index: 9 !important;
+    }
+   	.c-window-slider-handle-fixed {
+      content: '';
+      position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #3F2018;
+    z-index: 9;
+    border-radius: 999em;
+    }
+
+</style>
+  <script>
+
+    const nodes = [
+
+    {% for block in section.blocks %}
+      {
+        name: '{{block.settings.name}}',
+        description: '{{block.settings.description}}',
+        hex: '{{block.settings.hex}}',
+        resource: "{{ block.settings.image | img_url: '300x300' }}"
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    ];
+new Vue({
+  el: '#app',
+  delimiters: ['{!!', '!!}'],
+  mounted: function(){
+    this.tl = new TimelineMax()
+    Draggable.create('.c-window-slider-handle', {
+      bounds: '.c-window-slider-inner',
+      edgeResistance: 1,
+      cursor: "pointer",
+      type: 'x',
+      lockAxis:true,
+      inertia:true,
+      throwProps:false,
+      liveSnap: this.liveSnapFunction,
+      onDrag: this.onDragFunction
+    });
+    $(".c-window-slider-rail").click((e)=>{
+       var parentOffset = $(".c-window-slider-rail").parent().offset();
+       var relX = e.pageX - parentOffset.left;
+       var relY = e.pageY - parentOffset.top;
+       TweenLite.set('.c-window-slider-handle', {x:relX});
+       this.liveSnapFunction(relX)
+       this.onDragFunction()
+    });
+  },
+  methods: {
+    liveSnapFunction: function(value){
+        let railWidth = $('.c-window-slider-inner').width();
+        let increment = railWidth / (this.nodes.length - 1);
+      	let _return = Math.round(value / increment) * increment;
+        this.sliderIndex = Math.round(_return / increment);
+        if(this.sliderIndex == this.nodes.length - 1){
+          return (_return - 15);
+        }
+        return _return;
+    },
+    onDragFunction: function(){
+        let itemWidth = $('.c-window-inner').find('img').width();
+        let offset = (itemWidth * this.sliderIndex);
+        this.tl.to($('.c-window-inner'), 0.05, {x: '-' + offset})
+    },
+     upldateSliderFromClick: function(index){
+      let railWidth = $('.c-window-slider-inner').width();
+      let increment = railWidth / this.nodes.length;
+      let offset = increment * index;
+      this.sliderIndex = index;
+      TweenLite.set('.c-window-slider-handle', {x:offset});
+      this.onDragFunction()
+    }
+  },
+  data: {
+    tl: null,
+    sliderIndex: 0,
+    nodes: nodes,
+  }
+})
+
+</script>
+{% schema %}
+{
+  "name": "Shade Picker",
+  "blocks": [{
+    "type": "shade",
+    "name": "Shade",
+    "settings": [{
+      "id": "image",
+      "type": "image_picker",
+      "label": "Image"
+    }, {
+      "type": "text",
+      "label": "Name",
+      "id": "name"
+    }, {
+      "id": "description",
+      "type": "text",
+      "label": "Description"
+    },  {
+      "id": "hex",
+      "type": "color",
+      "label": "Color"
+    }]
+  }]
+}
+{% endschema %}

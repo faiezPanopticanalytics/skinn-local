@@ -1,0 +1,80 @@
+<div id="mobile_menu">
+  <div class="primary">
+    <div class="header">
+      <div class="title">
+        <div>
+          <p>Menu</p>
+        </div>
+      </div>
+      <div class="nav-toggle close-navside">
+        <i class="pe-close"></i>
+      </div>
+    </div>
+
+    <div class="items">
+      {% assign menu = menus[section.settings.menu] %} {% for link in menu.links
+      %} {%- comment %}<locksmith:0d4d
+        >{% endcomment -%} {%- capture var %}{% render 'locksmith-variables',
+        scope: 'subject', subject: link, subject_parent: menu, variable:
+        'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{%
+        continue %}{% endif -%} {%- comment %}</locksmith:0d4d
+      >{% endcomment -%} {% if link.links.size > 0 %}
+      <div class="navside-drop">
+        <div class="navside-link-container">
+          <a href="{{ link.url }}" class="navside-link navside-link-parent">{{
+            link.title
+          }}</a>
+        </div>
+
+        <div class="navside-drop-menu">
+          <a href="#" class="navside-back">Back</a>
+
+          <div class="title_nav">
+            <a href="{{ link.url }}" class="navside-link">{{ link.title }}</a>
+          </div>
+
+          {% for sub_link in link.links %}{%- comment %}<locksmith:3a40>{% endcomment -%}{%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: sub_link, subject_parent: link, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}{%- comment %}</locksmith:3a40>{% endcomment -%} {%- comment %}<locksmith:5adf
+            >{% endcomment -%} {%- capture var %}{% render
+            'locksmith-variables', scope: 'subject', subject: sub_link,
+            subject_parent: link, variable: 'transparent' %}{% endcapture %}{%
+            if var == "true" %}{% else %}{% continue %}{% endif -%} {%- comment
+            %}</locksmith:5adf
+          >{% endcomment -%}
+          <a href="{{ sub_link.url }}" class="navside-link">{{
+            sub_link.title
+          }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      {% else %}
+      <a href="{{ link.url }}" class="navside-link-single">{{ link.title }}</a>
+      {% endif %} {% endfor %} {% if shop.customer_accounts_enabled %} {% if
+      customer %}
+      <a href="/account" class="navside-link-single">My Account</a>
+      <a href="/account/logout" class="navside-link-single">Logout</a>
+      {% else %}
+      <a href="/account/login" class="navside-link-single">Login / Register</a>
+      {% endif %} {% endif %}
+
+      <a href="/a/wishlist" class="navside-link-single">My Favorites</a>
+
+      <a
+        href="{{ section.settings.promo_url }}"
+        class="promo_box"
+        style="background-color: {{ section.settings.promo_bg }}"
+      >
+        <p class="promo_content">{{ section.settings.promo_content }}</p>
+        <img
+          class="promo_ico"
+          src="{{ section.settings.promo_icon | img_url: '100x100' }}"
+        />
+      </a>
+    </div>
+  </div>
+</div>
+{% schema %} { "name": "Main Menu", "settings": [{ "id": "menu", "type":
+"link_list", "label": "Menu" }, { "type": "header", "content": "Promo Section"
+}, { "type": "text", "label": "Content", "id": "promo_content" }, { "type":
+"image_picker", "label": "Icon Image", "id": "promo_icon" }, { "type": "url",
+"label": "Promo URL", "id": "promo_url" }, { "id": "promo_bg", "type": "color",
+"label": "Promo Background Color" }] } {% endschema %}

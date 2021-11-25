@@ -1,0 +1,88 @@
+<div id="founder_about" style="background-color: {{ section.settings.background_color }}">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div id="circle" >
+          {% assign img = section.settings.circle_image | img_url: '20x20' %}
+          {% assign img_lazy =  img | replace: '_20x20', '_{width}x' %}
+          <div id="circle_bg" style="background-color: {{ section.settings.circle_color }}"></div>
+          <img
+              src="{{ img }}"
+              data-src="{{img_lazy}}"
+              data-sizes="auto"
+              class="lazyload" 
+              alt="Dimitri James"
+              data-widths="[720, 900, 1080, 1296, 1512, 1728, 2048]"
+              data-aspectratio=""
+          />
+          <h3>Dimitri <br /> James</h3>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        {% for block in section.blocks %}
+          <div class="founder_info" id="{{block.id}}">
+            <div class="fancy">
+              <div class="fc-inner">
+                  <div class="rr-bg"></div>
+                  <h4 class="rr-title">{{block.settings.title}}</h4>
+              </div>
+            </div>
+            
+            <p>{{ block.settings.content }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function () {
+  function isVisible($el) {
+    var winTop = $(window).scrollTop();
+    var winBottom = winTop + $(window).height();
+    var elTop = $el.offset().top;
+    var elBottom = elTop + $el.height();
+    return ((elBottom<= winBottom) && (elTop >= winTop));
+  }
+  
+  $(window).scroll(function() {
+    if(isVisible($('#founder_about'))) {
+      $("#circle_bg").addClass('active');
+    }
+  });
+})
+</script>
+
+{% schema %}
+{
+  "name": "About Dimitri",
+  "settings": [{
+    "label": "Circle Image",
+    "id": "circle_image",
+    "type": "image_picker"
+  },
+  {
+    "label": "Circle BG Color",
+    "id": "circle_color",
+    "type": "color"
+  }, {
+    "label": "Background Color",
+    "id": "background_color",
+    "type": "color"
+  }],
+  "blocks": [{
+    "name": "Section Info",
+    "type": "info",
+    "settings": [{
+      "type": "text",
+      "label": "Title",
+      "id": "title"
+    }, {
+      "type": "textarea",
+      "id": "content",
+      "label": "Content"
+    }]
+  }]
+}
+{% endschema %}

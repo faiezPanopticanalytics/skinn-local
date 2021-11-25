@@ -1,0 +1,64 @@
+<script type="application/ld+json">
+  {%- if template == 'index' -%}
+  {
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "{{shop.name}}",
+    "alternateName": "{{shop.description}}",
+    "url": "{{shop.url}}"
+  }
+  {%- elsif template == 'product' %}
+  {
+    "@context": "http://schema.org",
+    "@type": "Product",
+    "description": "{{product.description | strip_html}}",
+    "name": "{{product.title}}",
+    "image": "{{product.featured_image | img_url: 'master'}}",
+    "manufacturer": "{{product.vendor}}",
+    "category": "{{collection.title}}",
+    "sku": "{{product.selected_or_first_available_variant.sku}}",
+    "url": "{{shop.url | append: product.url}}",
+    "offers": {
+      "@type": "Offer",
+      "availability": "InStock",
+      "price": "{{product.selected_or_first_available_variant.price | money_without_currency}}",
+      "priceCurrency": "{{shop.currency}}"
+    }
+  }
+  {%- elsif template == 'article' %}
+  {
+    "@context": "http://schema.org",
+    "@type": "NewsArticle",
+    "image": {
+      "@type": "imageObject",
+      "url": "https:{{article.image.src | img_url: 'original'}}",
+      "width": "1024px",
+      "height": "1024px"
+    },
+    "keywords": "{%- for tag in article.tags -%}{{tag}}{%- unless forloop.last -%}, {%- endunless -%}{%- endfor -%}",
+    "url": "{{shop.url | append: article.url}}",
+    "description": "{{article.content | truncatewords: 100 | strip_html}}",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://google.com/article"
+    },
+    "headline": "{{article.title}}",
+    "datePublished": "{{article.published_at}}",
+    "dateModified": "{{article.published_at}}",
+    "author": {
+      "@type": "Person",
+      "name": "{{article.author}}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{shop.name}}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{shop.url}}"
+      }
+    },
+    "commentCount": "{{article.comments_count}}"
+  }
+  {%- endif %}
+  </script>
+  

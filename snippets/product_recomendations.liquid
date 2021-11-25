@@ -1,0 +1,32 @@
+<div class="container" id="product_recomendations">
+    <hr />
+    <h2>Related Products</h2>
+    <div class="row" >
+        <div class="col-6 col-md-3" v-for="product in recomendations">
+            <product-list :product-handle="product.handle" :settings="settings" />
+        </div>
+    </div>    
+</div>
+
+<script>
+    function initVue() {
+        let theme_settings = {{ settings | json }};
+    
+        new Vue({
+            el: "#product_recomendations",
+            data: {
+                settings: theme_settings,
+                recomendations: []
+            },
+            mounted() {
+                const vm = this;
+                window.axios.get('/recommendations/products.json?product_id={{product.id}}&limit=4').then((d) => {
+                    vm.recomendations = d.data.products
+                }).catch(e => {
+                    console.log(e);
+                })
+            }
+        })
+    }
+    window.addEventListener('DOMContentLoaded', initVue);
+</script>

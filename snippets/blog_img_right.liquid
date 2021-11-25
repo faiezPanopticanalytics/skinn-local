@@ -1,0 +1,29 @@
+<div class="row img_right align-content-center justify-content-center">
+    <div class="col-12 col-md-6">
+        <div class="content_block">
+            <p class="published_at">{{ article.published_at | time_tag: '%B %d, %Y'}}</p>
+            <a class="title" href="{{article.url}}"><h2>{{article.title}}</h2></a>
+            <p class="excerpt">
+                {{ article.excerpt_or_content | truncate: 250 }}
+            </p>
+            <a href="{{article.url}}" class="action-btn">Read More</a>
+        </div>
+        
+    </div>
+    
+    <div class="col-12 col-md-6">
+        <a href="{{article.url}}">
+            <div class="img_container">
+                {%- assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                <img
+                    class="article_img lazyload"
+                    src="{{ article.image | img_url: '300x300' }}"
+                    data-src="{{ img_url }}"
+                    data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                    data-aspectratio="{{ article.image.aspect_ratio }}"
+                    data-sizes="auto"
+                    alt="{{ article.image.alt}}" />
+            </div>
+        </a>
+    </div>
+</div>

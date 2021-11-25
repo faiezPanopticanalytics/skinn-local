@@ -1,0 +1,192 @@
+<div id="product_{{product.id}}" class="product_list">
+        <div class="product_img_container">
+            {% unless product.compare_at_price %}
+                <span class="label discount_label"></span>
+            {% endunless %}
+            
+            {% unless product.available %}
+                <span class="label sold_out">Sold Out</span>
+            {% endunless %}
+            
+            {% assign product_url =  shop.url | append: product.url %}
+            <div class="add_to_wishlist" @click.prevent='addToWishlist({{product | json}},{{ product_url | json }})'>
+                <i class="fa fa-heart-o"></i>
+            </div>
+            
+            {%- assign img_url = product.featured_image.src | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+            <img
+                src="{{product.featured_image.src | img_url: "300x300" }}"
+                data-sizes="auto"
+                data-src="{{img_url}}"
+                data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                data-aspectratio="{{product.featured_image.aspect_ratio}}"
+                class="lazyload product_img_1" 
+                alt="{{product.featured_image.alt}}"
+            />
+            
+            {%- assign secondary_img_url = product.images[1] | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+            <img
+                src="{{product.images[1] | img_url: "300x300" }}"
+                data-sizes="auto"
+                data-src="{{secondary_img_url}}"
+                data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                data-aspectratio="{{product.images[1].aspect_ratio}}"
+                class="lazyload product_img_2" 
+                alt="{{product.images[1].alt}}"
+            />
+            
+            <div class="add_to_cart_btn" v-if="product.available" id="atc_{{product.id}}" @click='addToCart({{product | json }})'>
+            </div>
+            <div class="out_of_stock" v-else id="oos_{{product.id}}"></div>
+            
+        </div>
+        
+    {% assign pf_collection = product.collections | where: "title",product.metafields.custom_fields["product_family"]  %}
+    
+    <a href="{{ pf_collection[0].url }}" class="product_family">{{product.metafields.custom_fields['product_family']}}</a>
+    
+    <a href="{{product.url}}" class="product_title">{{product.title}}</a>
+    
+    <div class="price_container">
+        {% if product.price_varies %}
+            <p class="from_price price">{{ product.price_min | money }}</p>
+            <p class="divisor">&nbsp;&dash;&nbsp;</p>
+            <p class="from_price price">{{ product.price_max | money }}</p>
+        {% else %}
+            <p class="price">{{product.price | money }}</p>
+        {% endif %}
+    </div>
+    
+    {% assign swatches = settings.swatch_to_show | split: "," %}
+    {% if settings.show_swatches and product.has_only_default_variant == false %}
+        {% for option in product.options_with_values %}
+            {% assign option_d = option.name | downcase %}
+            {% if swatches contains option_d %}
+                <div class="swatches option_{{option_d}}">
+                    {% for v in option.values %}
+                            <div class="product_swatch bg_color_{{v | downcase}}" data-toggle="tooltip" data-placement="top" title="{{v}}" @click="selectV('{{v}}')">
+                            </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    
+    <transition name="quickshop">
+        <div class="quickShopCont" v-if="quickShopOpen" @mouseleave="quickShopOpen = false" v-cloak>
+            <div class="options"  v-for="option in product_options" :key="option.name" v-if="product.options.length > 0 && option.values.length > 0 && (option.position == 1 || selected_options[option.position - 2])">
+                <p>@{option.name} <span class="selected" v-if="selected_options[option.position - 1]">: @{selected_options[option.position - 1]}</span></p>
+                <div class="swatches" v-if="show(option.name)">
+                    <div class="swatch" :class="{'selected': selected_options[option.position - 1] === value}" v-for="value in option.values" :key="value" :style="{'background-image': getBgImg(value, option)}" data-toggle="tooltip" :title="value" @click="setOption(value, option)"></div>
+                </div>
+                
+                <div class="text" v-else>
+                    <div class="value" v-for="value in option.values" :key="value" @click="setOption(value, option)">
+                        <p :class="{'selected': selected_options[option.position - 1] === value}" >@{value}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="price" >
+                <span v-if="cart_add.variant_id > 0">$</span>@{variant_price}
+            </div>
+            
+            <div class="qs_quantity">
+                <input type="button" value="-" @click="cart_add.quantity > 1 ? cart_add.quantity -= 1 : cart_add.quantity = 1" :disabled="cart_add.quantity == 1"/>
+                <input type="number" step="1" v-model="cart_add.quantity" />
+                <input type="button" value="+" @click="cart_add.quantity += 1" />
+            </div>
+            
+            <button @click="submit" class="btn btn-primary btn-block" :class="{disabled: cart_add.variant_id < 0}" :disabled="cart_add.variant_id < 0">Add to Cart</button>
+        </div>
+    </transition>
+</div>
+
+<script>
+    function initVue() {
+        new Vue({
+            el: "#product_{{product.id}}",
+            delimiters: ['@{', '}'],
+            data: {
+                product: {{ product | json}},
+                product_options: {{product.options_with_values | json}},
+                quickShopOpen: false,
+                selected_variant: {},
+                showSwatches: {{ settings.showSwatches | json}},
+                swatchToShow: {{settings.swatch_to_show | split: "," | json}},
+                cart_add: {
+                    quantity: 1,
+                    variant_id: -1
+                },
+                selected_options: []
+            },
+            computed: {
+                variant_price() {
+                    if(this.product_options.length === 0) return parseFloat(this.product.price / 100).toFixed(2);
+
+                    if(this.selected_options.length !== this.product_options.length) return ""
+
+                    const vs = this.product.variants.filter((v) => {
+                        return JSON.stringify(this.selected_options) == JSON.stringify(v.options);
+                    });
+
+                    this.cart_add.variant_id = vs.length === 1 && vs[0].available ? vs[0].id : -1;
+
+                    return vs.length === 1 && vs[0].price && vs[0].available ? parseFloat(vs[0].price / 100).toFixed(2) : "Unavailable";
+                },
+                allSelected() {
+                    return true;
+                }
+            },
+            methods: {
+                addToWishlist(product, url) {
+                    
+                },
+                addToCart(product) {
+                    if(this.product.options.length > 0) {
+                        this.quickShopOpen = true;
+                    } else {
+                        this.cart_add.variant_id = this.product.variants[0].id;
+                        
+                        this.submit();
+                    }
+                },
+                selectV(name) {
+                    this.selected_variant = name;
+                },
+                show(option) {
+                    return this.swatchToShow.indexOf(option.toLowerCase()) >= 0;
+                },
+                getBgImg(value, option) {
+                    let variants = this.product.variants.filter(v => {
+                        const key = 'option' + option.position;
+
+                        return v[key].toLowerCase() === value.toLowerCase();
+                    });
+                    
+                    const img_url = variants[0].featured_image != null ? variants[0].featured_image.src : ""
+                    
+                    return 'url(\'' +  + '\')';
+                },
+                getPriorSelected(option) {
+                    if(option.position === 1) {
+                        return true;
+                    } else {
+                        return this.selected_options[option.position - 2] != '';
+                    }
+                },
+                setOption(val, opt) {
+                    Vue.set(this.selected_options, opt.position - 1, val);
+                },
+                submit() {
+                    window.store.dispatch('addToCart', this.cart_add);
+                    this.quickShopOpen = false;
+                }
+            },
+            store: window.store
+        });
+
+    }
+    
+ window.addEventListener('DOMContentLoaded', initVue);  
+</script>

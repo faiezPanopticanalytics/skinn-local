@@ -1,0 +1,86 @@
+{% for block in section.blocks %}
+    {% if block.type == 'mega_menu' %}
+        {% assign menu = block.settings.menu_item_content %}
+        {% assign menu_levels = menus[menu].levels %}
+        <div class="dropdown">
+            <a class="nav-link" href="#" id="{{ block.id }}" role="button">{{block.settings.menu_item_name | default: menus[menu].title}}
+            </a>
+            <div class="dropdown-menu{% if menu_levels != 1 %} mega_menu {% endif %}" aria-labelledby="{{ block.id }}">
+                {% if menu_levels > 1 %}
+                    <div class="container">
+                        {% assign single_links = blank %}
+                        <!--Loop through the multi-level menus first-->
+                        {% for link in menus[menu].links %}
+                            {%- comment %}<locksmith:b400>{% endcomment -%}
+                              {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: link, subject_parent: menus[menu], variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                            {%- comment %}</locksmith:b400>{% endcomment -%}
+                            {% if link.links != blank %}
+                                <div class="nav_column">
+                                    <p class="nav_col_head">{{ link.title }}</p>
+
+                                    {% for sub_link in link.links %}
+                                    {%- comment %}<locksmith:e9ed>{% endcomment -%}
+                                      {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: sub_link, subject_parent: link, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                                    {%- comment %}</locksmith:e9ed>{% endcomment -%}
+                                    <div class="nav_col_item">
+                                        <a href="{{sub_link.url}}" class="nav_col_link">{{sub_link.title}}</a>
+                                    </div>
+                                        
+                                    {% endfor %}
+                                </div>
+                            {% elsif link.links == blank %}
+                                {% assign has_singles = true %}
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if has_singles %}
+                            <div class="nav_column">
+                                {% for link in menus[menu].links %}
+                                    {%- comment %}<locksmith:9d68>{% endcomment -%}
+                                      {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: link, subject_parent: menus[menu], variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                                    {%- comment %}</locksmith:9d68>{% endcomment -%}
+                                    {% if link.links == blank %}
+                                        {% if link.title == 'afterpay' %}
+                                            {% if shop.metafields.custom_fields["afterpay_menu_item"] != blank %}
+                                                <a href="{{link.url}}" class="nav_single_item">
+                                                    
+                                                    <img src="{% include 'cf-image' with image: shop.metafields.custom_fields["afterpay_menu_item"], size: "150x150", print: 'url' %}" width="150" height="150" class="lazyload" />
+                                                </a>
+                                            {% endif %}
+                                        {% else %}
+                                            <a href="{{link.url}}" class="nav_single_item">{{link.title}}</a>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div> 
+                        {% endif %}
+                    </div>
+                {% else %}
+                <div class="nav_column">
+                    {% for link in menus[menu].links %}
+                            {%- comment %}<locksmith:125a>{% endcomment -%}
+                              {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: link, subject_parent: menus[menu], variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                            {%- comment %}</locksmith:125a>{% endcomment -%}
+                            <a href="{{ link.url }}" class="nav_item">{{ link.title }}</a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    {% elsif block.type == 'single_item' %}
+
+        {% if block.settings.use_fancy %}
+            {% assign menu_item_single = block.settings.menu_item_content %}
+            <div class="fancy">
+                <div class="fc-inner">
+                    <div class="rr-bg"></div>
+                    <a class="rr-title" href="{{ menu_item_single }}" id="{{ block.id }}">{{block.settings.menu_item_name}}</a>
+                </div>
+            </div>
+        {% else %}
+            {% assign menu_item_single = block.settings.menu_item_content %}
+            <a class="nav-link nav_item_single {{ block.settings.extra_classes }}" href="{{ menu_item_single }}" id="{{ block.id }}">{{block.settings.menu_item_name}}</a>
+        {% endif %}
+    {% endif %}
+{% endfor %}
+

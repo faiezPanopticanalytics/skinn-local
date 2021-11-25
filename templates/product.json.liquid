@@ -1,0 +1,11 @@
+{% layout none %}
+{% assign pf_collection = product.collections | where: "title",product.metafields.custom_fields["product_family"]  %}
+{
+    "metafields": {
+        "product_family": {{ product.metafields.custom_fields["product_family"] | json }},
+        "product_family_link": {{ pf_collection | map: "url" | json}},
+        "product_second_img": {{product.images[1] | json}},
+        "product_compare_at": {{product.compare_at_price | money | json}}
+        {% if product.variant_swatch_image %},"product_variant_image": {{product.variant_swatch_image}} {%endif %}
+    }
+}

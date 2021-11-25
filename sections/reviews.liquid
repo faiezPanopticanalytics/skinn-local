@@ -1,0 +1,156 @@
+
+<div class="reviews_slider container" id="{{ section.id }}">
+    <div class="row_title"><h4 class="text">{{ section.settings.title}}</h4></div>
+    
+    <div class="reviews_wrapper">
+        <!-- <div class="back_arrow d-none d-md-block">
+            <img src="{{ 'dropdown.png' | asset_url }}" @click="slidePrev" />
+        </div> -->
+        <hooper class="default_slider" style="height: 100%;" ref="reviews_slider" :settings="hooperSettings" @slide="onSlide">
+                {% for block in section.blocks %}
+                <slide>
+                <a href="{{ all_products[block.settings.product_id].url}}" class="review">
+                    <div class="review_wrap">
+                        <div class="quote_img">
+                            {%- assign img_url = section.settings.bg_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+
+                            <img
+                                src="{{section.settings.bg_image | img_url: "60x60"}}"
+                                data-sizes="auto"
+                                data-src="{{img_url}}"
+                                data-widths="[60,80,90]"
+                                data-aspectratio="{{section.settings.bg_image.aspect_ratio}}"
+                                class="lazyload quote_bg" 
+                            />
+                        </div>
+                        
+                        <div class="quote_body">
+                            <h5>{{ block.settings.product }}</h5>
+                            <p class="primary">{{ block.settings.review_text }}</p>
+                            <p class="name">{{ block.settings.name }}</p>
+                        </div>
+                    </div>
+                </a>
+                </slide>
+                {% endfor %}
+                
+                <hooper-navigation slot="hooper-addons"></hooper-navigation>
+            </hooper>
+<!--         
+        <div class="forward_arrow d-none d-md-block">
+            <img src="{{ 'dropdown.png' | asset_url }}" @click="slideNext" />
+        </div> -->
+    </div>
+    <div class="slider-pagination">
+        <ul>
+            {% for block in section.blocks %}
+                <li :class="{active: currentSlide === {{ forloop.index | minus: 1 }}}" @click="goTo({{ forloop.index | minus: 1 }})"></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script>
+    function initVue() {
+        new Vue({
+            el: ".reviews_slider",
+            data: {
+                hooperSettings: {
+                    itemsToShow: 1,
+                    itemsToSlide: 1,
+                    centerMode: false,
+                    infiniteScroll: true,
+                    keyControl: false,
+                    wheelControl: false,
+                    breakpoints: {
+                        800: {
+                            itemsToShow: 2,
+                        },
+                        1000: {
+                            itemsToShow: 3,
+                        }
+                    }
+                },
+                currentSlide: 1,
+            },
+            delimiters: ["@{", "}"],
+            calculated: {
+                show_reviews() {
+                    return this.reviews.filter(v => v.settings.show_review);
+                }
+            },
+            mounted() {
+                this.$refs.reviews_slider.updateWidth();
+                this.$refs.reviews_slider.update();
+            },
+            methods: {
+                slidePrev() {
+                    this.$refs.reviews_slider.slidePrev();
+                },
+                slideNext() {
+                    this.$refs.reviews_slider.slideNext();
+                },
+                onSlide(currentSlide) {
+                    this.currentSlide = (currentSlide.currentSlide != 6 ? currentSlide.currentSlide : 0)
+                },
+                goTo(slide) {
+                    this.$refs.reviews_slider.slideTo(slide);
+                    this.currentSlide = slide
+                }
+            }
+        })
+    }
+    window.addEventListener('DOMContentLoaded', initVue);
+</script>
+
+{% schema %}
+  {
+    "name": "Reviews Slider",
+    "presets": [{
+        "name": "Reviews Slider",
+        "category": "Dynamic Content"
+      }],
+    "settings": [{
+        "type": "text",
+        "id": "title",
+        "label": "Section Title",
+        "default": "Reviews"
+    },{
+        "type": "image_picker",
+        "id": "bg_image",
+        "label": "Quote Image"
+    }],
+    "blocks": [{
+        "type": "review",
+        "name": "Review",
+        "settings": [{
+            "type": "checkbox",
+            "id": "show_review",
+            "label": "Show review",
+            "default": true
+          },
+          {
+           "type":"product",
+           "id":"product_id",
+           "label":"Choose product"
+         },
+          {
+            "type": "textarea",
+            "id": "review_text",
+            "label": "The review"
+          },
+          
+          {
+            "type": "text",
+            "id": "name",
+            "label": "name"
+          },
+          {
+            "type": "text",
+            "id": "product",
+            "label": "Product"
+          }
+      ]
+    }]
+  }
+{% endschema %}

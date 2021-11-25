@@ -1,0 +1,107 @@
+{% schema %}
+  {
+    "name": "Basic Before/After Slider",
+    "presets": [{
+        "name": "Basic Before/After Slider",
+        "category": "Dynamic Content"
+      }],
+    "settings": [
+{
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+      },
+{
+          "type": "text",
+          "id": "disclaimer_text",
+          "label": "Disclaimer Text"
+      }],
+    "blocks": [{
+        "name": "Slide",
+        "type": "slide",
+        "settings": [{
+            "type": "image_picker",
+            "id": "before_image",
+            "label": "Before Image"
+        }, {
+            "type": "image_picker",
+            "id": "after_image",
+            "label": "After Image"
+        }]
+    }]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+
+  <div class="basic_before_after">
+    <div class="container">
+      <h3 class="title">{{ section.settings.title }}</h3>
+    </div>
+      <hooper class="default_slider" :keys-control="false" :wheel-control="false" ref="baSlider" @slide="onSlide">
+        {% for block in section.blocks %}
+          <slide>
+            <div class="ba-slide">
+              <div class="before_img">
+                <p class="img_overlay">Before</p>
+                <img class="slider-img" src="{{ block.settings.before_image|img_url:"500x500" }}" />
+              </div>
+              <div class="after_img">
+                <p class="img_overlay">After</p>
+                <img class="slider-img" src="{{ block.settings.after_image|img_url:"500x500" }}" />
+              </div>   
+            </div>
+          </slide>
+        {% endfor %}
+        
+        <hooper-navigation slot="hooper-addons"></hooper-navigation>
+      </hooper>
+      
+      <div class="slider-pagination">
+        <ul>
+          {% for block in section.blocks %}
+            <li :class="{active: currentSlide === {{ forloop.index | minus: 1 }}}" @click="goTo({{ forloop.index | minus: 1 }})"></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="container">
+      <div class="disclaimers">
+        {{ section.settings.disclaimer_text }}
+      </div>
+      
+    </div>
+  </div>
+
+  <script>
+    function initVue() {
+      new Vue({
+        el: ".basic_before_after",
+        delimiters: ["@{", "}"],
+        data: {
+          currentSlide: 1,
+        },
+        methods: {
+          slidePrev() {
+              this.$refs.baSlider.slidePrev();
+          },
+          slideNext() {
+              this.$refs.baSlider.slideNext();
+          },
+          onSlide(currentSlide) {
+              this.currentSlide = (currentSlide.currentSlide != 6 ? currentSlide.currentSlide : 0)
+          },
+          goTo(slide) {
+              this.$refs.baSlider.slideTo(slide);
+              this.currentSlide = slide
+          }
+        }
+      })
+    }
+    
+    window.addEventListener('DOMContentLoaded', initVue);
+  </script>
+

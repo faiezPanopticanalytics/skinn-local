@@ -1,0 +1,126 @@
+  <!-- Base Facebook Pixel Code -->
+  <script>
+    // This data is sent with ever pixel trigger to allow attribution
+    let referrer;
+    if(document.referrer) {
+      referrer = new URL(document.referrer).hostname;
+    } else {
+      referrer = null
+    }
+    if(referrer) sessionStorage.setItem('referrer', referrer);
+    else if(sessionStorage.getItem('referrer')) referrer = sessionStorage.getItem('referrer')
+    window.referrer = window.referrer;
+    
+    const queryString = window.location.search;
+
+    const urlParams = new URLSearchParams(queryString);
+
+    let utmMedium = urlParams.get('utm_medium');
+    if(utmMedium) sessionStorage.setItem('utm_medium', referrer);
+    else if(sessionStorage.getItem('utm_medium')) utmMedium = sessionStorage.getItem('utm_medium')
+    window.utmMedium = utmMedium;
+    
+    let utmCampaign = urlParams.get('utm_campaign');
+    if(utmCampaign) sessionStorage.setItem('utm_campaign', referrer);
+    else if(sessionStorage.getItem('utm_campaign')) utmCampaign = sessionStorage.getItem('utm_campaign')
+    window.utmCampaign = utmCampaign;
+    
+    let utmSource = urlParams.get('utm_source');
+    if(utmSource) sessionStorage.setItem('utm_source', referrer);
+    else if(sessionStorage.getItem('utm_source')) utmSource = sessionStorage.getItem('utm_source')
+    window.utmSource = utmSource;
+    
+    if(window.fbq == undefined || fbq == undefined) {
+      // Base Facebook Pixel Code
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      
+      // Initialize the Facebook Pixel with the Theme's FB pixel ID
+      fbq('init', '{{settings.facebook_pixel_id}}');
+    }
+    // Track Page View
+    fbq('track', 'PageView', {
+      referrer: referrer,
+      utm_campaign: utmCampaign,
+      utm_source: utmSource,
+      utm_medium: utmMedium
+    });
+  </script>
+  
+  <!--Time on Page Pixel Event-->
+  <script>
+    let timeOnPage = 0;
+    
+    let timerPaged = setInterval(() => {
+      timeOnPage += 1;
+      const totalTime = timeOnPage * 30;
+
+      if(totalTime <= 180) {
+        fbq('trackCustom', 'PageTime', {
+          time_on_page: totalTime,
+          referrer: window.referrer,
+          utm_campaign: window.utmCampaign,
+          utm_source: window.utmSource,
+          utm_medium: window.utmMedium
+        });
+      } else {
+        clearInterval(timerPaged);
+      }
+    }, 30000);
+  </script>
+  
+  <!--Scroll Depth Pixel Event-->
+  <script>
+    function initScrollDepth() {
+      let last_time_logged = 0;
+      $(window).on('scroll', function(){
+        var s = $(window).scrollTop(),
+            d = $(document).height(),
+            c = $(window).height();
+
+        var scrollAmount = (s / (d - c)) * 100;
+        
+        if(scrollAmount > 50 && last_time_logged + 10 <= scrollAmount) {
+          fbq('trackCustom', 'PageScroll', {
+            scroll_amount: scrollAmount.toFixed(0),
+            referrer: window.referrer,
+            utm_campaign: window.utmCampaign,
+            utm_source: window.utmSource,
+            utm_medium: window.utmMedium
+          });
+          
+          last_time_logged = scrollAmount;
+        }
+      })
+    }
+    window.addEventListener('DOMContentLoaded', initScrollDepth);
+
+  </script>
+  
+  <!-- View Content Event -->
+  {% if template contains 'product' %}
+    <script>
+      fbq('track', 'ViewContent', {
+        content_ids: {{ product.id | json }},
+        content_type: 'product',
+        
+        referrer: window.referrer,
+        utm_campaign: window.utmCampaign,
+        utm_source: window.utmSource,
+        utm_medium: window.utmMedium
+      });
+    </script>
+  {% endif %}
+  
+  
+  <noscript>
+    <img height="1" width="1" style="display:none" 
+        src="https://www.facebook.com/tr?id={{block.settings.facebook_pixel_id}}&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Base Facebook Pixel Code -->

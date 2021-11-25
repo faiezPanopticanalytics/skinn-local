@@ -1,0 +1,25 @@
+{%- if template.name == 'article' or template.name == 'blog' or template.name == 'index' -%}
+  {%- capture permalinkURL -%}{{ shop.url }}{{ article.url }}{%- endcapture -%}
+  {%- capture shareTitle -%}{{ article.title | url_param_escape }}{%- endcapture -%}
+{%- elsif template.name == 'product' -%}
+  {%- capture permalinkURL -%}{{ shop.url }}{{ product.url }}{%- endcapture -%}
+  {%- capture shareTitle -%}{{ product.title | url_param_escape }}{%- endcapture -%}
+{%- elsif template.name == 'password' -%}
+  {%- capture permalinkURL -%}{{ shop.url }}{%- endcapture -%}
+  {%- capture shareTitle -%}{%- unless shop.description == blank -%}{{ shop.description | url_param_escape }}{%- else -%}{{ shop.name | url_param_escape }}{%- endunless -%}{%- endcapture -%}
+{%- elsif template.name == 'index' -%}
+  {%- capture permalinkURL -%}{{ shop.url }}{%- endcapture -%}
+  {%- capture shareTitle -%}{%- unless shop.description == blank -%}{{ shop.description | url_param_escape }}{%- else -%}{{ shop.name | url_param_escape }}{%- endunless -%}{%- endcapture -%}
+{%- elsif template.name == 'page' -%}
+  {%- capture permalinkURL -%}{{ shop.url }}{{ page.url }}{%- endcapture -%}
+  {%- capture shareTitle -%}{{ page.title | url_param_escape }}{%- endcapture -%}
+{%- endif -%}
+
+<ul class="share_links">
+     <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u={{ permalinkURL }}" target="_blank" data-toggle="tooltip" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+     <li class="twitter"><a href="http://twitter.com/share?url={{ permalinkURL }}" target="_blank" data-toggle="tooltip" title="Twitter" ><i class="fa fa-twitter"></i></a></li>
+     <li class="email"><a href="mailto:?subject=Check this {{ permalinkURL }}" target="_blank" data-toggle="tooltip" title="Email" ><i class="fa fa-envelope"></i></a></li>
+     {%- if product.featured_image or article.image -%}
+        <li class="pinterest"><a href="http://pinterest.com/pin/create/button/?url={{ permalinkURL }}&amp;media=http:{%- if template contains 'product' -%}{{ product | img_url: '1024x1024' }}{%- else -%}{{ article | img_url: '1024x1024' }}{%- endif -%}" target="_blank" data-toggle="tooltip" title="Pinterest"><i class="fa fa-pinterest"></i></a></li>
+      {%- endif -%}
+</ul>

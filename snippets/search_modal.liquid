@@ -1,0 +1,100 @@
+<div id="search_modal_cont" v-cloak>
+    <transition name="search">
+        <div v-if="searchOpen" id="search_modal" v-cloak>
+            <div class="input_bar" :class="{ focused: focused }">
+                <input type="text" name="q" v-model="search_internal" placeholder="search for products" @focus="focused = true" @blur="focused = false" v-on:keyup.enter="processSearch" />
+                <div class="close_btn" aria-type="button" @click="dismissModal">
+                    {% include 'close-icon' %}
+                </div>
+            </div>
+
+            <div class="loader" v-if="searchLoading">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+            <div class="results" v-else-if="dirty && !searchLoading">
+                <div class="products" v-if="searchContents.products">
+                    <div class="products_list row">
+                        <div class="col-12 col-md-2" v-for="product in searchContents.products" :key="product.handle" >
+                            <product-list :product-handle="product.handle" :settings="settings" full-url="{{shop.url}}{{product.url}}" permanent-domain="{{ shop.permanent_domain | escape }}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </transition>
+</div>
+
+<script>
+    function initVue() {
+        const el2 = window.SearchModal = new Vue({
+            el: "#search_modal_cont",
+            delimiters: ['@{', '}'],
+            data: {
+                focused: false,
+                dirty: false,
+                settings: settings,
+                searchInternal: ""
+            },
+            computed: {
+                search_internal: {
+                    get() {
+                        return this.dirty ? this.searchInternal : this.searchQuery;
+                    },
+                    set(e) {
+                    this.searchInternal = e;
+                    this.dirty = true;
+                    
+                    store.dispatch("preformSearch", {q: e});
+                    }
+                },
+                ...window.Vuex.mapState([ 'searchOpen', 'searchContents', 'searchQuery', 'searchLoading' ])
+            },
+            filters: {
+                format_price: function (value) {
+                    if (!value) return parseFloat("0.00").toFixed(2)
+                    value = parseFloat(value / 100).toFixed(2);
+                    return value;
+                },
+                get_currency: function(value) {
+                    if(!value) return ""
+                    
+                    switch(value) {
+                        case "USD":
+                            return '$';
+                            break;
+                        case "EUR":
+                            return '€';
+                            break;
+                        case "GBP":
+                            return '£';
+                            break;
+                        default:
+                            return '$'
+                    }
+                }
+            },
+            methods: {
+                dismissModal() {
+                    store.commit("dismissSearchModal");
+                },
+                search(e) {
+                    this.dirty = true;
+                    store.dispatch("preformSearch", {q: this.searchInternal})
+                    
+                    var api = new Yotpo.API(yotpo);
+                    api.refreshWidgets();
+                },
+                processSearch(e) {
+                    location.href= "/search?q=" + this.searchInternal + "&type=product";
+                }
+            },
+            store: window.store
+        });
+    }
+    
+    window.addEventListener('DOMContentLoaded', initVue);
+</script>

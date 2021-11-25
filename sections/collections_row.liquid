@@ -1,0 +1,81 @@
+<div class="collections_row" id="Collection-{{ section.id }}">
+    <div class="container">
+        <div class="row_title" id="title_{{ section.id }}">
+            <div class="text">
+                <div class="plain">{{ section.settings.plain_title }}</div>
+            </div>
+        </div>
+        
+        <div class="collection_list">
+            {% assign collection = collections[section.settings.collection] %}
+            <div class="row card-deck">
+                {% for product in collection.products limit:4 %}
+                        {%- comment %}<locksmith:a587>{% endcomment -%}
+                          {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, subject_parent: collection, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                        {%- comment %}</locksmith:a587>{% endcomment -%}
+                        <div class="col-6 col-sm-2 col-md-3">
+                            <product-list :product-handle='{{product.handle | json}}' :settings="settings" full-url="{{shop.url}}" permanent-domain="{{ shop.permanent_domain | escape }}"/>
+                        </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12 mt-5 text-center">
+                <a href="{{collection.url}}" class="action-btn ab-block">View All {{collection.title}}</a>
+            </div>
+        </div> 
+    </div>
+</div>
+<script>
+
+    window.addEventListener('DOMContentLoaded', initVue);
+    
+    function initVue() {
+        new Vue({
+          el: "#Collection-{{ section.id }}",
+            data: {
+                settings: {{settings | json}}
+            }
+        });
+    }
+    
+    var loaded = false;
+    
+    window.onload = function() {
+        if (typeof yotpo !== 'undefined') {
+            var callback = function() {
+                if (!loaded) {
+                    console.log("Refreshing widgets!");
+                    let api = new Yotpo.API(yotpo);
+                    api.refreshWidgets();
+                    loaded = true;
+                }
+            }
+            
+            if (yotpo.getState() == 'ready') {
+                callback();
+            } else {
+                yotpo.on('ready', callback);
+            }
+        }
+    }; 
+</script>
+{% schema %}
+  {
+    "name": "Collection Row",
+    "presets": [{
+        "name": "Collections Row",
+        "category": "Dynamic Content"
+      }],
+    "settings": [{
+        "id": "plain_title",
+        "type": "text",
+        "label": "Plain Title"
+    }, {
+        "id": "collection",
+        "type": "collection",
+        "label": "Collection"
+    }]
+  }
+{% endschema %}

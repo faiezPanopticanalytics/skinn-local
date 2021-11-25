@@ -1,0 +1,84 @@
+<div id="login_page" class="container h-100">
+    <div class="header">
+        <h1>Customer Login</h1>
+        <p>Login or <a href="/account/register">Create an Account</a> to continue</p>
+    </div>
+  {% form 'customer_login' %} 
+    {% if form.errors %}
+        {% for field in form.errors %}
+            <div class="alert alert-primary" role="alert">
+                {{ form.errors.messages[field] }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="row h-100 align-items-center justify-content-center">
+      <div class="col-12 col-md-7">
+            <div class="row">
+                <div class="form-row col-12">
+                    <label for="customer_email">Email <span class="required">*</span></label>
+                    
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="customer-icon"><i class="icon-user-follow icons"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" id="customer_email" name="customer[email]" aria-describedby="customer-icon" autocomplete="email" />
+                    </div>
+                </div>
+                <div class="form-row col-12">
+                    <label for="customer_password">Password <span class="required">*</span></label>
+                    
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="password-icon"><i class="icon-lock icons"></i>
+                            </span>
+                        </div>
+                        <input type="password" class="form-control" id="customer_password" name="customer[password]" aria-describedby="password-icon" autocomplete="current-password" />
+                    </div>
+                </div>
+                <div class="form-row col-12">
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </div>
+                <div class="form-row col-12">
+                    <a href="/account/register" class="btn btn-dark btn-block">Register</a>
+                </div>
+                <div class="form-row mb-0 pb-0 col-12">
+                    <a href="/account/forgot" id="forgot_password" class="forgot">Forgot your password?</a>
+                </div>
+            </div>
+      </div>
+    </div>
+  {% endform %}
+  
+  <div class="forgot_form d-none">
+    {% form 'recover_customer_password' %} 
+      {{ form.errors | default_errors}}
+      <div class="row h-100 align-items-center justify-content-center">
+        <div class="col-12 col-md-6">
+          <div class="row">
+              <div class="form-row col-12">
+                  <p>Lost your password? Please enter your email address. You will receive a link to create a new password via email.</p>
+              </div>
+              <div class="form-row col-12">
+                  <label for="customer_email">Email <span class="required">*</span></label>
+                  
+                  <div class="input-group">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text" id="customer-icon"><i class="icon-user-follow icons"></i>
+                          </span>
+                      </div>
+                      <input type="text" class="form-control" id="customer_email" name="customer[email]" aria-describedby="customer-icon" autocomplete="email" />
+                  </div>
+              </div>
+              <div class="form-row col-12">
+                  <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
+              </div>
+              <div class="form-row col-12">
+                  <button type="cancel" id="forgot_cancel" class="btn btn-dark btn-block">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endform %}
+  </div>
+</div>

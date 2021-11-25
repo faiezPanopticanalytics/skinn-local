@@ -1,0 +1,22 @@
+<div id="mask_overlay_cont">
+    <transition name="mask">
+        <div class="mask_overlay" v-if="maskOverlay" @click="closeCart" v-cloak></div>
+    </transition>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', initVue);
+    
+    function initVue() {
+        const mOEl = new Vue({
+            el: "#mask_overlay_cont",
+            computed: window.Vuex.mapState(['maskOverlay']),
+            methods: {
+                closeCart() {
+                    window.store.commit("changeCart", false);
+                }
+            },
+            store: window.store
+        })
+    }
+</script>

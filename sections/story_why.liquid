@@ -1,0 +1,107 @@
+<div id="story_why">
+  <div class="container">
+    <div class="title">
+      <h3>{{ section.settings.title }}</h3>
+    </div>
+    
+    <div class="row">
+      {% for block in section.blocks %}
+        {% if block.type == 'info' %}
+          <div class="col-12 col-md-4 block">
+            <div class="why_icon">
+              {%- assign img_url = block.settings.icon | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+              <img
+                  src="{{ block.settings.icon | img_url: "30x30" }}"
+                  data-sizes="auto"
+                  data-src="{{img_url}}"
+                  data-widths="[80,90,180,240]"
+                  data-aspectratio="{{block.settings.icon.aspect_ratio}}"
+                  class="lazyload row_img" 
+                  alt="{{block.settings.icon.alt}}"
+              />
+            </div>
+              
+            <div class="text_section">
+              <h5>{{ block.settings.title }}</h5>
+              <p>{{ block.settings.content }}</p>
+            </div>    
+          </div>
+        {% else %}
+        <div class="col-12 col-md-4 seal">
+          <div id="circle" >
+            {% assign img = block.settings.seal | img_url: '20x20' %}
+            {% assign img_lazy =  img | replace: '_20x20', '_{width}x' %}
+            <div id="circle_bg" style="background-color: {{ block.settings.circle_color }}"></div>
+            <img
+                src="{{ img }}"
+                data-src="{{img_lazy}}"
+                data-sizes="auto"
+                class="lazyload" 
+                alt="{{ block.settings.seal.alt }}"
+                data-widths="[720, 900, 1080, 1296, 1512, 1728, 2048]"
+                data-aspectratio="{{ block.settings.seal.aspect_ratio }}"
+            />
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function () {
+    function isVisible($el) {
+      var winTop = $(window).scrollTop();
+      var winBottom = winTop + $(window).height();
+      var elTop = $el.offset().top;
+      var elBottom = elTop + $el.height();
+      return ((elBottom<= winBottom) && (elTop >= winTop));
+    }
+    
+    $(window).scroll(function() {
+      if(isVisible($('#story_why'))) {
+        $("#circle_bg").addClass('active');
+      }
+    });
+  })
+  </script>
+{% schema %}
+{
+  "name": "Why Skinn",
+  "settings": [ {
+    "id": "title",
+    "label": "Title",
+    "type": "text",
+    "default": "<span class='sakura'>Why</span> Skinn"
+  }],
+  "blocks": [{
+    "name": "Info Section",
+    "type": "info",
+    "settings": [{
+      "type": "text",
+      "label": "Title",
+      "id": "title"
+    }, {
+      "type": "textarea",
+      "label": "Content",
+      "id": "content"
+    }, {
+      "type": "image_picker",
+      "label": "Icon",
+      "id": "icon"
+    }]
+  }, {
+    "name": "Seal",
+    "type": "seal",
+    "settings": [{
+      "type": "image_picker",
+      "id": "seal",
+      "label": "Seal"
+    }, {
+      "type": "color",
+      "id": "circle_color",
+      "label": "Circle Color"
+    }]
+  }]
+}
+{% endschema %}

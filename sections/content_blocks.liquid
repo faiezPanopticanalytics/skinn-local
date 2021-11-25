@@ -1,0 +1,208 @@
+<div class="content_row {% if section.settings.extra_padding %}padding_includes{% endif %}" id="{{ section.id }}" style="background-color: {{section.settings.background_color}}">
+    <div class="container">
+        {% if section.settings.plain_title != blank %}
+            <div class="row_title" id="title_{{ section.id }}">
+                <div class="text">
+                    {% if section.settings.fancy_title %}
+                    <div class="fancy">
+                        <div class="fc-inner">
+                            <div class="rr-bg" style="background-color: {{section.settings.fancy_bg_color}}"></div>
+                            <h2 class="rr-title" style="color: {{section.settings.title_color}}">{{section.settings.plain_title}}</h2>
+                        </div>
+                    </div>
+                    {% else %}
+                        <div class="plain" style="color: {{section.settings.title_color}}">{{ section.settings.plain_title }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        
+        <div class="block_list {% if section.settings.increase_gutter %} increase_gutter {%endif%}">
+            <div class="row justify-content-center align-items-center">
+                {% for block in section.blocks %}
+                {% assign max_cols = 12 %}
+                    <div class="col-{{max_cols | divided_by: section.settings.mobile_cols}} col-md-{{max_cols | divided_by: section.settings.tablet_cols}} col-lg-{{max_cols | divided_by: section.settings.desktop_cols}} custom-cols-{{section.settings.desktop_cols}}">
+                            {% if block.type == 'icon' %}
+                            <a href="{{block.settings.link}}" class="row_item {% if section.settings.fancy_hover %}fancy_hover{% endif %}">
+
+                            <div class="hover_div" {% if section.settings.fancy_hover %} data-hover="{{section.settings.hover_color}}"{%endif%}>
+                                <div class="inner_div">
+                                    <i class="{{block.settings.icon_family}}{{block.settings.icon_name}}"></i>
+                                </div>
+                            </div>
+                            <p style="color: {{section.settings.label_color}}">{{block.settings.label}}</p>
+                            </a>
+                            {% elsif block.type == 'img' %}
+                            <a href="{{block.settings.link}}" class="row_item {% if section.settings.fancy_hover %}fancy_hover{% endif %}">
+
+                            <div class="hover_div" {% if section.settings.fancy_hover %} data-hover="{{section.settings.hover_color}}"{%endif%}>
+                                <div class="inner_div">
+                                    {%- assign img_url = block.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                                    <img
+                                        src="{{ block.settings.image | img_url: "30x30" }}"
+                                        data-sizes="auto"
+                                        data-src="{{img_url}}"
+                                        data-widths="[80,90,180,240]"
+                                        data-aspectratio="{{block.settings.image.aspect_ratio}}"
+                                        class="lazyload row_img" 
+                                        alt="{{img.alt}}"
+                                    />
+                                    <div class="hover_circle"></div>
+                                </div>
+                            </div>
+                            <p style="color: {{section.settings.label_color}}">{{block.settings.label}}</p>
+                            </a>
+                            {% elsif block.type == 'custom_html' %}
+                                <div id="{{block.id}}" class="custom_html">
+                                    {{block.settings.html}}
+                                </div>
+                            {% endif %}
+                    </div>
+                {% endfor %}
+                <div class="col d-md-none"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Content Row",
+    "presets": [{
+        "name": "Content Row",
+        "category": "Dynamic Content"
+      }],
+    "settings": [{
+        "id": "plain_title",
+        "type": "text",
+        "label": "Plain Title"
+    }, {
+        "id": "fancy_title",
+        "type": "checkbox",
+        "label": "Fancy Title"
+    }, {
+        "id": "extra_padding",
+        "label": "Extra Padding",
+        "type": "checkbox",
+        "default": true
+    },{
+        "id": "background_color",
+        "type": "color",
+        "label": "Background Color",
+        "default": "#fff"
+    }, {
+        "id": "title_color",
+        "type": "color",
+        "label": "Title Color",
+        "default": "#41b6e6"
+    }, {
+        "id": "fancy_bg_color",
+        "label": "Fancy Title Background Color",
+        "type": "color",
+        "default": "#fff"
+    }, {
+        "id": "label_color",
+        "type": "color",
+        "label": "Label Color",
+        "default": "#000"
+    }, {
+        "id": "hover_color",
+        "type": "color",
+        "default": "#41b6e6",
+        "label": "Icon/Image Hover Color"
+    }, {
+        "id": "mobile_cols",
+        "type": "range",
+        "label": "Mobile Columns",
+        "min": 1,
+        "max": 12,
+        "default": 1
+    }, 
+    {
+        "id": "tablet_cols",
+        "type": "range",
+        "label": "Tablet Columns",
+        "min": 1,
+        "max": 12,
+        "default": 2
+    },
+    {
+        "id": "desktop_cols",
+        "type": "range",
+        "label": "Desktop Columns",
+        "min": 1,
+        "max": 12,
+        "default": 6
+    }, {
+        "id": "fancy_hover",
+        "type": "checkbox",
+        "label": "Enable Fancy Hover",
+        "default": true
+    }, {
+        "id": "increase_gutter",
+        "type": "checkbox",
+        "label": "Increase Gutter"
+    }],
+    "blocks": [
+        {
+            "name": "Image or Link or Text",
+            "type": "img",
+            "settings": [{
+                "type": "image_picker",
+                "id": "image",
+                "label": "Image"
+            }, {
+                "type": "text",
+                "id": "label",
+                "label": "Label"
+            }, {
+                "type": "url",
+                "id": "link",
+                "label": "Links to"
+            }]
+        },
+        {
+            "name": "Icon / Link / Text",
+            "type": "icon",
+            "settings": [{
+                "type": "select",
+                "label": "Icon Family",
+                "id": "icon_family",
+                "options": [{
+                    "value": "fa ",
+                    "label": "Font Awesome"
+                },{
+                    "value": "pe-",
+                    "label": "PE Fonts"
+                }, {
+                    "value": "icon-",
+                    "label": "Simple Line Icons"
+                }]
+            },
+            {
+                "type": "text",
+                "id": "icon_name",
+                "label": "Icon Name"
+            }, {
+                "type": "text",
+                "id": "label",
+                "label": "Label"
+            }, {
+                "type": "url",
+                "id": "link",
+                "label": "Links to"
+            }]
+        },
+        {
+            "name": "Custom Content (HTML)",
+            "type": "custom_html",
+            "settings": [
+            {
+                "type": "html",
+                "id": "html",
+                "label": "Custom HTML"
+            }]
+        }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,68 @@
+<div class="cart-overview">
+    <table class="w-100 cart-overview-table gwp" v-if="promo && cart.total_price < 7500">
+        <tbody>
+        <tr class="cart_promo" >
+                <td class="thumbnail">
+                    <a :href="promo.url" class="product_cart_img_link">
+                        <img class="product_cart_img" :src="promo.images[0]" />
+                    </a>
+                </td>
+                <td class="promo_contents">
+                    <p class="promo_title">Just add @{ 7500 - cart.total_price | parse_money } to get a FREE Gift with Your Purchase</p>
+
+                    <p class="promo_product">PEP40® @{promo.title}</p>
+                    <a href="/collections/best-sellers" class="btn btn-primary">Keep Shopping</a>
+                </td>
+        </tr>
+    </tbody>
+    </table>
+
+    <table class="w-100 cart-overview-table">
+        <thead>
+            <tr>
+                <th class="product-remove"></th>
+                <th class="thumbnail"></th>
+                <th class="product">Product</th>
+                <th class="price">Price</th>
+                <th class="quantity_col">Quantity</th>
+                <th class="total">Total</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+
+
+            <tr v-for="(product, i) in cart.items">
+                <td class="product-remove" @click="remove(product.key)" v-if="!product.properties || (product.properties && !product.properties._gwp)">X</td>
+                <td v-else></td>
+                <td class="thumbnail">
+                    <a :href="product.url">
+                        <img :src="product.featured_image.url" />
+                    </a>
+                </td>
+                <td class="product">
+                    <a :href="product.url" class="product_name">@{product.product_title}</a>
+                    <p v-for="opt in product.options_with_values" v-if="opt.value !== 'Default Title'" class="options">
+                        <span class="name">@{opt.name}: </span> @{opt.value}
+                    </p>
+                </td>
+                <td class="price"  ><span v-if="!product.properties || (product.properties && !product.properties._gwp)" class="price_container">
+                    <span class="d-md-none mobile-item">Price: </span>
+                    <span>@{product.final_price | parse_money}</span>
+                </span>
+            </td>
+                <td class="quantity_col" >
+                    <div v-if="!product.properties || (product.properties && !product.properties._gwp)" class="qty_container">
+                        <span class="d-md-none mobile-item">Quantity: </span>
+                        <div class="quantity_l" >
+                            <input class="qty_btn minus" type="button" value="-" @click="decrease(product.key, product.quantity)" />
+                            <input class="qty_num" name="updates[]" :id="'updates_'+product.id" type="number" min="0" step="1" :value="product.quantity" @input="changeVal($event, product.key)" />
+                            <input class="qty_btn plus" type="button" value="+" @click="increase(product.key, product.quantity)" />
+                        </div>
+                    </div>
+                </td>
+                <td class="total" ><span v-if="!product.properties || (product.properties && !product.properties._gwp)"><p class="original" v-if="product.total_discount > 0">@{product.original_price}</p><p>@{product.final_line_price | parse_money}</p></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,917 @@
+{
+  "current": {
+    "general_layout": "container-fluid",
+    "enable_json_ld": true,
+    "enable_og": true,
+    "share_image": "",
+    "social_twitter_link": "",
+    "favicon": "shopify:\/\/shop_images\/SKINN-Favicon_32x32_4670be9b-fbdc-4b06-bc89-6401796085b9.png",
+    "retina_favicon": "shopify:\/\/shop_images\/SKINN-Favicon_32x32_4670be9b-fbdc-4b06-bc89-6401796085b9.png",
+    "cart_drawer_empty": "No products in the cart.",
+    "cart_disclaimer": "Free shipping on orders over $50",
+    "free_shipping_threshold": "50",
+    "show_swatches": true,
+    "swatch_to_show": "color,shade",
+    "product_price_delimiter": "-",
+    "product_sold_enabled": false,
+    "product_sold_min": 3,
+    "product_sold_max": 15,
+    "product_sold_time_min": 3,
+    "product_sold_time_max": 10,
+    "enable_yotpo_reviews": true,
+    "yotpo_app_key": "He0WLFSLoJBXW365K1eRRFfSzd8LEziIQibO47y1",
+    "disable_yotpo_side_home": true,
+    "has_facebook": true,
+    "facebook_page_url": "https:\/\/www.facebook.com\/skinncosmetics\/",
+    "has_twitter": true,
+    "twitter_url": "https:\/\/twitter.com\/skinncosmetics",
+    "has_instagram": true,
+    "instagram_url": "https:\/\/www.instagram.com\/skinncosmetics\/",
+    "google_tag_manager": "GTM-NX2RLVH",
+    "facebook_pixel_id": "838423453181051",
+    "klaviyo_company_id": "P44qkZ",
+    "checkout_header_image": "",
+    "checkout_logo_image": "",
+    "checkout_logo_position": "left",
+    "checkout_logo_size": "medium",
+    "checkout_body_background_image": "",
+    "checkout_body_background_color": "#fff",
+    "checkout_input_background_color_mode": "white",
+    "checkout_sidebar_background_image": "",
+    "checkout_sidebar_background_color": "#fafafa",
+    "checkout_heading_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+    "checkout_body_font": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
+    "checkout_accent_color": "#197bbd",
+    "checkout_button_color": "#197bbd",
+    "checkout_error_color": "#e32c2b",
+    "gwp_image": "shopify:\/\/shop_images\/gold-envelope-clutch_7c7eb95f-c4e9-4336-ad80-b2e081b2ff63.jpg",
+    "gwp_image_alt": "GWP TEST - Complimentary Gold Clutch",
+    "sections": {
+      "menu": {
+        "type": "menu",
+        "blocks": {
+          "1598193444376": {
+            "type": "mega_menu",
+            "settings": {
+              "menu_item_name": "Shop",
+              "menu_item_icon": "",
+              "menu_item_content": "shop"
+            }
+          },
+          "1598193471572": {
+            "type": "mega_menu",
+            "settings": {
+              "menu_item_name": "Inside Skinn",
+              "menu_item_icon": "",
+              "menu_item_content": "main-skinn-nav"
+            }
+          },
+          "1598193453554": {
+            "type": "single_item",
+            "settings": {
+              "menu_item_name": "The Lab Report<sup>™<\/sup>",
+              "menu_item_content": "shopify:\/\/blogs\/the-lab-report",
+              "use_fancy": true
+            }
+          }
+        },
+        "block_order": [
+          "1598193444376",
+          "1598193471572",
+          "1598193453554"
+        ],
+        "settings": {
+          "logo": "shopify:\/\/shop_images\/SKINN_Logo_Website.png",
+          "right_link": "shopify:\/\/pages\/shade-quiz",
+          "right_text": "Shade Quiz"
+        }
+      },
+      "footer_klaviyo_form": {
+        "type": "footer_klaviyo_form",
+        "settings": {
+          "klaviyo_list_id": "KeDkVZ",
+          "disclaimer": "<p><em>By submitting this form, you agree to receive recurring automated promotional and personalized marketing text messages (e.g. cart reminders) from SKINN Cosmetics at the cell number used when signing up. Consent is not a condition of any purchase. Reply HELP for help and STOP to cancel. Msg frequency varies. Msg &amp; data rates may apply. View <\/em><a href=\"http:\/\/attn.tv\/skinn\/terms.html\" target=\"_blank\"><em>Terms<\/em><\/a><em> &amp; <\/em><a href=\"https:\/\/attnl.tv\/p\/-Kc\" target=\"_blank\"><em>Privacy<\/em><\/a><em>.<\/em><\/p>"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "1600095084559": {
+            "type": "menu",
+            "settings": {
+              "heading": "Customer Experience",
+              "menu": "customer-experiences",
+              "mobile_cols": 1,
+              "tablet_cols": 3,
+              "desktop_cols": 3,
+              "include_social": false
+            }
+          },
+          "1600095110159": {
+            "type": "menu",
+            "settings": {
+              "heading": "Shop",
+              "menu": "shop-footer",
+              "mobile_cols": 1,
+              "tablet_cols": 2,
+              "desktop_cols": 2,
+              "include_social": false
+            }
+          },
+          "1600095130444": {
+            "type": "menu",
+            "settings": {
+              "heading": "Inside Skinn",
+              "menu": "main-skinn-nav",
+              "mobile_cols": 1,
+              "tablet_cols": 2,
+              "desktop_cols": 2,
+              "include_social": false
+            }
+          },
+          "1600110411821": {
+            "type": "single",
+            "settings": {
+              "heading": "The Lab Report<sup>™<\/sup>",
+              "text_color": "#41b6e6",
+              "link": "shopify:\/\/blogs\/the-lab-report",
+              "mobile_cols": 1,
+              "tablet_cols": 2,
+              "desktop_cols": 2,
+              "include_social": true
+            }
+          },
+          "1600095157676": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/SKN_Seal-Blue_190719A-01_ForWeb_9b037356-5051-4bc1-b048-be7c0d8caaa2.png",
+              "mobile_cols": 1,
+              "tablet_cols": 3,
+              "desktop_cols": 3,
+              "include_social": false
+            }
+          }
+        },
+        "block_order": [
+          "1600095084559",
+          "1600095110159",
+          "1600095130444",
+          "1600110411821",
+          "1600095157676"
+        ],
+        "settings": {
+        }
+      },
+      "sub_footer": {
+        "type": "sub_footer",
+        "settings": {
+        }
+      },
+      "mobile_menu": {
+        "type": "mobile_menu",
+        "settings": {
+          "menu": "shop-mobile",
+          "promo_content": "Discover your Power Perfect Match!  Take our Shade Quiz",
+          "promo_icon": "shopify:\/\/shop_images\/Mirror_2x_f97e777a-bf52-489d-a7b6-80ff69df3183.png",
+          "promo_url": "shopify:\/\/pages\/shade-quiz",
+          "promo_bg": "#eddedb"
+        }
+      },
+      "1600095279200": {
+        "type": "collections_row",
+        "settings": {
+          "plain_title": "Best Sellers",
+          "collection": "best-sellers"
+        }
+      },
+      "1600095324318": {
+        "type": "content_blocks",
+        "blocks": {
+          "1600097707458": {
+            "type": "img",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/OTC-FDA_Registered_thick.png",
+              "label": "FDA Registered<br>OTC Lab",
+              "link": "https:\/\/skinn.com\/pages\/our-story"
+            }
+          },
+          "1600097833631": {
+            "type": "img",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/labfresh.png",
+              "label": "Lab Fresh<sup>®<\/sup> <br>Formulations",
+              "link": "https:\/\/skinn.com\/pages\/our-story"
+            }
+          },
+          "1600097790957": {
+            "type": "img",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/hi-formulations.png",
+              "label": "Highly <br>Concentrated",
+              "link": "https:\/\/skinn.com\/pages\/our-story"
+            }
+          },
+          "1600097890348": {
+            "type": "img",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/Sustainable_1fa6b136-f50d-4d96-8c49-9e3ef5628ba3.png",
+              "label": "Clean-Focused <br> + Sustainable",
+              "link": "https:\/\/skinn.com\/pages\/our-story"
+            }
+          },
+          "072e88fb-a371-4bbe-9fa1-091e607a466f": {
+            "type": "img",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/Cruelty-Free.png",
+              "label": "Cruelty <br> Free",
+              "link": "https:\/\/skinn.com\/pages\/our-story"
+            }
+          },
+          "1600097864079": {
+            "type": "img",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/made-in.png",
+              "label": "Made in <br>Los Angeles",
+              "link": "https:\/\/skinn.com\/pages\/our-story"
+            }
+          }
+        },
+        "block_order": [
+          "1600097707458",
+          "1600097833631",
+          "1600097790957",
+          "1600097890348",
+          "072e88fb-a371-4bbe-9fa1-091e607a466f",
+          "1600097864079"
+        ],
+        "settings": {
+          "plain_title": "The <b>SKINN<\/b> Difference",
+          "fancy_title": false,
+          "extra_padding": true,
+          "background_color": "#ffffff",
+          "title_color": "#41b6e6",
+          "fancy_bg_color": "#ffffff",
+          "label_color": "#000000",
+          "hover_color": "#41b6e6",
+          "mobile_cols": 2,
+          "tablet_cols": 4,
+          "desktop_cols": 6,
+          "fancy_hover": true,
+          "increase_gutter": true
+        }
+      },
+      "1600098227548": {
+        "type": "reviews",
+        "blocks": {
+          "1591877500104": {
+            "type": "review",
+            "settings": {
+              "show_review": true,
+              "product_id": "dermappeal-microdermabrasion-treatment-w-vc5-crystal-technology",
+              "review_text": "I get compliments on my skin…it’s all about SKINN products, simply the best in skincare. Thanks to you, SKINN! Love, love, love.",
+              "name": "Crystal C.",
+              "product": "SKINN is amazing"
+            }
+          },
+          "1591877467908": {
+            "type": "review",
+            "settings": {
+              "show_review": true,
+              "product_id": "divine-elixir-luminous-facial-oil-manuka-honey-c",
+              "review_text": "My sister gave me my first bottle of Luminous Skin Oil and I can’t be without it. The oil has transformed my skin from dry to soft and supple, and from dull to bright. I am definitely a lifetime customer.",
+              "name": "Cherryl H.",
+              "product": "Lifetime Customer"
+            }
+          },
+          "1591877575922": {
+            "type": "review",
+            "settings": {
+              "show_review": true,
+              "product_id": "am-pm-cleanser-duo",
+              "review_text": "I have very sensitive skin and both the Green Tea + Mint Cleanser and the Olive + Enzyme Cleanser do not make my skin breakout. Thank you, SKINN.",
+              "name": "Gayle R.",
+              "product": "I love the Non-Negotiables"
+            }
+          },
+          "1591877539818": {
+            "type": "review",
+            "settings": {
+              "show_review": true,
+              "product_id": "firming-algae-facial-oil",
+              "review_text": "I use daily SKINN’s other 2 oils and just didn’t think I needed a 3rd. Boy was I wrong. The scent is pure heaven and the firming feel is beyond heaven. I use it morning and night with my other 2 oils. Can never be without it.",
+              "name": "Linda W.",
+              "product": "Oh My"
+            }
+          },
+          "1591877617123": {
+            "type": "review",
+            "settings": {
+              "show_review": true,
+              "product_id": "dermappeal-microdermabrasion-treatment-w-vc5-crystal-technology",
+              "review_text": "After applying DermAppeal, my skin feels so soft and has a glow. My makeup goes on so smooth. I have tried a lot of products and this does what it said it would do! I’m hooked!",
+              "name": "Christine M.",
+              "product": "Awesome product!"
+            }
+          },
+          "1591877660062": {
+            "type": "review",
+            "settings": {
+              "show_review": true,
+              "product_id": "firming-algae-facial-oil",
+              "review_text": "I have been using SKINN products for several years, and this facial oil is\nunbelievable! My skin feels so silky and when I apply the Multi-Acid Resurfacing Pads first and the Age Reset Serum, I keep looking in the mirror at my face and saying WOW! SKINN products are simply put, AMAZING!",
+              "name": "Karen B.",
+              "product": "Firming Algae Facial Oil is Amazing!"
+            }
+          },
+          "eb567090-2b47-4ae6-be05-cc6bb4d8540e": {
+            "type": "review",
+            "settings": {
+              "show_review": true,
+              "product_id": "deep-wrinkle-protocol-age-reset-serum-intensive-with-frc",
+              "review_text": "One of my favorites in the line..your skin drinks it in, as you use it, you definitely will see an improvement with the texture and even skin tone, fine lines are also diminished. Thank you, SKINN!!",
+              "name": "Linda K.",
+              "product": "Love the Age Reset Serum!!!"
+            }
+          },
+          "b2fc2b91-eeda-439d-b40d-fbea169dd920": {
+            "type": "review",
+            "settings": {
+              "show_review": true,
+              "product_id": "power-perfect-foundation-concealer",
+              "review_text": "This foundation is amazing. Looks like your real skin and not pancake makeup. I love that you don't need a concealer and it doesn't settle into any of the lines…Finally a foundation I love!",
+              "name": "Lynn B.",
+              "product": "SKINN foundation"
+            }
+          }
+        },
+        "block_order": [
+          "1591877500104",
+          "1591877467908",
+          "1591877575922",
+          "1591877539818",
+          "1591877617123",
+          "1591877660062",
+          "eb567090-2b47-4ae6-be05-cc6bb4d8540e",
+          "b2fc2b91-eeda-439d-b40d-fbea169dd920"
+        ],
+        "settings": {
+          "title": "Reviews",
+          "bg_image": "shopify:\/\/shop_images\/Quote_Homepage.png"
+        }
+      },
+      "1600098301044": {
+        "type": "content_blocks",
+        "blocks": {
+          "1600098381823": {
+            "type": "img",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/doctor-oz-logo_7f0b5ffb-6db2-474f-859e-7b45fca48399.png",
+              "label": "",
+              "link": ""
+            }
+          },
+          "1600098393023": {
+            "type": "img",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/Cosmopolitan_Logo.png",
+              "label": "",
+              "link": ""
+            }
+          },
+          "1600098402772": {
+            "type": "img",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/logo-seo.2c13e8e69e9da4c8e8d22f0bf5e58c02c64df5ed_775b3c64-61a7-421e-a296-5ce043a367fc.png",
+              "label": "",
+              "link": ""
+            }
+          },
+          "1600098409804": {
+            "type": "img",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/shape-magazine-logo-png-13.png",
+              "label": "",
+              "link": ""
+            }
+          },
+          "1600098417905": {
+            "type": "img",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/W-2.png",
+              "label": "",
+              "link": ""
+            }
+          },
+          "1600098429908": {
+            "type": "img",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/New_beauty_Logo.png",
+              "label": "",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "1600098381823",
+          "1600098393023",
+          "1600098402772",
+          "1600098409804",
+          "1600098417905",
+          "1600098429908"
+        ],
+        "settings": {
+          "plain_title": "As Seen In",
+          "fancy_title": false,
+          "extra_padding": false,
+          "background_color": "#eddedb",
+          "title_color": "#b28a81",
+          "fancy_bg_color": "#ffffff",
+          "label_color": "#000000",
+          "hover_color": "#b28a81",
+          "mobile_cols": 3,
+          "tablet_cols": 6,
+          "desktop_cols": 6,
+          "fancy_hover": false,
+          "increase_gutter": false
+        }
+      },
+      "gift_with_purchase": {
+        "type": "gift_with_purchase",
+        "settings": {
+          "gwp_active": true,
+          "gwp_product": "free-gift-green-tea-mint-cleanser",
+          "gwp_header": "FREE GIFT WITH PURCHASE",
+          "gwp_subheader": "While supplies last.",
+          "gwp_min": "5000",
+          "gwp2_active": true,
+          "gwp2_product": "free-gift-luminous-firming-cream-sample",
+          "gwp2_image": "shopify:\/\/shop_images\/luminous-firming-cream-sample-gwp.jpg",
+          "gwp2_header": "FREE GIFT WITH PURCHASE",
+          "gwp2_subheader": "While supplies last.",
+          "gwp2_min": "10000",
+          "gwp3_active": true,
+          "gwp3_product": "free-gift-luminous-lip-oil",
+          "gwp3_image": "shopify:\/\/shop_images\/divine-elixir-luminous-skin-lip-oil-closed-01_3a2ceb30-1af3-4022-96b3-3f0b1ca0881e.png",
+          "gwp3_header": "FREE GIFT WITH PURCHASE",
+          "gwp3_subheader": "While supplies last.",
+          "gwp3_min": "15000"
+        }
+      },
+      "sidebar": {
+        "type": "sidebar",
+        "blocks": {
+          "1600099024868": {
+            "type": "list",
+            "settings": {
+              "header": "By Concern",
+              "menu": "by-concern-sidebar"
+            }
+          }
+        },
+        "block_order": [
+          "1600099024868"
+        ],
+        "settings": {
+        }
+      },
+      "shipping_modal": {
+        "type": "shipping_modal",
+        "settings": {
+          "link_title": "Shipping & Returns",
+          "modal_title": "Shipping & Returns",
+          "modal_content": "<h2>Free US Shipping<\/h2>\n          <p>We offer free First Class ground shipping on all domestic orders over $50. Shipping + Delivery<\/p>\n          <h2>Return Policy | Temporarily Extended<\/h2>\n          <p>60 Days from Receipt of Shipment – To Request A Return Contact <a style=\"color:#41B6E6\" href=\"mailto:customerexperience@ce.skinn.com\" target=\"_blank\">customerexperience@ce.skinn.com<\/a>\n          <br><a target=\"_blank\" href=\"https:\/\/skinn.com\/pages\/returns\" style=\"color:#41B6E6\">Return Process<\/a><\/p>\n          <h2>International Shipping<\/h2>\n          <p>Currently, we do not offer international shipping options but we are working to meet this demand. Please check back for updates as we evolve our distribution.\n<\/p>"
+        }
+      },
+      "blog_klaviyo_form": {
+        "type": "blog_klaviyo_form",
+        "settings": {
+          "klaviyo_list_id": "T8gisR"
+        }
+      },
+      "product_before_after": {
+        "type": "product_before_after",
+        "settings": {
+          "title": "Real Results",
+          "title_color": "#40b6e4",
+          "section_bg": "#d9effa"
+        }
+      },
+      "reviews_header": {
+        "type": "reviews_header",
+        "settings": {
+          "background_image": "shopify:\/\/shop_images\/ezgif.com-gif-maker.jpg"
+        }
+      },
+      "1604072483a0b6785b": {
+        "type": "video",
+        "disabled": true,
+        "settings": {
+          "desktop_video": "DE_FirmingAlgaeFacialOil_HomepageBanner_Desktop_WithSeal_1620x628_V1.mp4",
+          "mobile_video": "DE_FirmingAlgaeFacialOil_HomepageBanner_Mobile_WithSeal_1620x1500_V1.mp4",
+          "header": "",
+          "link": "shopify:\/\/products\/firming-algae-facial-oil",
+          "link_text": "DISCOVER"
+        }
+      },
+      "shade_picker": {
+        "type": "shade_picker",
+        "blocks": {
+          "7da41829-10f6-458b-a2f3-a8f0dac49bcb": {
+            "type": "shade",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/deep1.jpg",
+              "name": "Deep",
+              "description": "Deep",
+              "hex": "#6e3f2d"
+            }
+          },
+          "f21127f0-c11a-4ae3-8cce-3edfb1f0cf11": {
+            "type": "shade",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/sand2.jpg",
+              "name": "Sand",
+              "description": "Sand",
+              "hex": "#bd8d69"
+            }
+          },
+          "c9947c4d-839a-4970-8812-4b1b9d8e03d9": {
+            "type": "shade",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/tan3.jpg",
+              "name": "Tan",
+              "description": "",
+              "hex": "#bd8d69"
+            }
+          },
+          "975ea272-38c4-4887-acf0-916e90156777": {
+            "type": "shade",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/tan4.jpg",
+              "name": "Tan",
+              "description": "",
+              "hex": "#bd8d69"
+            }
+          },
+          "cb2c43b8-c8d4-41f9-b2d9-809e96228276": {
+            "type": "shade",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/medium5.jpg",
+              "name": "Medium",
+              "description": "",
+              "hex": "#c39a7a"
+            }
+          },
+          "79cf5c2b-cf96-4968-b571-a3ab8606cadf": {
+            "type": "shade",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/medium6.jpg",
+              "name": "Medium",
+              "description": "",
+              "hex": "#c39a7a"
+            }
+          },
+          "d2c0db28-11e3-47fc-a900-acfb58bec836": {
+            "type": "shade",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/neutral7.jpg",
+              "name": "Neutral",
+              "description": "",
+              "hex": "#cea98e"
+            }
+          },
+          "804d7932-1904-4224-971e-9571e02abaed": {
+            "type": "shade",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/light8.jpg",
+              "name": "Light",
+              "description": "",
+              "hex": "#dcba95"
+            }
+          },
+          "3eb62a11-87ea-4581-8000-32c944d8020b": {
+            "type": "shade",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/light9.jpg",
+              "name": "Light",
+              "description": "",
+              "hex": "#dcba95"
+            }
+          },
+          "69bf55b3-55b9-47d2-800c-d92e27638b82": {
+            "type": "shade",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/light10.jpg",
+              "name": "Light",
+              "description": "",
+              "hex": "#dcba95"
+            }
+          },
+          "7d33cc18-fc4e-4cea-924c-ef1331eb8ef1": {
+            "type": "shade",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/light11.jpg",
+              "name": "Light",
+              "description": "",
+              "hex": "#dcba95"
+            }
+          },
+          "53850494-ef4f-42bb-8d49-f524c10c97e7": {
+            "type": "shade",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/fair12.jpg",
+              "name": "Fair",
+              "description": "",
+              "hex": "#ddbfa5"
+            }
+          },
+          "1794bec2-f85f-47db-83f9-1fc61ae819e7": {
+            "type": "shade",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/fair13.jpg",
+              "name": "Fair",
+              "description": "",
+              "hex": "#ddbfa5"
+            }
+          },
+          "d50e89ee-a0c8-4466-9120-f6be0760337d": {
+            "type": "shade",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/porcelain14.jpg",
+              "name": "Porcelain",
+              "description": "",
+              "hex": "#ecd9c8"
+            }
+          }
+        },
+        "block_order": [
+          "7da41829-10f6-458b-a2f3-a8f0dac49bcb",
+          "f21127f0-c11a-4ae3-8cce-3edfb1f0cf11",
+          "c9947c4d-839a-4970-8812-4b1b9d8e03d9",
+          "975ea272-38c4-4887-acf0-916e90156777",
+          "cb2c43b8-c8d4-41f9-b2d9-809e96228276",
+          "79cf5c2b-cf96-4968-b571-a3ab8606cadf",
+          "d2c0db28-11e3-47fc-a900-acfb58bec836",
+          "804d7932-1904-4224-971e-9571e02abaed",
+          "3eb62a11-87ea-4581-8000-32c944d8020b",
+          "69bf55b3-55b9-47d2-800c-d92e27638b82",
+          "7d33cc18-fc4e-4cea-924c-ef1331eb8ef1",
+          "53850494-ef4f-42bb-8d49-f524c10c97e7",
+          "1794bec2-f85f-47db-83f9-1fc61ae819e7",
+          "d50e89ee-a0c8-4466-9120-f6be0760337d"
+        ],
+        "settings": {
+        }
+      },
+      "161437942894e5f0dd": {
+        "type": "content_blocks",
+        "blocks": {
+          "252350b5-9926-4263-8727-00982ae24a32": {
+            "type": "custom_html",
+            "settings": {
+              "html": "<div class=\"insta_title\">\n<p class=\"top\">@SKINNcosmetics<\/p>\n<a href=\"https:\/\/instagram.com\/skinncosmetics\" class=\"bottom\"><\/a>\n<p class=\"tags\">\n#SKINNcosmetics   #labfresh  #madeinlosangeles \n<\/p>\n<\/div>"
+            }
+          }
+        },
+        "block_order": [
+          "252350b5-9926-4263-8727-00982ae24a32"
+        ],
+        "settings": {
+          "plain_title": "",
+          "fancy_title": false,
+          "extra_padding": true,
+          "background_color": "#ffffff",
+          "title_color": "#41b6e6",
+          "fancy_bg_color": "#ffffff",
+          "label_color": "#000000",
+          "hover_color": "#41b6e6",
+          "mobile_cols": 1,
+          "tablet_cols": 1,
+          "desktop_cols": 1,
+          "fancy_hover": true,
+          "increase_gutter": false
+        }
+      },
+      "16159215898acdb88b": {
+        "type": "collections_row",
+        "settings": {
+          "plain_title": "Special Offers",
+          "collection": "special-offers"
+        }
+      },
+      "16216254421a87a733": {
+        "type": "featured-blog",
+        "settings": {
+          "title": "Catch The Lab Report™",
+          "blog": "the-lab-report",
+          "post_limit": 3,
+          "blog_show_author": false,
+          "blog_show_date": false,
+          "show_view_all": true
+        }
+      },
+      "1621826190124989e4": {
+        "type": "image_left_content",
+        "settings": {
+          "title": "Just Launched",
+          "product_title": "Pitahaya Essence",
+          "product_title_url": "",
+          "product_family": "NON-NEGOTIABLES®",
+          "product_family_url": "",
+          "section_description": "Our essence got an upgrade! Discover the benefits of this essential skincare step:",
+          "product_info": "<ul class=\"ba-list\" style=\"list-style-position:outside;\">\n\n<li><p><strong>Pitahaya Extract:<\/strong> Also known as Dragon Fruit, this prebiotic superfruit supports skin’s microbiome and improves skin barrier function.<\/p><\/li>\n\n<li><p><strong>47% Coconut Water:<\/strong> Quickly delivers optimal hydration, electrolytes, amino acids, and antioxidants deep into the skin.<\/p><\/li>\n\n<li><p><strong>Papaya + Pineapple Fruit Enzymes:<\/strong> Breaks down keratin caused by protein build-up through gentle enzymatic exfoliation without the worry of photosensitivity.<\/p><\/li>\n \n<\/ul>",
+          "button_text": "LEARN MORE",
+          "button_url": "shopify:\/\/products\/pitahaya-essence",
+          "disclaimer_text": "",
+          "image": "shopify:\/\/shop_images\/NN_PitahayaEssence_Flatlay_PitahayaCoconut_0T9A6398_WEBSITE.jpg"
+        }
+      },
+      "1623283939a8530f62": {
+        "type": "nt_slideshow",
+        "blocks": {
+          "46c35283-daa1-4d5c-bc31-ce2e37e9cf2e": {
+            "type": "image",
+            "disabled": true,
+            "settings": {
+              "image": "shopify:\/\/shop_images\/WebBanner_LaborDay2021_Desktop_1800x777_V1.jpg",
+              "image_mobile": "shopify:\/\/shop_images\/WebBanner_LaborDay2021_Mobile_1000x_V2.jpg",
+              "alignment": "tr",
+              "title": "Get 30% Off Sitewide",
+              "subheading": "<strong>NOW THROUGH LABOR DAY<\/strong> <br>EXCLUSIONS APPLY",
+              "text_color": "dark",
+              "btn_title": "SHOP NOW",
+              "link": "shopify:\/\/collections\/best-sellers",
+              "style_btn": "1"
+            }
+          },
+          "86197a55-68c5-418e-9a59-5dc7ce40f945": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/WebBanner_DE_LipOils_Desktop_1800x777_8bac9b61-c2cc-40be-97d9-36aab337a4cf.jpg",
+              "image_mobile": "shopify:\/\/shop_images\/WebBanner_DE_LipOils_Mobile_1000x_V2.jpg",
+              "alignment": "tl",
+              "title": "Back in Stock: Divine Elixir Luminous Lip Oil",
+              "subheading": "SHOP OUR SMART, MULTIFUNCTIONAL LIP TREATMENTS",
+              "text_color": "dark",
+              "btn_title": "STOCK UP",
+              "link": "shopify:\/\/products\/luminous-lip-oil-with-manuka-honey-c",
+              "style_btn": "1"
+            }
+          },
+          "8e8241af-513b-4e39-8230-89237cfdeddd": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/WebBanner_SC-Collection_Desktop_1800x777_V3.jpg",
+              "image_mobile": "shopify:\/\/shop_images\/WebBanner_SC-Collection_Mobile_1000x_V1.jpg",
+              "alignment": "tr",
+              "title": "Equal Parts Skincare + Makeup",
+              "subheading": "DISCOVER THE SCIENTIFIC COLOR™ COLLECTION",
+              "text_color": "dark",
+              "btn_title": "SHOP NOW",
+              "link": "shopify:\/\/collections\/scientific-color-1",
+              "style_btn": "1"
+            }
+          },
+          "b6d29b2a-9a99-44d7-8ae5-d94897738d0b": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/NEW_WebBanner_Desktop_Larger.jpg",
+              "image_mobile": "shopify:\/\/shop_images\/WebBanner_DE-Collection_Mobile_1000x832_V1.jpg",
+              "alignment": "tr",
+              "title": "Enhance Your Glow",
+              "subheading": "DISCOVER THE LUMINOUS COLLECTION",
+              "text_color": "dark",
+              "btn_title": "GET GLOWING",
+              "link": "shopify:\/\/collections\/divine-elixir",
+              "style_btn": "1"
+            }
+          },
+          "0b716dca-2f1a-490b-ab71-3326e6fce028": {
+            "type": "image",
+            "disabled": true,
+            "settings": {
+              "image": "shopify:\/\/shop_images\/NN_PitahayaEssence_DeskBanner_2011x868_4502defb-e47e-4e2a-9e73-0c945b29f37c.jpg",
+              "image_mobile": "shopify:\/\/shop_images\/NN_PitahayaEssence_MobileBanner_1000x832_be140252-247b-42d3-96cc-c02674e40615.jpg",
+              "alignment": "tl",
+              "title": "Flood your Skin <br> with Electrolytes",
+              "subheading": "Powered by Pitahaya Extract <br> + Coconut Water",
+              "text_color": "dark",
+              "btn_title": "DRINK UP",
+              "link": "https:\/\/skinn.com\/products\/pitahaya-essence",
+              "style_btn": "1"
+            }
+          },
+          "4525ff08-78c4-4ca4-8140-39c7af5eee82": {
+            "type": "image",
+            "disabled": true,
+            "settings": {
+              "image": "shopify:\/\/shop_images\/WebBanner_DE_BodyBlend_Desktop_1390x600_V1.jpg",
+              "image_mobile": "shopify:\/\/shop_images\/WebBanner_DE_BodyBlend_Mobile_1000x832_V1.jpg",
+              "alignment": "tl",
+              "title": "Experience Ayurveda<br> from Head to Toe",
+              "subheading": "<strong>NEW!<\/strong> DIVINE ELIXIR REVITALIZING<br>AYURVEDIC BODY BLEND",
+              "text_color": "dark",
+              "btn_title": "DISCOVER",
+              "link": "shopify:\/\/products\/revitalizing-ayurvedic-body-blend",
+              "style_btn": "1"
+            }
+          },
+          "1623283939a8530f62-0": {
+            "type": "image",
+            "disabled": true,
+            "settings": {
+              "image": "shopify:\/\/shop_images\/WebBanner_DE_FirmingAlgae_NijahDropper_Desktop_1390x600_24b96759-46af-42e7-b801-098087da994c.jpg",
+              "image_mobile": "shopify:\/\/shop_images\/WebBanner_DE_FirmingAlgae_NijahDropper_Mobile_1000x832_V1.jpg",
+              "alignment": "tr",
+              "title": "Ethically Sourced<br> from Mother Nature",
+              "subheading": "DIVINE ELIXIR FIRMING ALGAE FACIAL OIL",
+              "text_color": "dark",
+              "btn_title": "DISCOVER",
+              "link": "shopify:\/\/products\/firming-algae-facial-oil",
+              "style_btn": "1"
+            }
+          },
+          "a830f41e-265a-408e-bf1f-4ad8c017474b": {
+            "type": "image",
+            "disabled": true,
+            "settings": {
+              "image": "shopify:\/\/shop_images\/WebBanners_SWD_June2021_Desktop_1390x600_V1.jpg",
+              "image_mobile": "shopify:\/\/shop_images\/WebBanner_SWD_June2021_Mobile_1000x832_V1.jpg",
+              "alignment": "tr",
+              "title": "Tune In: Sundays with Dimitri + Tina",
+              "subheading": "A FACEBOOK LIVE EVENT<br> JULY 25 AT 4:00PM ET",
+              "text_color": "dark",
+              "btn_title": "WATCH NOW",
+              "link": "https:\/\/fb.watch\/6ZzkQIIyet\/",
+              "style_btn": "1"
+            }
+          },
+          "59e7e3a5-170d-4649-bc3e-1307fd9243b2": {
+            "type": "image",
+            "disabled": true,
+            "settings": {
+              "image": "shopify:\/\/shop_images\/AnniversaryPromo2021_WebBanner_Desktop_1390x600_V2.jpg",
+              "image_mobile": "shopify:\/\/shop_images\/Anniversary_WebBanner_Mobile_1000x832_V2.jpg",
+              "alignment": "tr",
+              "title": "Anniversary Flash Sale:<br> Save 30% Sitewide",
+              "subheading": "<strong>ENDS SATURDAY, JULY 31<\/strong> <br>NO CODE NEEDED | EXCLUSIONS APPLY",
+              "text_color": "dark",
+              "btn_title": "SHOP NOW",
+              "link": "shopify:\/\/collections\/best-sellers",
+              "style_btn": "1"
+            }
+          }
+        },
+        "block_order": [
+          "46c35283-daa1-4d5c-bc31-ce2e37e9cf2e",
+          "86197a55-68c5-418e-9a59-5dc7ce40f945",
+          "8e8241af-513b-4e39-8230-89237cfdeddd",
+          "b6d29b2a-9a99-44d7-8ae5-d94897738d0b",
+          "0b716dca-2f1a-490b-ab71-3326e6fce028",
+          "4525ff08-78c4-4ca4-8140-39c7af5eee82",
+          "1623283939a8530f62-0",
+          "a830f41e-265a-408e-bf1f-4ad8c017474b",
+          "59e7e3a5-170d-4649-bc3e-1307fd9243b2"
+        ],
+        "settings": {
+          "text_color": "dark",
+          "slider_speed": 30,
+          "use_dots": true,
+          "use_arrows": false,
+          "use_loop": false,
+          "use_autoplay": false
+        }
+      },
+      "162861061187a1c8ff": {
+        "type": "instafeed",
+        "settings": {
+          "heading_font": "helvetica_n4",
+          "heading_size": 20,
+          "feed_width": 100,
+          "html_area": ""
+        }
+      },
+      "featured-blog-page": {
+        "type": "featured-blog-page",
+        "settings": {
+        }
+      }
+    },
+    "content_for_index": [
+      "1623283939a8530f62",
+      "1604072483a0b6785b",
+      "1600095279200",
+      "1621826190124989e4",
+      "1600095324318",
+      "16159215898acdb88b",
+      "1600098301044",
+      "1600098227548",
+      "16216254421a87a733",
+      "161437942894e5f0dd",
+      "162861061187a1c8ff"
+    ]
+  },
+  "presets": {
+    "Default": {
+    }
+  }
+}

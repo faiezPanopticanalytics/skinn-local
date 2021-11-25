@@ -1,0 +1,236 @@
+<div id="addresses" class="container account-page">
+  <div class="title">
+    <h1>My Account</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-4 col-lg-3">
+      {% include 'account_tabs' %}
+    </div>
+    <div class="col-12 col-md-8 col-lg-9">
+      <div class="custom-card">
+        <p class="card-title thin">
+          The following addresses will be used on the checkout page by default.
+        </p>
+        <div class="card-content">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <button
+                id="new_address"
+                class="btn btn-primary btn-block"
+                @click="openNewAddress"
+              >
+                Add a New Address
+              </button>
+            </div>
+            <div
+              class="col-12"
+              id="NewAddress"
+              v-show="newAddressEditor"
+              v-cloak
+            >
+              {% form 'customer_address', customer.new_address, class: "row" %}
+              {% for error in form.errors %}
+              {{ error }}
+              {% endfor %}
+
+              <div class="col-12 col-md-6 form-group">
+                <label for="AddressFirstName">First Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="AddressFirstNameNew}"
+                  autocomplete="given-name"
+                  name="address[first_name]"
+                />
+              </div>
+
+              <div class="col-12 col-md-6 form-group">
+                <label for="AddressLastNameNew">Last Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="AddressLastNameNew"
+                  autocomplete="family-name"
+                  name="address[last_name]"
+                />
+              </div>
+
+              <div class="col-12 form-group">
+                <label for="AddressCompanyNew">Company</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="AddressCompanyNew"
+                  name="address[company]"
+                />
+              </div>
+
+              <div class="col-12 form-group">
+                <label for="AddressAddress1New">Address 1</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="AddressAddress1New"
+                  name="address[address1]"
+                />
+              </div>
+
+              <div class="col-12 form-group">
+                <label for="AddressAddress2New">Address 2</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="AddressAddress2New"
+                  name="address[address2]"
+                />
+              </div>
+
+              <div class="col-12 form-group">
+                <label for="AddressCityNew">City</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="AddressCityNew"
+                  name="address[city]"
+                />
+              </div>
+
+              <div class="col-12 form-group">
+                <label for="AddressCountryNew">Country</label>
+                <select
+                  name="address[country]"
+                  ref="AddressCountryNew"
+                  id="AddressCountryNew"
+                  class="form-control"
+                  @change="changeCountry"
+                  data-default="{{ form.country }}"
+                >
+                  <option selected disabled>Select a Country</option>
+                  {{
+                    all_country_option_tags
+                  }}
+                </select>
+              </div>
+
+              <div
+                class="col-12 form-group"
+                id="AddressProvinceWrapperNew"
+                v-show="provinces.length > 0"
+              >
+                <label for="AddressProvinceNew">Province</label>
+                <select
+                  name="address[province]"
+                  id="AddressProvinceNew"
+                  class="form-control"
+                  data-default="{{ form.province }}"
+                >
+                  <option selected disabled>Select a Province</option>
+                  <option
+                    v-for="province in provinces"
+                    :key="province[0]"
+                    :value="province[0]"
+                    >@{ province[0] }</option
+                  >
+                </select>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <label for="AddressZipNew">Postal/Zip Code</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="AddressZipNew"
+                    autocomplete="zip-code"
+                    name="address[zip]"
+                  />
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <label for="AddressPhoneNew">Phone Number</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="AddressPhoneNew"
+                    autocomplete="phone"
+                    name="address[phone]"
+                  />
+                </div>
+              </div>
+
+              <div class="col-12 form-check">
+                {{ form.set_as_default_checkbox }}
+                <label class="form-check-label" for="defaultCheck">
+                  Set as default address
+                </label>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <button type="submit" class="btn btn-primary btn-block">
+                  Add Address
+                </button>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <button
+                  class="btn btn-dark btn-block"
+                  type="button"
+                  @click.prevent="newAddressEditor = !newAddressEditor"
+                >
+                  Cancel
+                </button>
+              </div>
+              {% endform %}
+            </div>
+          </div>
+
+          <div class="row">
+            {% for address in customer.addresses %}
+            <div class="col-12 address-list">
+              {% include 'account_address' %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  new window.Vue({
+    el: "#addresses",
+    delimiters: ["@{", "}"],
+    data: {
+      editAddressId: "",
+      newAddressEditor: false,
+      provinces: [],
+    },
+    methods: {
+      openNewAddress() {
+        this.newAddressEditor = true;
+      },
+      changeCountry() {
+        this.provinces = JSON.parse(
+          this.$refs.AddressCountryNew.selectedOptions[0].dataset.provinces
+        );
+      },
+      showEditForm(id) {
+        this.newAddressEditor = false;
+        this.editAddressId = id;
+      },
+      deleteConfirm(e) {
+        var r = confirm("Are you sure you want to delete this address?");
+
+        if (r) {
+          return true;
+        } else {
+          e.preventDefault();
+        }
+      },
+    },
+  });
+</script>

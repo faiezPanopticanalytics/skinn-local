@@ -1,0 +1,407 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Skinn 2020 Theme",
+    "theme_version": "1.0.0",
+    "theme_author": "Big Presence",
+    "theme_documentation_url": "https:\/\/bigpresenceagency.com",
+    "theme_support_email": "cam@camsechrist.com"
+  },
+  {
+    "name": "General Layout",
+    "settings": [
+      {
+        "type": "select",
+        "id": "general_layout",
+        "options": [
+          {
+            "value": "container-fluid",
+            "label": "Full width"
+          },
+          {
+            "value": "container",
+            "label": "Boxed"
+          }
+        ],
+        "label": "Site width",
+        "default": "container-fluid"
+      }
+    ]
+  },
+  {
+    "name": "SEO",
+    "settings": [
+      {
+        "type": "header",
+        "content": "SEO Tags"
+      },
+      {
+        "type": "checkbox",
+        "label": "Enable JSON-LD Tags",
+        "id": "enable_json_ld",
+        "info": "[Learn more](https:\/\/ogp.me\/)"
+      },
+      {
+        "type": "header",
+        "content": "OG Tags",
+        "info": "Used for social media sharing."
+      },
+      {
+        "type": "checkbox",
+        "label": "Enable OG Tags",
+        "id": "enable_og",
+        "info": "[Learn more](https:\/\/ogp.me\/)"
+      },
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "Default Image",
+        "info": "Default image for sharing"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter URL"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Favicon"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "Upload image: png, ico, Will be scaled down to 32 x 32px"
+      },
+      {
+        "type": "image_picker",
+        "id": "retina_favicon",
+        "label": "Retina Favicon",
+        "info": "Upload image: png, ico, Will be scaled down to 152 x 152px"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "text",
+        "id": "cart_drawer_empty",
+        "label": "Empty Cart Drawer Text",
+        "default": "No products in the cart."
+      },
+      {
+        "type": "text",
+        "default": "Free shipping on orders over $50",
+        "id": "cart_disclaimer",
+        "label": "Cart Disclaimer"
+      },
+      {
+        "type": "text",
+        "default": "50",
+        "label": "Free Shipping Threshold",
+        "info": "Set a free shipping threshold.",
+        "id": "free_shipping_threshold"
+      }
+    ]
+  },
+  {
+    "name": "Product Listings",
+    "settings": [
+      {
+        "id": "show_swatches",
+        "label": "Show Swatches",
+        "type": "checkbox",
+        "default": true
+      },
+      {
+        "type": "text",
+        "default": "color,shade",
+        "id": "swatch_to_show",
+        "label": "Which Variants to Show"
+      },
+      {
+        "type": "header",
+        "content": "Price Details"
+      },
+      {
+        "type": "text",
+        "id": "product_price_delimiter",
+        "label": "Price Varies Delimiter",
+        "default": "-"
+      }
+    ]
+  },
+  {
+    "name": "Product Page Settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Flash Sold"
+      },
+      {
+        "id": "product_sold_enabled",
+        "type": "checkbox",
+        "label": "Enable Products Solid Motivator"
+      },
+      {
+        "type": "range",
+        "id": "product_sold_min",
+        "step": 1,
+        "unit": "itm",
+        "label": "Minimum Products Sold",
+        "default": 3,
+        "min": 1,
+        "max": 100
+      },
+      {
+        "type": "range",
+        "id": "product_sold_max",
+        "step": 1,
+        "unit": "itm",
+        "label": "Minimum Products Sold",
+        "default": 15,
+        "min": 1,
+        "max": 100
+      },
+      {
+        "type": "range",
+        "id": "product_sold_time_min",
+        "step": 1,
+        "unit": "hrs",
+        "label": "Minimum Time",
+        "default": 3,
+        "min": 1,
+        "max": 100
+      },
+      {
+        "type": "range",
+        "id": "product_sold_time_max",
+        "step": 1,
+        "min": 1,
+        "max": 100,
+        "unit": "hrs",
+        "label": "Maximum Time",
+        "default": 10
+      }
+    ]
+  },
+  {
+    "name": "Reviews",
+    "settings": [
+      {
+        "id": "enable_yotpo_reviews",
+        "type": "checkbox",
+        "default": true,
+        "label": "Use Yotpo Product Reviews"
+      },
+      {
+        "id": "yotpo_app_key",
+        "label": "Yotpo App Key",
+        "type": "text",
+        "info": "[Get It Here](https:\/\/settings.yotpo.com\/#\/general_settings)"
+      },
+      {
+        "id": "disable_yotpo_side_home",
+        "label": "Disable Yotpo Sidebar on Homepage",
+        "type": "checkbox",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Facebook"
+      },
+      {
+        "type": "checkbox",
+        "id": "has_facebook",
+        "label": "Enable Facebook"
+      },
+      {
+        "type": "url",
+        "id": "facebook_page_url",
+        "label": "Facebook Page URL"
+      },
+      {
+        "type": "header",
+        "content": "Twitter"
+      },
+      {
+        "type": "checkbox",
+        "id": "has_twitter",
+        "label": "Enable Twitter"
+      },
+      {
+        "type": "url",
+        "id": "twitter_url",
+        "label": "Twitter Profile URL"
+      },
+      {
+        "type": "header",
+        "content": "Instagram"
+      },
+      {
+        "type": "checkbox",
+        "id": "has_instagram",
+        "label": "Enable Instagram"
+      },
+      {
+        "type": "url",
+        "id": "instagram_url",
+        "label": "Instagram Profile URL"
+      }
+    ]
+  },
+  {
+    "name": "Analytics",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Google Tag Manager"
+      },
+      {
+        "type": "text",
+        "id": "google_tag_manager",
+        "label": "GTM Container ID"
+      },
+      {
+        "type": "header",
+        "content": "Facebook Pixel"
+      },
+      {
+        "id": "facebook_pixel_id",
+        "type": "text",
+        "label": "Facebook Pixel ID"
+      },
+      {
+        "type": "header",
+        "content": "Klaviyo"
+      },
+      {
+        "type": "text",
+        "id": "klaviyo_company_id",
+        "label": "Klaviyo Company ID"
+      }
+    ]
+  },
+  {
+    "name": "App: Wishlist King",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Styling & Customisations",
+        "info": "Please note: Wishlist King is 100% customisable to integrate seamlessly with any theme. If you need customisations beyond what you can change below, please get in touch: support@appmate.io"
+      },
+      {
+        "type": "checkbox",
+        "id": "app_wk_enabled",
+        "label": "Enable Wishlist King",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "app_wk_login_required",
+        "label": "Customer Login Required",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "app_wk_icon",
+        "label": "Wishlist Icon",
+        "info": "Choose between Heart or Star icon. For your own custom icon, please contact support@appmate.io",
+        "options": [
+          {
+            "value": "heart",
+            "label": "Heart"
+          },
+          {
+            "value": "star",
+            "label": "Star"
+          }
+        ],
+        "default": "heart"
+      },
+      {
+        "type": "header",
+        "content": "Button - Collection"
+      },
+      {
+        "type": "select",
+        "id": "app_wk_col_bg_shape",
+        "label": "Button Shape",
+        "options": [
+          {
+            "value": "square",
+            "label": "Square"
+          },
+          {
+            "value": "circle",
+            "label": "Circle"
+          },
+          {
+            "value": "none",
+            "label": "No Background"
+          }
+        ],
+        "default": "square"
+      },
+      {
+        "type": "header",
+        "content": "Wishlist Page"
+      },
+      {
+        "type": "select",
+        "id": "app_wk_share_position",
+        "label": "Share Wishlist Position",
+        "options": [
+          {
+            "value": "top",
+            "label": "Top"
+          },
+          {
+            "value": "bottom",
+            "label": "Bottom"
+          },
+          {
+            "value": "hidden",
+            "label": "Hidden"
+          }
+        ],
+        "default": "top"
+      },
+      {
+        "type": "select",
+        "id": "app_wk_products_per_row",
+        "label": "Products per Row",
+        "options": [
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          },
+          {
+            "value": "5",
+            "label": "5"
+          },
+          {
+            "value": "6",
+            "label": "6"
+          }
+        ],
+        "default": "4"
+      }
+    ]
+  }
+]
